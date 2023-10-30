@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
+  id          String   @id @default(uuid()) // @id significa que é a chave primária
+  email       String   @unique // @unique significa que não pode ter dois emails iguais
   name        String
   password    String
-  passwordRec String?   
-  status      String   @default("active")
+  passwordRec String?  // ? significa que é opcional
+  status      String   @default("active") // @default significa que o valor padrão é active
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @updatedAt // @updatedAt significa que vai atualizar a data toda vez que for atualizado
 
-  @@map("users")
+  @@map("users") // esse vai ser o nome da tabela no banco de dados
 }
