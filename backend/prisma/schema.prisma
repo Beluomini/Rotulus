@@ -27,8 +27,8 @@ model User {
 
 model Classification{
   id            String    @id @default(uuid())
-  name          String
-  caracteristic String?
+  name          String    @unique
+  description   String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   foods         Food[]
@@ -40,6 +40,7 @@ model Classification{
 model Food{
   id              String    @id @default(uuid())
   name            String
+  barcode         String    @unique
   brandName       String
   energyValue     Float     @default(0)
   carbohydrate    Float     @default(0)
@@ -61,12 +62,13 @@ model Food{
 }
 
 model Additive{
-  id          String   @id @default(uuid())
-  description String
-  foods       AdditivesOnFoods[]
-  alergicUsers UserAdditiveAlergy[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String    @id @default(uuid())
+  name          String    @unique
+  description   String?
+  foods         AdditivesOnFoods[]
+  alergicUsers  UserAdditiveAlergy[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@map("additives")
 }
@@ -97,13 +99,13 @@ model AdditivesOnFoods{
 }
 
 model Ingredient{
-  id          String   @id @default(uuid())
-  name        String
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String?
   foods       IngredientsOnFoods[]
   alergicUsers UserIngredientAlergy[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("ingredients")
 }
@@ -135,11 +137,11 @@ model IngredientsOnFoods{
 
 
 model Desease{
-  id          String   @id @default(uuid())
-  name        String
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("deseases")
 }
