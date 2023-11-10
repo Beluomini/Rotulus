@@ -17,8 +17,129 @@ model User {
   password    String
   passwordRec String?  // ? significa que é opcional
   status      String   @default("active") // @default significa que o valor padrão é active
+  IngredentAlergies    UserIngredientAlergy[]
+  AdditiveAlergies     UserAdditiveAlergy[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt // @updatedAt significa que vai atualizar a data toda vez que for atualizado
 
   @@map("users") // esse vai ser o nome da tabela no banco de dados
+}
+
+model Classification{
+  id            String    @id @default(uuid())
+  name          String
+  caracteristic String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  foods         Food[]
+
+  @@map("classifications")
+
+}
+
+model Food{
+  id              String    @id @default(uuid())
+  name            String
+  brandName       String
+  energyValue     Float     @default(0)
+  carbohydrate    Float     @default(0)
+  totalSugar      Float     @default(0)
+  addedSugar      Float     @default(0)
+  protein         Float     @default(0)
+  totalFat        Float     @default(0)
+  saturatedFat    Float     @default(0)
+  transFat        Float     @default(0)
+  description     String?
+  classification  Classification @relation(fields: [classificationId], references: [id])
+  classificationId String
+  ingredients     IngredientsOnFoods[]
+  additives       AdditivesOnFoods[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("foods")
+}
+
+model Additive{
+  id          String   @id @default(uuid())
+  description String
+  foods       AdditivesOnFoods[]
+  alergicUsers UserAdditiveAlergy[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("additives")
+}
+
+model UserAdditiveAlergy{
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  additive    Additive @relation(fields: [additiveId], references: [id])
+  additiveId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("userAdditiveAlergies") 
+}
+
+model AdditivesOnFoods{
+  id          String   @id @default(uuid())
+  food        Food     @relation(fields: [foodId], references: [id])
+  foodId      String
+  additive    Additive @relation(fields: [additiveId], references: [id])
+  additiveId  String
+  quantity    Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("additivesOnFoods")
+}
+
+model Ingredient{
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  foods       IngredientsOnFoods[]
+  alergicUsers UserIngredientAlergy[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("ingredients")
+}
+
+model UserIngredientAlergy{
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  ingredient  Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("userIngredientAlergies") 
+}
+
+model IngredientsOnFoods{
+  id          String   @id @default(uuid())
+  food        Food     @relation(fields: [foodId], references: [id])
+  foodId      String
+  ingredient  Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String
+  quantity    Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("ingredientsOnFoods")
+}
+
+
+model Desease{
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("deseases")
 }
