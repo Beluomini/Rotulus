@@ -4,9 +4,10 @@ import { ClassificationModule } from './modules/classification/classification.mo
 import { DeseaseModule } from './modules/desease/desease.module';
 import { IngredientModule } from './modules/ingredient/ingredient.module';
 import { AdditiveModule } from './modules/additive/additive.module';
+import { FoodModule } from './modules/food/food.module';
 
 @Module({
-  imports: [UserModule, ClassificationModule, DeseaseModule, IngredientModule, AdditiveModule],
+  imports: [UserModule, ClassificationModule, DeseaseModule, IngredientModule, AdditiveModule, FoodModule],
   controllers: [],
   providers: [],
 })
