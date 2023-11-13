@@ -7,7 +7,7 @@ export class IngredientService {
 
     constructor (private prisma: PrismaService) {}
 
-    async create(data: any) {
+    async create(data: IngredientDTO) {
 
         const ingredientExists = await this.prisma.ingredient.findFirst({
             where: {
@@ -22,7 +22,7 @@ export class IngredientService {
         const ingredient = await this.prisma.ingredient.create({
             data: {
                 name: data.name,
-                description: data.status,
+                description: data.description,
             },
         });
         return ingredient;
