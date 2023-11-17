@@ -34,6 +34,22 @@ export class AdditiveService {
         return await this.prisma.additive.findMany();
     }
 
+    async findOne(id: string) {
+        const additive = await this.prisma.additive.findFirst({
+            where: {
+                id: id,
+            },
+            include: {
+                foods: {
+                    include: {
+                        food: true,
+                    },
+                },
+            },
+        });
+        return additive;
+    }
+
     async update(id: string, data: AdditiveDTO){
         const additiveExists = await this.prisma.additive.findUnique({
             where: {

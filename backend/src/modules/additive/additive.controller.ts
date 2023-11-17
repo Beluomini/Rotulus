@@ -16,6 +16,11 @@ export class AdditiveController {
     return this.additiveService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.additiveService.findOne(id);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: IngredientDTO) {
     return this.additiveService.update(id, data);

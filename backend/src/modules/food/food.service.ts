@@ -22,6 +22,9 @@ export class FoodService {
         // Ingredientes que serão adicionados ao alimento
         const ingredients = await this.prisma.ingredient.findMany();
 
+        // Aditivos que serão adicionados ao alimento
+        const additives = await this.prisma.additive.findMany();
+
 
         const food = await this.prisma.food.create({
             data: {
@@ -41,7 +44,11 @@ export class FoodService {
                 ingredients: {
                     create: ingredients.map((ingredient) => ({
                         ingredientId: ingredient.id,
-                        name: ingredient.name,
+                    })),
+                },
+                additives: {
+                    create: additives.map((additive) => ({
+                        additiveId: additive.id,
                     })),
                 },
             },
@@ -65,6 +72,11 @@ export class FoodService {
                         ingredient: true,
                     },
                 },
+                additives: {
+                    include: {
+                        additive: true,
+                    },
+                },
             },
         });
 
@@ -86,6 +98,12 @@ export class FoodService {
             throw new Error('Alimento não encontrado');
         }
 
+        // Remove todos os ingredientes associados ao alimento
+        const ingredients = []
+
+        // Remove todos os aditivos associados ao alimento
+        const additives = []
+
         const food = await this.prisma.food.update({
             where: {
                 id: id,
@@ -104,6 +122,12 @@ export class FoodService {
                 saturatedFat: data.saturatedFat,
                 transFat: data.transFat,
                 classificationId: data.classificationId,
+                ingredients: {
+                    deleteMany: {},
+                },
+                additives: {
+                    deleteMany: {},
+                },
             },
         });
         return food;
