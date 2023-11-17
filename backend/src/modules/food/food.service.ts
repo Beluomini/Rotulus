@@ -19,6 +19,10 @@ export class FoodService {
             throw new Error('Este código de barras já está sendo usado');
         }
 
+        // Ingredientes que serão adicionados ao alimento
+        const ingredients = await this.prisma.ingredient.findMany();
+
+
         const food = await this.prisma.food.create({
             data: {
                 name: data.name,
@@ -34,6 +38,12 @@ export class FoodService {
                 saturatedFat: data.saturatedFat,
                 transFat: data.transFat,
                 classificationId: data.classificationId,
+                ingredients: {
+                    create: ingredients.map((ingredient) => ({
+                        ingredientId: ingredient.id,
+                        name: ingredient.name,
+                    })),
+                },
             },
         });
         return food;
@@ -41,6 +51,28 @@ export class FoodService {
 
     async findAll() {
         return await this.prisma.food.findMany();
+    }
+
+    async findOne(id: string) {
+
+        const food = await this.prisma.food.findFirst({
+            where: {
+                id: id,
+            },
+            include: {
+                ingredients: {
+                    include: {
+                        ingredient: true,
+                    },
+                },
+            },
+        });
+
+        if (!food) {
+            throw new Error('Alimento não encontrado');
+        }
+
+        return food;
     }
 
     async update(id: string, data: FoodDTO){

@@ -32,6 +32,22 @@ export class IngredientService {
         return await this.prisma.ingredient.findMany();
     }
 
+    async findOne(id: string) {
+        const ingredient = await this.prisma.ingredient.findFirst({
+            where: {
+                id: id,
+            },
+            include: {
+                foods: {
+                    include: {
+                        food: true,
+                    },
+                },
+            },
+        });
+        return ingredient;
+    }
+
     async update(id: string, data: IngredientDTO){
         const ingredientExists = await this.prisma.ingredient.findUnique({
             where: {

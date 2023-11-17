@@ -91,7 +91,6 @@ model AdditivesOnFoods{
   foodId      String
   additive    Additive @relation(fields: [additiveId], references: [id])
   additiveId  String
-  quantity    Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

@@ -16,6 +16,11 @@ export class FoodController {
     return this.foodService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.foodService.findOne(id);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: FoodDTO) {
     return this.foodService.update(id, data);

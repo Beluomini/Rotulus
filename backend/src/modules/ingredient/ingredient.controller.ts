@@ -16,6 +16,11 @@ export class IngredientController {
     return this.ingredientService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.ingredientService.findOne(id);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: IngredientDTO) {
     return this.ingredientService.update(id, data);
