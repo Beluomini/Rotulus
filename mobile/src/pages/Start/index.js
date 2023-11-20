@@ -14,11 +14,14 @@ export default function WelcomePage({ navigation, route}) {
                     <Image source={frozen_food} />
                 </View>
                 <Text style={styles.title} >Cadastre-se para começar</Text>
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Register')}>
+                <Pressable style={styles.button} onPress={() => navigation.navigate('RegisterPage')}>
                     <Text style={styles.buttonText}>Criar uma conta</Text>
                 </Pressable>
-                <Pressable style={styles.link} onPress={() => navigation.navigate('Login')}>
+                <Pressable style={styles.link} onPress={() => navigation.navigate('LoginPage')}>
                     <Text style={styles.linkText}>Já tenho uma conta</Text>
+                </Pressable>
+                <Pressable style={styles.linkJump} onPress={() => navigation.navigate('HomePage')}>
+                    <Text style={styles.linkText}>Pular</Text>
                 </Pressable>
                 <StatusBar style="auto" />
             </View>

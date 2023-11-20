@@ -50,6 +50,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: 1,
     },
+    linkJump: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        marginBottom: "7%",
+    },
   });
 
 export default styles;
