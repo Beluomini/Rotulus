@@ -8,6 +8,7 @@ import WelcomePage from './src/pages/Welcome';
 import StartPage from './src/pages/Start';
 import RegisterPage from './src/pages/Register';
 import HomePage from './src/pages/Home';
+import LoginPage from './src/pages/Login';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
         <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
