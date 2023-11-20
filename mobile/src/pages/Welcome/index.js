@@ -33,7 +33,7 @@ export default function WelcomePage({ navigation, route}) {
 
                 <View  style={styles.page} key={1}>
                     <View style={styles.header}>
-                        <Pressable onPress={() => navigation.navigate('Prelogin')}>
+                        <Pressable onPress={() => navigation.navigate('StartPage')}>
                             <Icon style={styles.headerText} name="chevron-right" size={30} color="#fff" />
                         </Pressable>
                     </View>
@@ -48,7 +48,7 @@ export default function WelcomePage({ navigation, route}) {
 
                 <View  style={styles.page} key={2}>
                     <View style={styles.header}>
-                        <Pressable onPress={() => navigation.navigate('Prelogin')}>
+                        <Pressable onPress={() => navigation.navigate('StartPage')}>
                             <Icon style={styles.headerText} name="chevron-right" size={30} color="#fff" />
                         </Pressable>
                     </View>

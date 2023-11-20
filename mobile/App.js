@@ -5,16 +5,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 import WelcomePage from './src/pages/Welcome';
-import LoginPage from './src/pages/Prelogin';
-import Register from './src/pages/Register';
+import StartPage from './src/pages/Start';
+import RegisterPage from './src/pages/Register';
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={WelcomePage} options={{headerShown: false}} />
-        <Stack.Screen name="Prelogin" component={LoginPage} options={{headerShown: false}} />
-        <Stack.Screen name="Register" component={Register} options={{headerShown: false}} />
+        <Stack.Screen name="WelcomePage" component={WelcomePage} options={{headerShown: false}} />
+        <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
+        <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
