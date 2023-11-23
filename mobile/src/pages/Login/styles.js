@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     },
     title: {
         width: "85%",
-        marginBottom: "15%",
         marginTop: "8%",
         alignItems: 'left',
     },
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
         width: "85%",
         height: "17%",
         justifyContent: 'center',
-        marginBottom: "13%",
+        marginTop: "13%",
         alignItems: 'left',
         borderWidth: 1,
         borderRadius: 4,
@@ -113,9 +112,26 @@ const styles = StyleSheet.create({
         width: "85%",
         justifyContent: 'center',
         marginBottom: "13%",
-        marginTop: -45,
+        marginTop: "2%",
         alignItems: 'left',
     },
+    inputError: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: "2%",
+        borderWidth: 1,
+        borderRadius: 4,
+        backgroundColor: '#D33333',
+        borderColor: '#D33333',
+    },
+    inputErrorText: {
+        fontFamily: 'Roboto',
+        fontSize: 15,
+        color: '#FFFFFF',
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    },
+    
   });
 
 export default styles;

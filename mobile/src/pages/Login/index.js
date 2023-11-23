@@ -3,11 +3,61 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, Pressable, TextInput } from 'react-native';
 import styles from './styles';
 
+import api from '../../services/Api';
+
 import google_icon from '../../assets/google_icon.png';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function WelcomePage({ navigation, route}) {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [hidePassword, setHidePassword] = useState(true);
+    const [hidePasswordIcon, setHidePasswordIcon] = useState('eye');
+
+    const [userNotFound, setUserNotFound] = useState(false);
+    const [wrongPassword, setWrongPassword] = useState(false);
+
+    async function handleLogin() {
+        const response = await api.getUserByEmail(email);
+        if (response.statusCode === 500) {
+            setUserNotFound(true);
+            return;
+        }
+        if (response.password !== password) {
+            console.log(password);
+            console.log(response.password);
+            setWrongPassword(true);
+            return;
+        }else{
+            navigation.navigate('HomePage');
+        }
+    }  
+
+    function handleEmailChange(email) {
+        if (userNotFound) {
+            setUserNotFound(false);
+        }
+        setEmail(email);
+    }
+
+    function handlePasswordChange(password) {
+        if (wrongPassword) {
+            setWrongPassword(false);
+        }
+        setPassword(password);
+    }
+
+    function handleHidePassword() {
+        if (hidePassword) {
+            setHidePasswordIcon('eye-slash');
+        } else {
+            setHidePasswordIcon('eye');
+        }
+        setHidePassword(!hidePassword);
+    }
 
     return (
         <View style={styles.container}>
@@ -21,21 +71,47 @@ export default function WelcomePage({ navigation, route}) {
                         <View style={styles.inputDetail}>
                             <Text style={styles.inputDetailText}>Email</Text>
                         </View>
-                        <TextInput style={styles.inputText} placeholder="Digite seu email" />
-                        <Pressable style={styles.inputButton} onPress={() => navigation.navigate('HomePage')}>
+                        <TextInput 
+                            onChangeText={email => handleEmailChange(email)} 
+                            style={styles.inputText} 
+                            value={email}
+                            placeholder="Digite seu email" 
+                        />
+
+                        <Pressable style={styles.inputButton} onPress={() => {setEmail('')}}>
                             <Icon name="times-circle-o" size={28} color="#D33333" />
                         </Pressable>
                     </View>
+
+                    {userNotFound && 
+                        <View style={styles.inputError}> 
+                            <Text style={styles.inputErrorText}>Usuário não encontrado</Text>
+                        </View>
+                    }
+                        
 
                     <View style={styles.input}>
                         <View style={styles.inputDetail}>
                             <Text style={styles.inputDetailText}>Senha</Text>
                         </View>
-                        <TextInput style={styles.inputText} placeholder="Crie uma senha" />
-                        <Pressable style={styles.inputButton} onPress={() => navigation.navigate('HomePage')}>
-                            <Icon name="eye" size={28} color="#D33333" />
+                        <TextInput 
+                            onChangeText={password => handlePasswordChange(password)}
+                            style={styles.inputText}
+                            value={password}
+                            secureTextEntry={hidePassword}
+                            placeholder="Digite sua senha"
+                        />
+                        
+                        <Pressable style={styles.inputButton} onPress={handleHidePassword} >
+                            <Icon name={hidePasswordIcon} size={28} color="#D33333" />
                         </Pressable>
                     </View>
+
+                    {wrongPassword &&
+                        <View style={styles.inputError}> 
+                            <Text style={styles.inputErrorText}>Senha incorreta</Text>
+                        </View>
+                    }
 
                     <View style={styles.inputForgot}>
                         <Pressable style={styles.inputForgotButton} onPress={() => navigation.navigate('Prelogin')}>
@@ -43,10 +119,11 @@ export default function WelcomePage({ navigation, route}) {
                         </Pressable>
                     </View>
 
+
                 </View>
 
-                <Pressable style={styles.button} onPress={() => navigation.navigate('Prelogin')}>
-                    <Text style={styles.buttonText}>Criar uma conta</Text>
+                <Pressable style={styles.button} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Entrar</Text>
                 </Pressable>
 
                 <Pressable style={styles.button} onPress={() => navigation.navigate('Prelogin')}>
