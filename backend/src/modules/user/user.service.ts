@@ -33,6 +33,34 @@ export class UserService {
     return await this.prisma.user.findMany();
   }
 
+  async findOne(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return user;
+  }
+
+  async findOneByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return user;
+  }
+
   async update(id: string, data: UserDTO) {
     const userExists = await this.prisma.user.findUnique({
       where: {
