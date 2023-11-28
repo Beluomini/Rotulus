@@ -88,6 +88,33 @@ export class FoodService {
         return food;
     }
 
+    async findByBarcode(barcode: string) {
+            
+        const food = await this.prisma.food.findFirst({
+            where: {
+                barcode: barcode,
+            },
+            include: {
+                ingredients: {
+                    include: {
+                        ingredient: true,
+                    },
+                },
+                additives: {
+                    include: {
+                        additive: true,
+                    },
+                },
+            },
+        });
+
+        if (!food) {
+            throw new Error('Alimento não encontrado');
+        }
+
+        return food;
+    }
+
     async update(id: string, data: FoodDTO){
         const foodExists = await this.prisma.food.findUnique({
             where: {

@@ -21,6 +21,11 @@ export class FoodController {
     return this.foodService.findOne(id);
   }
 
+  @Get('barcode/:barcode')
+  async findByBarcode(@Param('barcode') barcode: string) {
+    return this.foodService.findByBarcode(barcode);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: FoodDTO) {
     return this.foodService.update(id, data);
