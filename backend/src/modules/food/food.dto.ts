@@ -12,5 +12,6 @@ export type FoodDTO = {
     saturatedFat: number;
     transFat: number;
     description?: string;
+    image?: string;
     classificationId: string;
   };
