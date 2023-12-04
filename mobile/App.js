@@ -10,16 +10,33 @@ import RegisterPage from './src/pages/Register';
 import HomePage from './src/pages/Home';
 import LoginPage from './src/pages/Login';
 
-const App = () => {
+
+const auth = false;
+
+function NewUserStack() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <Stack.Navigator>
         <Stack.Screen name="WelcomePage" component={WelcomePage} options={{headerShown: false}} />
         <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
         <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
         <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
-      </Stack.Navigator>
+    </Stack.Navigator>
+  );
+}
+
+function LoggedUserStack() {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
+    </Stack.Navigator>
+  );
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      {auth ? <LoggedUserStack /> : <NewUserStack /> }
     </NavigationContainer>
   );
 };
