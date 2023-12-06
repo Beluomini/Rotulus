@@ -24,6 +24,12 @@ export class IngredientController {
     return this.ingredientService.findOne(id);
   }
 
+  @IsPublic()
+  @Get('name/:name')
+  async findManyByName(@Param('name') name: string) {
+    return this.ingredientService.findManyByName(name);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: IngredientDTO) {
     return this.ingredientService.update(id, data);

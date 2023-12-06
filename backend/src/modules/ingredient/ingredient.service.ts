@@ -48,6 +48,17 @@ export class IngredientService {
         return ingredient;
     }
 
+    async findManyByName(name: string) {
+        const ingredients = await this.prisma.ingredient.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
+        });
+        return ingredients;
+    }
+
     async update(id: string, data: IngredientDTO){
         const ingredientExists = await this.prisma.ingredient.findUnique({
             where: {
