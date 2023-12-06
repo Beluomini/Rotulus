@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { DeseaseService } from './desease.service';
 import { DeseaseDTO } from './desease.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('desease')
 export class DeseaseController {
@@ -11,6 +12,7 @@ export class DeseaseController {
     return this.DeseaseService.create(data);
   }
 
+  @IsPublic()
   @Get()
   async findAll() {
     return this.DeseaseService.findAll();

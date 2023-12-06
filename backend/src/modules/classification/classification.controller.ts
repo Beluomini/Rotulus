@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ClassificationService } from './classification.service';
 import { ClassificationDTO } from './classification.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('classification')
 export class ClassificationController {
@@ -11,6 +12,7 @@ export class ClassificationController {
     return this.classificationService.create(data);
   }
 
+  @IsPublic()
   @Get()
   async findAll() {
     return this.classificationService.findAll();

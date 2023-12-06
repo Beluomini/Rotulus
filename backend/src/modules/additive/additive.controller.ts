@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AdditiveService } from './additive.service';
 import { IngredientDTO } from '../ingredient/ingredient.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('additive')
 export class AdditiveController {
@@ -11,11 +12,13 @@ export class AdditiveController {
     return this.additiveService.create(data);
   }
 
+  @IsPublic()
   @Get()
   async findAll() {
     return this.additiveService.findAll();
   }
 
+  @IsPublic()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.additiveService.findOne(id);
