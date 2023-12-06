@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     page: {
         backgroundColor: '#FFFFFF',
         marginTop: "60%",
-        borderRadius: 25,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
         height: "100%",
         width: "100%",
         alignItems: 'center',

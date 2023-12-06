@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, Pressable, TextInput } from 'react-native';
 import styles from './styles';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import api from '../../services/Api';
 
 import google_icon from '../../assets/google_icon.png';
@@ -21,17 +23,19 @@ export default function WelcomePage({ navigation, route}) {
     const [wrongPassword, setWrongPassword] = useState(false);
 
     async function handleLogin() {
-        const response = await api.getUserByEmail(email);
-        if (response.statusCode === 500) {
+        const response = await api.signIn({email, password});
+        if (response.error) {
+            console.log(response.message);
             setUserNotFound(true);
             return;
-        }
-        if (response.password !== password) {
-            console.log(password);
-            console.log(response.password);
-            setWrongPassword(true);
-            return;
         }else{
+
+            await AsyncStorage.setItem('userToken', response.access_token);
+            await AsyncStorage.setItem('userId', response.user.id);
+            await AsyncStorage.setItem('userName', response.user.name);
+            await AsyncStorage.setItem('userEmail', response.user.email);
+            await AsyncStorage.setItem('userStatus', response.user.status);
+
             navigation.navigate('HomePage');
         }
     }  
