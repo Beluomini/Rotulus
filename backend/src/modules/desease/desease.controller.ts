@@ -18,6 +18,18 @@ export class DeseaseController {
     return this.DeseaseService.findAll();
   }
 
+  @IsPublic()
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.DeseaseService.findOne(id);
+  }
+
+  @IsPublic()
+  @Get('name/:name')
+  async findManyByName(@Param('name') name: string) {
+    return this.DeseaseService.findManyByName(name);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string, @Body() data: DeseaseDTO) {
     return this.DeseaseService.update(id, data);

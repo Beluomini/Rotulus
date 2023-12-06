@@ -33,6 +33,30 @@ export class DeseaseService {
         return await this.prisma.desease.findMany();
     }
 
+    async findOne(id: string){
+
+        const desease = await this.prisma.desease.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return desease;
+
+    }
+
+    async findManyByName(name: string){
+
+        const deseases = await this.prisma.desease.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
+        });
+        return deseases;
+
+    }
+
     async update(id: string, data: DeseaseDTO){
 
         const deseaseExists = await this.prisma.desease.findUnique({
