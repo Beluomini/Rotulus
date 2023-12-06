@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -9,9 +11,6 @@ import StartPage from './src/pages/Start';
 import RegisterPage from './src/pages/Register';
 import HomePage from './src/pages/Home';
 import LoginPage from './src/pages/Login';
-
-
-const auth = false;
 
 function NewUserStack() {
   return (
@@ -34,9 +33,21 @@ function LoggedUserStack() {
 }
 
 const App = () => {
+
+  const [userToken, setUserToken] = useState('');
+
+  async function handleRecoverUserData() {
+    await AsyncStorage.removeItem('userToken');
+    setUserToken(AsyncStorage.getItem('userToken'));
+  }
+
+  useEffect(() => {
+    handleRecoverUserData();
+  }, []);
+
   return (
     <NavigationContainer>
-      {auth ? <LoggedUserStack /> : <NewUserStack /> }
+      { userToken!=='' ? <NewUserStack /> : <LoggedUserStack /> }
     </NavigationContainer>
   );
 };
