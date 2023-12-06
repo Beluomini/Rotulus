@@ -32,6 +32,26 @@ export class ClassificationService {
         return await this.prisma.classification.findMany();
     }
 
+    async findOne(id: string) {
+        const classification = await this.prisma.classification.findUnique({
+            where: {
+                id: id,
+            }
+        });
+        return classification;
+    }
+
+    async findManyByName(name: string) {
+        const classifications = await this.prisma.classification.findMany({
+            where: {
+                name: {
+                    contains: name,
+                }
+            }
+        });
+        return classifications;
+    }
+
     async update(id: string, data: ClassificationDTO) {
             
             const classificationExists = await this.prisma.classification.findUnique({

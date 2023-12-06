@@ -18,6 +18,18 @@ export class ClassificationController {
     return this.classificationService.findAll();
   }
 
+  @IsPublic()
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.classificationService.findOne(id);
+  }
+
+  @IsPublic()
+  @Get('name/:name')
+  async findManyByName(@Param('name') name: string) {
+    return this.classificationService.findManyByName(name);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string, @Body() data: ClassificationDTO) {
     return this.classificationService.update(id, data);
