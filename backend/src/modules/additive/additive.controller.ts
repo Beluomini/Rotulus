@@ -24,6 +24,12 @@ export class AdditiveController {
     return this.additiveService.findOne(id);
   }
 
+  @IsPublic()
+  @Get('name/:name')
+  async findManyByName(@Param('name') name: string) {
+    return this.additiveService.findManyByName(name);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: IngredientDTO) {
     return this.additiveService.update(id, data);

@@ -50,6 +50,17 @@ export class AdditiveService {
         return additive;
     }
 
+    async findManyByName(name: string) {
+        const additives = await this.prisma.additive.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
+        });
+        return additives;
+    }
+
     async update(id: string, data: AdditiveDTO){
         const additiveExists = await this.prisma.additive.findUnique({
             where: {
