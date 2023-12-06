@@ -11,10 +11,16 @@ export class AuthController {
     @IsPublic()
     @Post('login')
     @UseGuards(LocalAuthGuard)
-    login(@Request() req: AuthRequest) {
-        console.log(req.user);
+    async login(@Request() req: AuthRequest) {
 
-        return this.authService.login(req.user);
+        const userAccessToken = await this.authService.login(req.user);
+
+        const response = {
+            user: req.user,
+            ...userAccessToken,
+        };
+
+        return response;
     }
 
 }

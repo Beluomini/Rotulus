@@ -10,11 +10,13 @@ import {
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @IsPublic()
   @Post()
   async create(@Body() data: UserDTO) {
     return this.userService.create(data);
