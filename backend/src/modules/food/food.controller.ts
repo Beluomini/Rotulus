@@ -30,6 +30,12 @@ export class FoodController {
     return this.foodService.findByBarcode(barcode);
   }
 
+  @IsPublic()
+  @Get('name/:name')
+  async findManyByName(@Param('name') name: string) {
+    return this.foodService.findManyByName(name);
+  }
+
   @Put(':id')
   async update(@Param('id') id: string ,@Body() data: FoodDTO) {
     return this.foodService.update(id, data);

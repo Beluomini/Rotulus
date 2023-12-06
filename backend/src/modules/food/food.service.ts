@@ -115,6 +115,29 @@ export class FoodService {
         return food;
     }
 
+    async findManyByName(name: string) {
+        const foods = await this.prisma.food.findMany({
+            where: {
+                name: {
+                    contains: name,
+                },
+            },
+            include: {
+                ingredients: {
+                    include: {
+                        ingredient: true,
+                    },
+                },
+                additives: {
+                    include: {
+                        additive: true,
+                    },
+                },
+            },
+        });
+        return foods;
+    }
+
     async update(id: string, data: FoodDTO){
         const foodExists = await this.prisma.food.findUnique({
             where: {
