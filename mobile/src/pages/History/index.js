@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Image, Pressable, FlatList, TextInput } from 'react-native';
 import styles from './styles';
 
@@ -44,10 +43,15 @@ export default function WelcomePage({ navigation, route}) {
         navigation.navigate('StartPage');
     }
 
-    function handlePageChange(e){
-        console.log(e);
+    async function handleRecoverUserData() {
+        const userName = await AsyncStorage.getItem('userName');
+        setUserName(userName);
     }
 
+    
+    useEffect(() => {
+        handleRecoverUserData();
+    }, []);
 
     return (
         <View style={styles.container}>
