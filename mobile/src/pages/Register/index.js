@@ -78,6 +78,7 @@ export default function WelcomePage({ navigation, route}) {
             password: password,
         }
         await api.createUser(newUser);
+        navigation.navigate('LoginPage');
     }
 
     return (

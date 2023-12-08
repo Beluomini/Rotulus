@@ -30,11 +30,11 @@ function NewUserStack() {
 
 function LoggedUserStack() {
   return (
-    <Stack.Navigator initialRouteName='HomePage'>
+    <Stack.Navigator>
+        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
         <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
         <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
-        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
         <Stack.Screen name="HistoryPage" component={HistoryPage} options={{headerShown: false}} />
         <Stack.Screen name="SearchPage" component={SearchPage} options={{headerShown: false}} />
     </Stack.Navigator>
