@@ -55,11 +55,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: "5%",
     },
     listProductsView: {
-        marginBottom: "10%",
+        height: "60%",
+        paddingBottom: "10%",
         alignItems: 'center',
     },
     listProducts: {
-        width: "90%",
+        width: "100%",
         flexBasis: 0,
     },
     product: {  

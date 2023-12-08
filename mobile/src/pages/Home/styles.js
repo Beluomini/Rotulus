@@ -75,8 +75,13 @@ const styles = StyleSheet.create({
         borderColor: '#D33333',
         margin: 5,
     },
+    listProductsView: {
+        height: "50%",
+        paddingBottom: "15%",
+        alignItems: 'center',
+    },
     listProducts: {
-        width: "90%",
+        width: "100%",
         flexBasis: 0,
     },
     product: {  

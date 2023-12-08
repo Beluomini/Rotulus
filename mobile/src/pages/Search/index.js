@@ -74,27 +74,29 @@ export default function WelcomePage({ navigation, route}) {
                     <Image style={styles.filterIcon} source={FilterIcon} />
                 </View>
 
-                <FlatList
-                    style={styles.listProducts}
-                    columnWrapperStyle={{justifyContent: 'space-around'}}
-                    contentContainerStyle={{alignItems: 'center'}}
-                    ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                    data={products}
-                    numColumns={3}
-                    renderItem={({item}) => {
-                        return(
-                            <View style={styles.product}>
-                                <View style={styles.productImageBackground}>
-                                    <Image style={styles.listProductsImage} source={{uri: item.image}} />
+                <View style={styles.listProductsView}>
+                    <FlatList
+                        style={styles.listProducts}
+                        columnWrapperStyle={{justifyContent: 'space-around'}}
+                        contentContainerStyle={{alignItems: 'center'}}
+                        ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                        data={products}
+                        numColumns={3}
+                        renderItem={({item}) => {
+                            return(
+                                <View style={styles.product}>
+                                    <View style={styles.productImageBackground}>
+                                        <Image style={styles.listProductsImage} source={{uri: item.image}} />
+                                    </View>
+                                    <View style={styles.productInfo}>
+                                        <Text style={styles.productName}>{item.key}</Text>
+                                        <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                    </View>
                                 </View>
-                                <View style={styles.productInfo}>
-                                    <Text style={styles.productName}>{item.key}</Text>
-                                    <Image style={styles.productInfoIcon} source={GlutenIcon} />
-                                </View>
-                            </View>
-                        );
-                    }}
-                />
+                            );
+                        }}
+                    />
+                </View>
 
 
             </View>
