@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
+import { Image, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,10 +16,13 @@ import LoginPage from './src/pages/Login';
 import HomePage from './src/pages/Home';
 import HistoryPage from './src/pages/History';
 import SearchPage from './src/pages/Search';
+import ScanPage from './src/pages/Scan';
 
 import HomeIcon from './src/assets/home-icon.png';
 import HistoryIcon from './src/assets/history-icon.png';
 import SearchIcon from './src/assets/search-icon.png';
+import ScanIcon from './src/assets/scan-icon.png';
+import RotulusSplash from './src/assets/start-splash.png';
 
 import { FontAwesome5, AntDesign, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
@@ -42,6 +45,12 @@ function TabApp() {
           <Image source={HistoryIcon} style={{width: 30, height: 30}} />
         ),
         }}/>
+      <Tab.Screen name="ScanPage" component={ScanPage} options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => (
+          <Image source={ScanIcon} style={{width: 30, height: 30}} />
+        ),
+        }}/>
       <Tab.Screen name="SearchPage" component={SearchPage} options={{
         headerShown: false,
         tabBarIcon: ({focused}) => (
@@ -52,19 +61,42 @@ function TabApp() {
   );
 }
 
+function SplashScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Image source={RotulusSplash} style={{width: '100%', height: '100%'}} />
+    </View>
+  );
+}
+
 function AppStack() {
 
   const [userToken, setUserToken] = useState('');
   const [userName, setUserName] = useState('');
 
+  const [isLoading, setIsLoading] = useState(true);
+
   async function handleRecoverUserData() {
-    setUserToken(await AsyncStorage.getItem('userToken'));
-    setUserName(await AsyncStorage.getItem('userName'));
+
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    try {
+      setUserToken(await AsyncStorage.getItem('userToken'));
+      setUserName(await AsyncStorage.getItem('userName'));
+      await sleep(2000);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
     handleRecoverUserData();
+    
   }, []);
+
+  if (isLoading) {
+    // We haven't finished checking for the token yet
+    return <SplashScreen />;
+  }
 
   return (
     <Stack.Navigator initialRouteName={userToken === 'null' || !userToken ? 'WelcomePage' : 'HomePage'} screenOptions={{headerShown: false}}>
