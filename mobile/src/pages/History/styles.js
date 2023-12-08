@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: "5%",
     },
     listProductsView: {
-        height: "60%",
-        paddingBottom: "10%",
+        height: "65%",
         alignItems: 'center',
     },
     listProducts: {

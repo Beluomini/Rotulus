@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, Pressable, FlatList, TextInput } from 'react-native';
 import styles from './styles';
 
@@ -100,22 +101,8 @@ export default function WelcomePage({ navigation, route}) {
 
 
             </View>
-
-            <View style={styles.navigationBar}>
-                <Pressable onPress={() => navigation.navigate('HomePage')}>
-                    <AntDesign name="home" size={35} color="black" />
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate('HistoryPage')}>
-                    <MaterialIcons name="history" size={35} color="black" />
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate('HomePage')}>
-                    <MaterialCommunityIcons name="barcode-scan" size={35} color="black" />
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate('SearchPage')}>
-                    <Ionicons name="ios-search-outline" size={35} color="#D33333" />
-                </Pressable>
-            </View>
             
+            <StatusBar style="auto" />
         </View>
     );
 }

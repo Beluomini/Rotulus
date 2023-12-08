@@ -76,8 +76,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     listProductsView: {
-        height: "50%",
-        paddingBottom: "15%",
+        height: "53%",
         alignItems: 'center',
     },
     listProducts: {

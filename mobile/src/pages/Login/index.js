@@ -67,7 +67,7 @@ export default function WelcomePage({ navigation, route}) {
         <View style={styles.container}>
             <View style={styles.page} >
                 <View style={styles.title}>
-                    <Text style={styles.titleText} >Estre na sua conta</Text>
+                    <Text style={styles.titleText} >Entre na sua conta</Text>
                 </View>
                 <View style={styles.inputData}>
 
