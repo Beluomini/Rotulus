@@ -21,12 +21,9 @@ const styles = StyleSheet.create({
         marginRight: "3%",
     },
     headerText: {
-        fontFamily: 'Roboto',
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#fff',
-        textAlign: 'center',
-        letterSpacing: 1,
+        height: 30,
+        width: 30,
+        transform: [{ rotate: '270deg'}],
     },
     image:{
         width: "75%",

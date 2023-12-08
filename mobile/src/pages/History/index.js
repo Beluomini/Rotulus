@@ -6,9 +6,8 @@ import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlutenIcon from '../../assets/glutenIcon.png';
-
-
-import { FontAwesome5, AntDesign, MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import UserIcon from '../../assets/user-icon.png';
+import SearchIcon from '../../assets/search-icon.png';
 
 export default function WelcomePage({ navigation, route}) {
 
@@ -59,7 +58,7 @@ export default function WelcomePage({ navigation, route}) {
             <View style={styles.header}>
                 <Text style={styles.headerText}>Bem-vindo(a){userName ? ', '+userName.split(' ')[0] : '!'}</Text>
                 <Pressable onPress={handleLogout}>
-                    <FontAwesome5 name="user-circle" size={35} color="white" />
+                    <Image style={styles.headerIcon} source={UserIcon} />
                 </Pressable>
             </View>
             <View style={styles.page}>
@@ -67,7 +66,7 @@ export default function WelcomePage({ navigation, route}) {
                 <Text style={styles.title}>Histórico</Text>
 
                 <View style={styles.filter}>
-                    <FontAwesome name="search" size={24} color="black" />
+                    <Image style={styles.filterIcon} source={SearchIcon} />
                     <TextInput style={styles.filterInput} />
                 </View>
 

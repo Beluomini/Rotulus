@@ -7,15 +7,20 @@ import api from '../../services/Api';
 
 import validator from 'validator';
 
-import google_icon from '../../assets/google_icon.png';
+import GoogleIcon from '../../assets/google_icon.png';
+import XIcon from '../../assets/x-icon.png';
+import EyeIcon from '../../assets/view-icon.png';
+import EyeSlashIcon from '../../assets/hide-icon.png';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function WelcomePage({ navigation, route}) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    const [hidePassword, setHidePassword] = useState(true);
+    const [hidePasswordIcon, setHidePasswordIcon] = useState(EyeIcon);
 
     const [usedEmail, setUsedEmail] = useState(false);
     const [invalidEmail, setInvalidEmail] = useState(false);
@@ -46,6 +51,15 @@ export default function WelcomePage({ navigation, route}) {
             setWeekPassword(false);
             setEmptyFields(false);
         }
+    }
+
+    function handleHidePassword() {
+        if (hidePassword) {
+            setHidePasswordIcon(EyeSlashIcon);
+        } else {
+            setHidePasswordIcon(EyeIcon);
+        }
+        setHidePassword(!hidePassword);
     }
 
     async function register() {
@@ -100,7 +114,7 @@ export default function WelcomePage({ navigation, route}) {
                             placeholder="Digite seu nome"
                         />
                         <Pressable style={styles.inputButton} onPress={() => {setName('')}}>
-                            <Icon name="times-circle-o" size={28} color="#D33333" />
+                            <Image source={XIcon} style={styles.inputButtonImage} />
                         </Pressable>
                     </View>
 
@@ -115,7 +129,7 @@ export default function WelcomePage({ navigation, route}) {
                             placeholder="Digite seu email"
                         />
                         <Pressable style={styles.inputButton} onPress={() => {setEmail('')}}>
-                            <Icon name="times-circle-o" size={28} color="#D33333" />
+                            <Image source={XIcon} style={styles.inputButtonImage} />
                         </Pressable>
                     </View>
 
@@ -127,11 +141,11 @@ export default function WelcomePage({ navigation, route}) {
                             style={styles.inputText}
                             value={password}
                             onChangeText={handlePasswordChange}
-                            secureTextEntry={true}
+                            secureTextEntry={hidePassword}
                             placeholder="Digite sua senha"
                         />
-                        <Pressable style={styles.inputButton} onPress={() => {setPassword('')}}>
-                            <Icon name="times-circle-o" size={28} color="#D33333" />
+                        <Pressable style={styles.inputButton} onPress={handleHidePassword}>
+                            <Image source={hidePasswordIcon} style={styles.inputButtonImage} />
                         </Pressable>
                     </View>
 
@@ -169,7 +183,7 @@ export default function WelcomePage({ navigation, route}) {
 
                     <Pressable style={styles.button} onPress={() => navigation.navigate('Prelogin')}>
                         <View style={styles.buttonGoogle}>
-                            <Image style={styles.googleImage} source={google_icon} />
+                            <Image style={styles.googleImage} source={GoogleIcon} />
                             <Text style={styles.buttonGoogleText}>Entrar com Google</Text>
                         </View>                    
                     </Pressable>

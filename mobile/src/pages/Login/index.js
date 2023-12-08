@@ -7,9 +7,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../../services/Api';
 
-import google_icon from '../../assets/google_icon.png';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
+import GoogleIcon from '../../assets/google_icon.png';
+import XIcon from '../../assets/x-icon.png';
+import EyeIcon from '../../assets/view-icon.png';
+import EyeSlashIcon from '../../assets/hide-icon.png';
 
 export default function WelcomePage({ navigation, route}) {
 
@@ -17,7 +18,7 @@ export default function WelcomePage({ navigation, route}) {
     const [password, setPassword] = useState('');
 
     const [hidePassword, setHidePassword] = useState(true);
-    const [hidePasswordIcon, setHidePasswordIcon] = useState('eye');
+    const [hidePasswordIcon, setHidePasswordIcon] = useState(EyeIcon);
 
     const [userNotFound, setUserNotFound] = useState(false);
     const [wrongPassword, setWrongPassword] = useState(false);
@@ -56,9 +57,9 @@ export default function WelcomePage({ navigation, route}) {
 
     function handleHidePassword() {
         if (hidePassword) {
-            setHidePasswordIcon('eye-slash');
+            setHidePasswordIcon(EyeSlashIcon);
         } else {
-            setHidePasswordIcon('eye');
+            setHidePasswordIcon(EyeIcon);
         }
         setHidePassword(!hidePassword);
     }
@@ -83,7 +84,7 @@ export default function WelcomePage({ navigation, route}) {
                         />
 
                         <Pressable style={styles.inputButton} onPress={() => {setEmail('')}}>
-                            <Icon name="times-circle-o" size={28} color="#D33333" />
+                            <Image source={XIcon} style={styles.inputButtonImage} />
                         </Pressable>
                     </View>
 
@@ -107,7 +108,7 @@ export default function WelcomePage({ navigation, route}) {
                         />
                         
                         <Pressable style={styles.inputButton} onPress={handleHidePassword} >
-                            <Icon name={hidePasswordIcon} size={28} color="#D33333" />
+                            <Image source={hidePasswordIcon} style={styles.inputButtonImage} />
                         </Pressable>
                     </View>
 
@@ -118,7 +119,7 @@ export default function WelcomePage({ navigation, route}) {
                     }
 
                     <View style={styles.inputForgot}>
-                        <Pressable style={styles.inputForgotButton} onPress={() => navigation.navigate('Prelogin')}>
+                        <Pressable style={styles.inputForgotButton} onPress={() => navigation.navigate('StartPage')}>
                             <Text style={styles.inputForgotText}>Esqueci minha senha</Text>
                         </Pressable>
                     </View>
@@ -132,7 +133,7 @@ export default function WelcomePage({ navigation, route}) {
 
                 <Pressable style={styles.button} onPress={() => navigation.navigate('Prelogin')}>
                     <View style={styles.buttonGoogle}>
-                        <Image style={styles.googleImage} source={google_icon} />
+                        <Image style={styles.googleImage} source={GoogleIcon} />
                         <Text style={styles.buttonGoogleText}>Entrar com Google</Text>
                     </View>                    
                 </Pressable>

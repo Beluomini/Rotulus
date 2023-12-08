@@ -4,7 +4,7 @@ import { Text, View, Image, Pressable } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import styles from './styles';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import ArrowIcon from '../../assets/down-arrow-white-icon.png';
 
 import eating_healthy from '../../assets/eating_healthy.png';
 import grocery_shopping from '../../assets/grocery_shopping.png';
@@ -34,7 +34,7 @@ export default function WelcomePage({ navigation, route}) {
                 <View  style={styles.page} key={1}>
                     <View style={styles.header}>
                         <Pressable onPress={() => navigation.navigate('StartPage')}>
-                            <Icon style={styles.headerText} name="chevron-right" size={30} color="#fff" />
+                            <Image source={ArrowIcon} style={styles.headerText} />
                         </Pressable>
                     </View>
                     <View style={styles.image}>
@@ -49,7 +49,7 @@ export default function WelcomePage({ navigation, route}) {
                 <View  style={styles.page} key={2}>
                     <View style={styles.header}>
                         <Pressable onPress={() => navigation.navigate('StartPage')}>
-                            <Icon style={styles.headerText} name="chevron-right" size={30} color="#fff" />
+                        <Image source={ArrowIcon} style={styles.headerText} />
                         </Pressable>
                     </View>
                     <View style={styles.image}>

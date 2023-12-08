@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
     },
+    inputButtonImage: {
+        width: 20,
+        height: 20,
+    },
     inputDetail: {
         justifyContent: 'center',
         alignItems: 'center',

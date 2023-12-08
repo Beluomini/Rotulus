@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
         fontSize: 21,
         color: '#FFFFFF',
     },
+    headerIcon: {
+        width: 30,
+        height: 30,
+    },
     page: {
         backgroundColor: '#FAFAFA',
         borderTopLeftRadius: 25,
@@ -53,6 +57,11 @@ const styles = StyleSheet.create({
         height: "100%",
         borderRadius: 30,
         paddingHorizontal: "5%",
+    },
+    filterIcon:{
+        width: 20,
+        height: 20,
+        alignSelf: 'center',
     },
     listProductsView: {
         height: "65%",

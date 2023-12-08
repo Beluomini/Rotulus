@@ -55,6 +55,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
     },
+    inputButtonImage: {
+        width: 20,
+        height: 20,
+    },
     inputDetail: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -115,6 +119,14 @@ const styles = StyleSheet.create({
         marginBottom: "13%",
         marginTop: "2%",
         alignItems: 'left',
+    },
+    inputForgotButton: {
+        width: "45%",
+    },
+    inputForgotText: {
+        fontFamily: 'Roboto',
+        fontSize: 15,
+        color: '#D33333',
     },
     inputError: {
         justifyContent: 'center',

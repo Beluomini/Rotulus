@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
         fontSize: 21,
         color: '#FFFFFF',
     },
+    headerIcon: {
+        width: 30,
+        height: 30,
+    },
     page: {
         backgroundColor: '#FAFAFA',
         borderTopLeftRadius: 25,
