@@ -23,34 +23,8 @@ import SearchIcon from './src/assets/search-icon.png';
 
 import { FontAwesome5, AntDesign, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
-function NewUserStack() {
-  return (
-    <Stack.Navigator>
-        <Stack.Screen name="WelcomePage" component={WelcomePage} options={{headerShown: false}} />
-        <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
-        <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
-        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
-        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
-        <Stack.Screen name="HistoryPage" component={HistoryPage} options={{headerShown: false}} />
-        <Stack.Screen name="SearchPage" component={SearchPage} options={{headerShown: false}} />
-    </Stack.Navigator>
-  );
-}
 
-function LoggedUserStack() {
-  return (
-    <Stack.Navigator>
-        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
-        <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
-        <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
-        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
-        <Stack.Screen name="HistoryPage" component={HistoryPage} options={{headerShown: false}} />
-        <Stack.Screen name="SearchPage" component={SearchPage} options={{headerShown: false}} />
-    </Stack.Navigator>
-  );
-}
-
-function TabNavigation() {
+function TabApp() {
   return (
     <Tab.Navigator screenOptions={({route}) => ({
       title: '',
@@ -78,7 +52,7 @@ function TabNavigation() {
   );
 }
 
-const App = () => {
+function AppStack() {
 
   const [userToken, setUserToken] = useState('');
   const [userName, setUserName] = useState('');
@@ -86,7 +60,6 @@ const App = () => {
   async function handleRecoverUserData() {
     setUserToken(await AsyncStorage.getItem('userToken'));
     setUserName(await AsyncStorage.getItem('userName'));
-
   }
 
   useEffect(() => {
@@ -94,9 +67,20 @@ const App = () => {
   }, []);
 
   return (
+    <Stack.Navigator initialRouteName={userToken === 'null' || !userToken ? 'WelcomePage' : 'HomePage'} screenOptions={{headerShown: false}}>
+      <Stack.Screen name="WelcomePage" component={WelcomePage} />
+      <Stack.Screen name="StartPage" component={StartPage} />
+      <Stack.Screen name="RegisterPage" component={RegisterPage} />
+      <Stack.Screen name="LoginPage" component={LoginPage} />
+      <Stack.Screen name="HomePage" component={TabApp} />
+    </Stack.Navigator>
+  );
+}
+
+const App = () => {
+  return (
     <NavigationContainer>
-      <TabNavigation />
-      {/* { userToken===null ? <NewUserStack /> : <LoggedUserStack /> } */}
+      <AppStack />
     </NavigationContainer>
   );
 };
