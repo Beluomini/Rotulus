@@ -9,8 +9,10 @@ const Stack = createNativeStackNavigator();
 import WelcomePage from './src/pages/Welcome';
 import StartPage from './src/pages/Start';
 import RegisterPage from './src/pages/Register';
-import HomePage from './src/pages/Home';
 import LoginPage from './src/pages/Login';
+import HomePage from './src/pages/Home';
+import HistoryPage from './src/pages/History';
+import SearchPage from './src/pages/Search';
 
 function NewUserStack() {
   return (
@@ -18,16 +20,23 @@ function NewUserStack() {
         <Stack.Screen name="WelcomePage" component={WelcomePage} options={{headerShown: false}} />
         <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
-        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
         <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
+        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
+        <Stack.Screen name="HistoryPage" component={HistoryPage} options={{headerShown: false}} />
+        <Stack.Screen name="SearchPage" component={SearchPage} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
 
 function LoggedUserStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='HomePage'>
+        <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}} />
+        <Stack.Screen name="RegisterPage" component={RegisterPage} options={{headerShown: false}} />
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}} />
         <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}} />
+        <Stack.Screen name="HistoryPage" component={HistoryPage} options={{headerShown: false}} />
+        <Stack.Screen name="SearchPage" component={SearchPage} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
@@ -35,10 +44,12 @@ function LoggedUserStack() {
 const App = () => {
 
   const [userToken, setUserToken] = useState('');
+  const [userName, setUserName] = useState('');
 
   async function handleRecoverUserData() {
-    await AsyncStorage.removeItem('userToken');
-    setUserToken(AsyncStorage.getItem('userToken'));
+    setUserToken(await AsyncStorage.getItem('userToken'));
+    setUserName(await AsyncStorage.getItem('userName'));
+
   }
 
   useEffect(() => {
@@ -47,7 +58,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      { userToken!=='' ? <NewUserStack /> : <LoggedUserStack /> }
+      { userToken===null ? <NewUserStack /> : <LoggedUserStack /> }
     </NavigationContainer>
   );
 };
