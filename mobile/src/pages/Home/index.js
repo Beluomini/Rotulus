@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import GlutenIcon from '../../assets/glutenIcon.png';
 import UserIcon from '../../assets/user-icon.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function HomePage({ navigation, route}) {
 
     const products = [
         {key: 'Produto 1', image: 'https://static.paodeacucar.com/img/uploads/1/759/21264759.jpg'},
@@ -85,9 +85,13 @@ export default function WelcomePage({ navigation, route}) {
             <View style={styles.page}>
                 <Text style={styles.title}>Produtos Populares</Text>
                 <View style={styles.bigProduct}>
-                    <PagerView style={styles.viewPager} initialPage={0} onPageSelected={e => {handlePageChange(e.nativeEvent.position)}}>    
+                    <PagerView style={styles.viewPager} initialPage={0} onPageSelected={e => {handlePageChange(e.nativeEvent.position)}}>   
                         <View key="1">
-                            <Image style={styles.bigProductImage} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaxClWdHz5UVWy3OdAr3b9N1wwy_vsh83TGg&usqp=CAU'}} />
+                            <Pressable onPress={() => {navigation.navigate('ProductPage', {
+                                itemID: "b590bb2b-9b4d-43f7-b443-e039a0143b3c"
+                            })}}> 
+                                <Image style={styles.bigProductImage} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaxClWdHz5UVWy3OdAr3b9N1wwy_vsh83TGg&usqp=CAU'}} />
+                            </Pressable>
                         </View>
                         <View key="2">
                             <Image style={styles.bigProductImage} source={{uri: 'https://static.wixstatic.com/media/4a5d70_0f10c1b9a2f6454398c78ea7c34b370c~mv2.jpg/v1/fill/w_480,h_640,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/4a5d70_0f10c1b9a2f6454398c78ea7c34b370c~mv2.jpg'}} />

@@ -12,7 +12,7 @@ import XIcon from '../../assets/x-icon.png';
 import EyeIcon from '../../assets/view-icon.png';
 import EyeSlashIcon from '../../assets/hide-icon.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function LoginPage({ navigation, route}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

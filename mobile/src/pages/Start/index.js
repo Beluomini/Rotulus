@@ -5,7 +5,7 @@ import styles from './styles';
 
 import frozen_food from '../../assets/frozen_food.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function StartPage({ navigation, route}) {
 
     return (
         <View style={styles.container}>

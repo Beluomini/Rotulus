@@ -6,14 +6,16 @@ import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlutenIcon from '../../assets/glutenIcon.png';
+import LactoseIcon from '../../assets/milk-icon.png';
+import EggIcon from '../../assets/eggIcon.png';
 import FilterIcon from '../../assets/filter-icon.png';
 import UserIcon from '../../assets/user-icon.png';
 import SearchIcon from '../../assets/search-icon.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function SearchPage({ navigation, route}) {
 
     const products = [
-        {key: 'Produto 1', image: 'https://static.paodeacucar.com/img/uploads/1/759/21264759.jpg'},
+        {key: 'Produto 1 com nome grande', image: 'https://static.paodeacucar.com/img/uploads/1/759/21264759.jpg'},
         {key: 'Produto 2', image: 'https://static.paodeacucar.com/img/uploads/1/354/607354.png'},
         {key: 'Produto 3', image: 'https://images.tcdn.com.br/img/img_prod/462274/sacos_para_pao_de_forma_com_foto_com_100_unidades_1454_1_464859583aca0ff122d267c659579001.jpg'},
         {key: 'Produto 4', image: 'https://ibassets.com.br/ib.item.image.large/l-598f041152f64417b9974d93e03a0127.png'},
@@ -76,11 +78,9 @@ export default function WelcomePage({ navigation, route}) {
                 <View style={styles.listProductsView}>
                     <FlatList
                         style={styles.listProducts}
-                        columnWrapperStyle={{justifyContent: 'space-around'}}
                         contentContainerStyle={{alignItems: 'center'}}
                         ItemSeparatorComponent={() => <View style={{height: 10}} />}
                         data={products}
-                        numColumns={3}
                         renderItem={({item}) => {
                             return(
                                 <View style={styles.product}>
@@ -89,7 +89,11 @@ export default function WelcomePage({ navigation, route}) {
                                     </View>
                                     <View style={styles.productInfo}>
                                         <Text style={styles.productName}>{item.key}</Text>
-                                        <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                        <View style={styles.productInfoIcons}>
+                                            <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                            <Image style={styles.productInfoIcon} source={LactoseIcon} />
+                                            <Image style={styles.productInfoIcon} source={EggIcon} />
+                                        </View>
                                     </View>
                                 </View>
                             );

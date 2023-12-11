@@ -13,7 +13,7 @@ import EyeIcon from '../../assets/view-icon.png';
 import EyeSlashIcon from '../../assets/hide-icon.png';
 
 
-export default function WelcomePage({ navigation, route}) {
+export default function RegisterPage({ navigation, route}) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

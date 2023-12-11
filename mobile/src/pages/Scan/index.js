@@ -7,7 +7,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 import ScanImage from '../../assets/scan-icon.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function ScanPage({ navigation, route}) {
 
     const isFocused = useIsFocused();
 

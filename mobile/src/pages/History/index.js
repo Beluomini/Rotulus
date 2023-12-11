@@ -9,7 +9,7 @@ import GlutenIcon from '../../assets/glutenIcon.png';
 import UserIcon from '../../assets/user-icon.png';
 import SearchIcon from '../../assets/search-icon.png';
 
-export default function WelcomePage({ navigation, route}) {
+export default function HistoryPage({ navigation, route}) {
 
     const products = [
         {key: 'Produto 1', image: 'https://static.paodeacucar.com/img/uploads/1/759/21264759.jpg'},
