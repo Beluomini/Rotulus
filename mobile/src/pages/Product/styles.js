@@ -1,0 +1,208 @@
+import { StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#D33333',
+        alignItems: 'center',
+        // justifyContent: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: "90%",
+        height: "5%",
+        marginTop: "15%",
+        marginBottom: "5%",
+    },
+    headerText: {
+        fontFamily: 'Roboto',
+        fontSize: 21,
+        color: '#FFFFFF',
+    },
+    headerIcon: {
+        width: 30,
+        height: 30,
+    },
+    page: {
+        backgroundColor: '#FAFAFA',
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        width: "100%",
+        height: "100%",
+        alignItems: 'center',
+    },
+    back: {
+        width: "90%",
+        height: "5%",
+        marginTop: "5%",
+        alignItems: 'flex-start',
+    },
+    backIcon: {
+        width: 30,
+        height: 30,
+        transform: [{ rotate: '90deg'}],
+    },
+    itemPrincipals: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: "80%",
+        height: "20%",
+        marginBottom: "5%",
+        alignItems: 'center',
+    },
+    itemPrincipalImage: {
+        width: "50%",
+        height: "100%",
+        alignSelf: 'flex-start',
+    },
+    itemPrincipalText: {
+        width: "50%",
+        height: "100%",
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+    },
+    title: {
+        fontFamily: 'Roboto',
+        textAlign: 'center',
+        fontSize: 20,
+        color: '#79747E',
+        marginBottom: "20%",
+    },
+    itemDetailsScroll: {
+        width: "85%",
+        marginBottom: "35%",
+    },
+    itemDetails: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
+    itemDetailsText: {
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        color: '#79747E',
+        textAlign: 'center',
+    },
+    itemAdicionalInfo: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: "5%",
+    },
+    itemAdicionalImage: {
+        width: 70,
+        height: 70,
+    },
+    itemAdicionalDetailsText: {
+        width: "80%",
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
+    itemAdicionalTitle: {
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        color: '#79747E',
+        textAlign: 'center',
+    },
+    itemAdicionalIcon: {
+        width: 25,
+        height: 25,
+        marginLeft: "5%",
+    },
+    itemAdicionalDetailsTitle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    itemAdicionalDetails: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    itemAdicionalDetImageDown: {
+        width: 30,
+        height: 30,
+        marginRight: "5%",
+    },
+    itemAdicionalDetImageUp: {
+        width: 30,
+        height: 30,
+        marginRight: "5%",
+        transform: [{ rotate: '180deg'}],
+    },
+    itemAdicionalText: {
+        fontFamily: 'Roboto',
+        fontSize: 14,
+        color: '#79747E',
+        width: "85%",
+    },
+    itemShowDetails: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginTop: "5%",
+    },
+    itemShowDetailsText: {
+        fontFamily: 'Roboto',
+        fontSize: 14,
+        color: '#79747E',
+        width: "85%",
+    },
+    recommendedView: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginTop: "5%",
+    },
+    recommendedText: {
+        fontFamily: 'Roboto',
+        fontSize: 20,
+        color: '#79747E',
+        width: "85%",
+        marginBottom: "5%",
+        textAlign: 'center',
+    },
+    recommendedProducts: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: "5%",
+        flexDirection: 'row',
+    },
+    recommendedProductsData: {
+        width: "48%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginBottom: "5%",
+    },
+    recommendedProductsImage: {
+        width: "90%",
+        height: 150,
+    },
+    recommendedProductsText: {
+        width: "80%",
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    recommendedProductsName: {
+        fontFamily: 'Roboto',
+        fontSize: 14,
+        color: '#79747E',
+        width: "80%",
+    },
+    recommendedProductsIcon: {
+        width: 25,
+        height: 25,
+    },
+});
+
+export default styles;

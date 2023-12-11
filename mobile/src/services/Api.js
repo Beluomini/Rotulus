@@ -36,5 +36,10 @@ function getUserByEmail(email) {
         .then(res => res.json())
 }
 
+function getFoodById(id) {
+    return fetch(`http://${ip}:3000/food/${id}`)
+        .then(res => res.json())
+}
 
-export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn };
+
+export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, getFoodById };
