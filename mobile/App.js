@@ -18,6 +18,7 @@ import HistoryPage from './src/pages/History';
 import SearchPage from './src/pages/Search';
 import ScanPage from './src/pages/Scan';
 import ProductPage from './src/pages/Product';
+import MenuPage from './src/pages/Menu';
 
 import HomeIcon from './src/assets/home-icon.png';
 import HistoryIcon from './src/assets/history-icon.png';
@@ -105,6 +106,7 @@ function AppStack() {
       <Stack.Screen name="LoginPage" component={LoginPage} />
       <Stack.Screen name="HomePage" component={TabApp} />
       <Stack.Screen name="ProductPage" component={ProductPage} />
+      <Stack.Screen name="MenuPage" component={MenuPage} />
     </Stack.Navigator>
   );
 }

@@ -40,12 +40,6 @@ export default function SearchPage({ navigation, route}) {
 
     const [userName, setUserName] = useState('');
 
-    async function handleLogout() {
-        await AsyncStorage.multiRemove(['userToken', 'userId', 'userName', 'userEmail', 'userStatus']);
-        setUserName('');
-        navigation.navigate('StartPage');
-    }
-
     async function handleRecoverUserData() {
         const userName = await AsyncStorage.getItem('userName');
         setUserName(userName);
@@ -61,7 +55,7 @@ export default function SearchPage({ navigation, route}) {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Bem-vindo(a){userName ? ', '+userName.split(' ')[0] : '!'}</Text>
-                <Pressable onPress={handleLogout}>
+                <Pressable onPress={() => {navigation.navigate('MenuPage')}}>
                     <Image style={styles.headerIcon} source={UserIcon} />
                 </Pressable>
             </View>

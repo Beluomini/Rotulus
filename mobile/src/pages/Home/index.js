@@ -62,14 +62,6 @@ export default function HomePage({ navigation, route}) {
         setUserName(userName);
     }
 
-    async function handleLogout() {
-
-        await AsyncStorage.multiRemove(['userToken', 'userId', 'userName', 'userEmail', 'userStatus']);
-        setUserName('');
-
-        navigation.navigate('StartPage');
-    }
-
     useEffect(() => {
         handleRecoverUserData();
     }, []);
@@ -78,7 +70,7 @@ export default function HomePage({ navigation, route}) {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Bem-vindo(a){userName ? ', '+userName.split(' ')[0] : '!'}</Text>
-                <Pressable onPress={handleLogout}>
+                <Pressable onPress={() => {navigation.navigate('MenuPage')}}>
                     <Image style={styles.headerIcon} source={UserIcon} />
                 </Pressable>
             </View>
