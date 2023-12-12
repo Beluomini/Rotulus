@@ -3,6 +3,7 @@ export type FoodDTO = {
     name: string;
     barcode: string;
     brandName: string;
+    servingSize: number;
     energyValue: number;
     carbohydrate: number;
     totalSugar: number;
@@ -11,6 +12,8 @@ export type FoodDTO = {
     totalFat: number;
     saturatedFat: number;
     transFat: number;
+    fiber: number;
+    sodium: number;
     description?: string;
     image?: string;
     classificationId: string;

@@ -33,6 +33,7 @@ export class FoodService {
                 description: data.description,
                 image: data.image,
                 brandName: data.brandName,
+                servingSize: data.servingSize,
                 energyValue: data.energyValue,
                 carbohydrate: data.carbohydrate,
                 totalSugar: data.totalSugar,
@@ -41,17 +42,9 @@ export class FoodService {
                 totalFat: data.totalFat,
                 saturatedFat: data.saturatedFat,
                 transFat: data.transFat,
+                fiber: data.fiber,
+                sodium: data.sodium,
                 classificationId: data.classificationId,
-                ingredients: {
-                    create: ingredients.map((ingredient) => ({
-                        ingredientId: ingredient.id,
-                    })),
-                },
-                additives: {
-                    create: additives.map((additive) => ({
-                        additiveId: additive.id,
-                    })),
-                },
             },
         });
         return food;
@@ -165,6 +158,7 @@ export class FoodService {
                 description: data.description,
                 image: data.image,
                 brandName: data.brandName,
+                servingSize: data.servingSize,
                 energyValue: data.energyValue,
                 carbohydrate: data.carbohydrate,
                 totalSugar: data.totalSugar,
@@ -173,20 +167,16 @@ export class FoodService {
                 totalFat: data.totalFat,
                 saturatedFat: data.saturatedFat,
                 transFat: data.transFat,
+                fiber: data.fiber,
+                sodium: data.sodium,
                 classificationId: data.classificationId,
-                ingredients: {
-                    deleteMany: {},
-                },
-                additives: {
-                    deleteMany: {},
-                },
             },
         });
         return food;
     }
 
     async delete(id: string) {
-        const foodExists = await this.prisma.food.findUnique({
+        const foodExists = await this.prisma.food.findFirst({
             where: {
                 id: id,
             },

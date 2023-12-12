@@ -42,7 +42,8 @@ model Food{
   name            String
   barcode         String    @unique
   brandName       String
-  image           String?   
+  image           String?
+  servingSize     Float     @default(0)
   energyValue     Float     @default(0)
   carbohydrate    Float     @default(0)
   totalSugar      Float     @default(0)
@@ -51,6 +52,8 @@ model Food{
   totalFat        Float     @default(0)
   saturatedFat    Float     @default(0)
   transFat        Float     @default(0)
+  fiber           Float     @default(0)
+  sodium          Float     @default(0)
   description     String?
   classification  Classification @relation(fields: [classificationId], references: [id])
   classificationId String
