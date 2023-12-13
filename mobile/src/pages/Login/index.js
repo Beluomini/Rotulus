@@ -37,7 +37,7 @@ export default function LoginPage({ navigation, route}) {
             await AsyncStorage.setItem('userEmail', response.user.email);
             await AsyncStorage.setItem('userStatus', response.user.status);
 
-            navigation.navigate('HomePage');
+            navigation.navigate('TabApp');
         }
     }  
 

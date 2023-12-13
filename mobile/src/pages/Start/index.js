@@ -20,7 +20,7 @@ export default function StartPage({ navigation, route}) {
                 <Pressable style={styles.link} onPress={() => navigation.navigate('LoginPage')}>
                     <Text style={styles.linkText}>Já tenho uma conta</Text>
                 </Pressable>
-                <Pressable style={styles.linkJump} onPress={() => navigation.navigate('HomePage')}>
+                <Pressable style={styles.linkJump} onPress={() => navigation.navigate('TabApp')}>
                     <Text style={styles.linkText}>Pular</Text>
                 </Pressable>
                 <StatusBar style="auto" />
