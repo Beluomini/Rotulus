@@ -41,5 +41,16 @@ function getFoodById(id) {
         .then(res => res.json())
 }
 
+function editUserById(id, user, token) {
+    return fetch(`http://${ip}:3000/user/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token
+        },
+        body: JSON.stringify(user)
+    }).then(res => res.json())
+}
 
-export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, getFoodById };
+
+export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, getFoodById, editUserById };

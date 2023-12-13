@@ -29,7 +29,6 @@ export default function MenuPage({ navigation, route}) {
         const userEmail = await AsyncStorage.getItem('userEmail');
         setUserName(userName);
         setUserEmail(userEmail);
-        console.log(userEmail);
     }
 
     useEffect(() => {
@@ -67,7 +66,7 @@ export default function MenuPage({ navigation, route}) {
                             </Pressable>
                         </View>
                         <View style={styles.optionAccount}>
-                            <Pressable style={styles.pressableOption} onPress={() => {navigation.navigate('AccountPage')}}>
+                            <Pressable style={styles.pressableOption} onPress={() => {navigation.navigate('PrivacityPage')}}>
                                 <Image source={LockedIcon} style={styles.settingsIcon} />
                                 <Text style={styles.optionText}>Privacidade</Text>
                                 <Image source={ArrowIcon} style={styles.arrowOptionIcon} />
