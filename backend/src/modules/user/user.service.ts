@@ -81,7 +81,7 @@ export class UserService {
       data: {
         name: data.name,
         email: data.email,
-        password: data.password,
+        password: await bcrypt.hash(data.password, 10),
         passwordRec: data.passwordRec,
         status: data.status,
       },
