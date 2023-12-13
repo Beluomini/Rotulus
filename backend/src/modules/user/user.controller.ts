@@ -24,7 +24,6 @@ export class UserController {
 
   @Get()
   async findAll(@CurrentUser() user: UserDTO) {
-    console.log(user);
     return this.userService.findAll();
   }
 

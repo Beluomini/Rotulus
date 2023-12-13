@@ -36,6 +36,17 @@ export class AuthService {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (isPasswordValid){
+
+          if (user.status === 'inactive'){
+            this.userService.update(user.id, {
+              name: user.name,
+              email: user.email,
+              password: user.password,
+              passwordRec: user.passwordRec,
+              status: 'active',
+            });
+          }
+
           return user;
         }
 
