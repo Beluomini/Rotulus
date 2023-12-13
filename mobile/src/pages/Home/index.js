@@ -59,7 +59,10 @@ export default function HomePage({ navigation, route}) {
 
     handleRecoverUserData = async () => {
         const userName = await AsyncStorage.getItem('userName');
-        setUserName(userName);
+        // espera 1 segundo para carregar o nome do usuário
+        setTimeout(() => {
+            setUserName(userName);
+        }, 100);
     }
 
     useEffect(() => {
