@@ -89,7 +89,7 @@ export default function PrivacityPage({ navigation, route}) {
 
             <View style={styles.loggedOptions}>
                 <View style={styles.optionAccount}>
-                    <Pressable style={styles.pressableOption} onPress={() => {navigation.navigate('AccountPage')}}>
+                    <Pressable style={styles.pressableOption} onPress={() => {navigation.navigate('ChangePassPage')}}>
                         <Image source={LockedIcon} style={styles.settingsIcon} />
                         <Text style={styles.optionText}>Senha</Text>
                         <Image source={ArrowIcon} style={styles.arrowOptionIcon} />
