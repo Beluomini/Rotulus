@@ -70,7 +70,6 @@ export default function ProductPage({ navigation, route}) {
             return {...food, classification: classification.name};
         }));
         setRecommendedProducts(recommendedProductsWithClassification);
-        console.log(recommendedProductsWithClassification);
         setLoading(false);
     }
 
