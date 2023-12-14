@@ -51,7 +51,22 @@ export class FoodService {
     }
 
     async findAll() {
-        return await this.prisma.food.findMany();
+        return await this.prisma.food.findMany(
+            {
+                include: {
+                    ingredients: {
+                        include: {
+                            ingredient: true,
+                        },
+                    },
+                    additives: {
+                        include: {
+                            additive: true,
+                        },
+                    },
+                },
+            }
+        );
     }
 
     async findOne(id: string) {
