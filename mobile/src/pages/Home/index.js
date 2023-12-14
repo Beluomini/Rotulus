@@ -54,7 +54,6 @@ export default function HomePage({ navigation, route}) {
         setFoods(foodsWhithClassification);
         const lastThreeFoods = foods.slice(-3);
         setLastThreeFoods(lastThreeFoods);
-        console.log(foodsWhithClassification);
         setLoading(false);
     }
 
