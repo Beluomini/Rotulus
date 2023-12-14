@@ -36,11 +36,6 @@ function getUserByEmail(email) {
         .then(res => res.json())
 }
 
-function getFoodById(id) {
-    return fetch(`http://${ip}:3000/food/${id}`)
-        .then(res => res.json())
-}
-
 function editUserById(id, user, token) {
     return fetch(`http://${ip}:3000/user/${id}`, {
         method: 'PUT',
@@ -52,5 +47,20 @@ function editUserById(id, user, token) {
     }).then(res => res.json())
 }
 
+function getAllFoods() {
+    return fetch(`http://${ip}:3000/food`)
+        .then(res => res.json())
+}
 
-export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, getFoodById, editUserById };
+function getFoodById(id) {
+    return fetch(`http://${ip}:3000/food/${id}`)
+        .then(res => res.json())
+}
+
+function getClassificationById(id) {
+    return fetch(`http://${ip}:3000/classification/${id}`)
+        .then(res => res.json())
+}
+
+
+export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, editUserById, getFoodById, getAllFoods, getClassificationById };

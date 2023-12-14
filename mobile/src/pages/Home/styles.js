@@ -7,6 +7,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent: 'center',
     },
+    allData: {
+        width: "100%",
+        height: "100%",
+        alignItems: 'center',
+    },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
     },
     listProducts: {
         width: "100%",
-        flexBasis: 0,
     },
     product: {  
         width: "30%",
@@ -93,19 +97,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     productImageBackground: {
+        width: 100,
+        height: 100,
         backgroundColor: '#FFFFFF',
         alignContent: 'center',
         justifyContent: 'center',
     },
     listProductsImage: {
-        width: 80,
-        height: 80,
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'contain',
         margin: 10,
-        alignSelf: 'center',
     },
-    productInfo: {
+    productNameInfo: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
     },
     productName: {
@@ -115,10 +121,16 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         width: "80%",
     },
+    productIconsInfo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: "100%",
+        height: 30,
+    },
     productInfoIcon: {
         width: 20,
         height: 20,
-        alignSelf: 'center',
     },
     navigationBar: {
         position: 'absolute',
