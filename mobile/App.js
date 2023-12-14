@@ -21,6 +21,7 @@ import ProductPage from './src/pages/Product';
 import MenuPage from './src/pages/Menu';
 import PrivacityPage from './src/pages/Privacity';
 import ChangePassPage from './src/pages/ChangePass';
+import AccountPage from './src/pages/Account';
 
 import HomeIcon from './src/assets/home-icon.png';
 import HistoryIcon from './src/assets/history-icon.png';
@@ -92,7 +93,7 @@ function AppStack() {
 
   useEffect(() => {
     handleRecoverUserData();
-    
+    console.log(userToken);
   }, []);
 
   if (isLoading) {
@@ -102,15 +103,16 @@ function AppStack() {
 
   return (
     <Stack.Navigator initialRouteName={userToken === 'null' || !userToken ? 'WelcomePage' : 'HomePage'} screenOptions={{headerShown: false}}>
+      <Stack.Screen name="TabApp" component={TabApp} />
       <Stack.Screen name="WelcomePage" component={WelcomePage} />
       <Stack.Screen name="StartPage" component={StartPage} />
       <Stack.Screen name="RegisterPage" component={RegisterPage} />
       <Stack.Screen name="LoginPage" component={LoginPage} />
-      <Stack.Screen name="TabApp" component={TabApp} />
       <Stack.Screen name="ProductPage" component={ProductPage} />
       <Stack.Screen name="MenuPage" component={MenuPage} />
       <Stack.Screen name="PrivacityPage" component={PrivacityPage} />
       <Stack.Screen name="ChangePassPage" component={ChangePassPage} />
+      <Stack.Screen name="AccountPage" component={AccountPage} />
     </Stack.Navigator>
   );
 }
