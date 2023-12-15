@@ -179,7 +179,11 @@ export default function SearchPage({ navigation, route}) {
                                 data={foods}
                                 renderItem={({item}) => {
                                     return(
-                                        <View style={styles.product}>
+                                        <Pressable
+                                            onPress={() => {navigation.navigate('ProductPage', {
+                                                itemID: item.id,
+                                            })}}
+                                            style={styles.product}>
                                             <View style={styles.productImageBackground}>
                                                 <Image style={styles.listProductsImage} source={{uri: item.image}} />
                                             </View>
@@ -191,7 +195,7 @@ export default function SearchPage({ navigation, route}) {
                                                     <Image style={styles.productInfoIcon} source={EggIcon} />
                                                 </View>
                                             </View>
-                                        </View>
+                                        </Pressable>
                                     );
                                 }}
                             />
