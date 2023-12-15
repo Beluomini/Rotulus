@@ -19,6 +19,9 @@ export class DeseaseService {
             throw new Error('Esta doença já existe');
         }
 
+        // transforma o nome da classificação caixa baixa com a primeira letra da primeira palavra maiúscula
+        data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
+
         const desease = await this.prisma.desease.create({
             data: {
                 name: data.name,

@@ -20,6 +20,9 @@ export class AdditiveService {
             throw new Error('Este aditivo já está cadastrado');
         }
 
+        // transforma o nome da classificação caixa baixa com a primeira letra da primeira palavra maiúscula
+        data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
+
         const additive = await this.prisma.additive.create({
             data: {
                 name: data.name,

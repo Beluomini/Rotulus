@@ -2,13 +2,14 @@ import { Controller, Post, Body, Get, Put, Param, Delete } from '@nestjs/common'
 import { FoodService } from './food.service';
 import { FoodDTO } from './food.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { Prisma } from '@prisma/client';
 
 @Controller('food')
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
   @Post()
-  async create(@Body() data: FoodDTO) {
+  async create(@Body() data: Prisma.FoodCreateInput) {
     return this.foodService.create(data);
   }
 

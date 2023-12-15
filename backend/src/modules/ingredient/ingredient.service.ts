@@ -19,6 +19,9 @@ export class IngredientService {
             throw new Error('Este ingrediente já está sendo usado');
         }
 
+        // transforma o nome da classificação caixa baixa com a primeira letra da primeira palavra maiúscula
+        data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
+
         const ingredient = await this.prisma.ingredient.create({
             data: {
                 name: data.name,

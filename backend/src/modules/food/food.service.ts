@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { FoodDTO } from './food.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class FoodService {
 
     constructor(private prisma: PrismaService) {}
 
-    async create(data: FoodDTO){
+    async create(data: Prisma.FoodCreateInput){
 
         const foodExists = await this.prisma.food.findUnique({
             where: {
@@ -19,11 +20,9 @@ export class FoodService {
             throw new Error('Este código de barras já está sendo usado');
         }
 
-        // Ingredientes que serão adicionados ao alimento
-        const ingredients = await this.prisma.ingredient.findMany();
-
-        // Aditivos que serão adicionados ao alimento
-        const additives = await this.prisma.additive.findMany();
+        // transforma o nome da classificação caixa baixa com a primeira letra da primeira palavra maiúscula
+        data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
+        data.brandName = data.brandName.charAt(0).toUpperCase()+data.brandName.slice(1).toLowerCase();
 
 
         const food = await this.prisma.food.create({
@@ -44,7 +43,13 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
-                classificationId: data.classificationId,
+                classification: data.classification,
+                ingredients: {
+                    create: data.ingredients.create,
+                },
+                additives: {
+                    create: data.additives.create,
+                },
             },
         });
         return food;
@@ -146,7 +151,7 @@ export class FoodService {
         return foods;
     }
 
-    async update(id: string, data: FoodDTO){
+    async update(id: string, data: Prisma.FoodUpdateInput){
         const foodExists = await this.prisma.food.findUnique({
             where: {
                 id: id,
@@ -156,12 +161,6 @@ export class FoodService {
         if (!foodExists) {
             throw new Error('Alimento não encontrado');
         }
-
-        // Remove todos os ingredientes associados ao alimento
-        const ingredients = []
-
-        // Remove todos os aditivos associados ao alimento
-        const additives = []
 
         const food = await this.prisma.food.update({
             where: {
@@ -184,7 +183,13 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
-                classificationId: data.classificationId,
+                classification: data.classification,
+                ingredients: {
+                    create: data.ingredients.create,
+                },
+                additives: {
+                    create: data.additives.create,
+                },
             },
         });
         return food;

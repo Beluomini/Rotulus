@@ -19,9 +19,12 @@ export class ClassificationService {
             throw new Error('Esta classificação já existe');
         }
 
+        // transforma o nome da classificação caixa baixa com a primeira letra da primeira palavra maiúscula
+        data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
+
         const classification = await this.prisma.classification.create({
             data: {
-                name: data.name.toLowerCase(),
+                name: data.name,
                 description: data.description,
             }
         });
