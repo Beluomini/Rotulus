@@ -9,7 +9,7 @@ export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
   @Post()
-  async create(@Body() data: Prisma.FoodCreateInput) {
+  async create(@Body() data: FoodDTO) {
     return this.foodService.create(data);
   }
 

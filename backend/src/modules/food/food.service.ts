@@ -8,7 +8,7 @@ export class FoodService {
 
     constructor(private prisma: PrismaService) {}
 
-    async create(data: Prisma.FoodCreateInput){
+    async create(data: FoodDTO){
 
         const foodExists = await this.prisma.food.findUnique({
             where: {
@@ -43,13 +43,7 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
-                classification: data.classification,
-                ingredients: {
-                    create: data.ingredients.create,
-                },
-                additives: {
-                    create: data.additives.create,
-                },
+                classificationId: data.classificationId,
             },
         });
         return food;
@@ -151,7 +145,7 @@ export class FoodService {
         return foods;
     }
 
-    async update(id: string, data: Prisma.FoodUpdateInput){
+    async update(id: string, data: FoodDTO){
         const foodExists = await this.prisma.food.findUnique({
             where: {
                 id: id,
@@ -183,13 +177,7 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
-                classification: data.classification,
-                ingredients: {
-                    create: data.ingredients.create,
-                },
-                additives: {
-                    create: data.additives.create,
-                },
+                classificationId: data.classificationId,
             },
         });
         return food;
