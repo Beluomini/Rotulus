@@ -62,6 +62,11 @@ function getFoodByName(name) {
         .then(res => res.json())
 }
 
+function getFoodByBarcode(barcode) {
+    return fetch(`http://${ip}:3000/food/barcode/${barcode}`)
+        .then(res => res.json())
+}
+
 function getAllClassifications() {
     return fetch(`http://${ip}:3000/classification`)
         .then(res => res.json())
@@ -77,4 +82,4 @@ export default {
     getAllUsers, getUserById, getUserByEmail, 
     createUser, signIn, editUserById, getFoodById, 
     getAllFoods, getClassificationById, getFoodByName,
-    getAllClassifications };
+    getAllClassifications, getFoodByBarcode };

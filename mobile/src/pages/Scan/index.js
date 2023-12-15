@@ -5,6 +5,8 @@ import { Text, View, Button, StyleSheet, TouchableOpacity, Image, Pressable } fr
 import styles from './styles';
 import { useIsFocused } from '@react-navigation/native';
 
+import api from '../../services/Api';
+
 import ScanImage from '../../assets/scan-icon.png';
 
 export default function ScanPage({ navigation, route}) {
@@ -23,10 +25,16 @@ export default function ScanPage({ navigation, route}) {
         getBarCodeScannerPermissions();
     }, []);
 
-    const handleBarCodeScanned = ({ type, data }) => {
+    const handleBarCodeScanned = async ({ type, data }) => {
         setScanned(true);
-        console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        const food = await api.getFoodByBarcode(data);
+        if (food.id) {
+            navigation.navigate('ProductPage', {
+                itemID: food.id,
+            })
+        }else{
+            alert(`Produto com rótulo ${data} ainda não está cadastrado no sistema :(`);
+        }
     };
 
     if (hasPermission === null) {
