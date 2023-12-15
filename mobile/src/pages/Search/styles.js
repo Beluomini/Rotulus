@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: "80%",
         height: "5%",
-        marginBottom: "10%",
+        marginBottom: "5%",
         borderRadius: 30,
         borderColor: '#D33333',
         borderWidth: 1,
@@ -63,9 +63,19 @@ const styles = StyleSheet.create({
         height: 20,
         alignSelf: 'center',
     },
+    filterBox: {
+        width: "80%",
+        borderColor: '#D33333',
+    },
+    classificationsInput: {
+        width: "90%",
+        height: "100%",
+        borderRadius: 30,
+    },
     listProductsView: {
         height: "65%",
         width: "85%",
+        marginTop: "10%",
         alignItems: 'center',
     },
     listProducts: {
@@ -80,15 +90,18 @@ const styles = StyleSheet.create({
         marginBottom: "5%",
     },
     productImageBackground: {
-        width: "30%",
+        width: 120,
+        height: 120,
         backgroundColor: '#FFFFFF',
         alignContent: 'center',
         justifyContent: 'center',
     },
     listProductsImage: {
-        width: 110,
-        height: 110,
-        alignSelf: 'center',
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'contain',
+        margin: 10,
     },
     productInfo: {
         width: "60%",

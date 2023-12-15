@@ -57,10 +57,24 @@ function getFoodById(id) {
         .then(res => res.json())
 }
 
+function getFoodByName(name) {
+    return fetch(`http://${ip}:3000/food/name/${name}`)
+        .then(res => res.json())
+}
+
+function getAllClassifications() {
+    return fetch(`http://${ip}:3000/classification`)
+        .then(res => res.json())
+}
+
 function getClassificationById(id) {
     return fetch(`http://${ip}:3000/classification/${id}`)
         .then(res => res.json())
 }
 
 
-export default { getAllUsers, getUserById, getUserByEmail, createUser, signIn, editUserById, getFoodById, getAllFoods, getClassificationById };
+export default { 
+    getAllUsers, getUserById, getUserByEmail, 
+    createUser, signIn, editUserById, getFoodById, 
+    getAllFoods, getClassificationById, getFoodByName,
+    getAllClassifications };
