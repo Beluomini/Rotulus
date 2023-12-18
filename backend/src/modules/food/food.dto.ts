@@ -17,4 +17,6 @@ export type FoodDTO = {
     description?: string;
     image?: string;
     classificationId: string;
+    ingredients?: string[];
+    additives?: string[];
   };

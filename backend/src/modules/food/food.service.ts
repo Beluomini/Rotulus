@@ -24,6 +24,15 @@ export class FoodService {
         data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
         data.brandName = data.brandName.charAt(0).toUpperCase()+data.brandName.slice(1).toLowerCase();
 
+        // busca os ingredientes que estão na lista de IDs no data.ingredients
+        const ingredients = await this.prisma.ingredient.findMany({
+            where: {
+                id: {
+                    in: data.ingredients,
+                },
+            },
+        });
+
 
         const food = await this.prisma.food.create({
             data: {
@@ -44,6 +53,11 @@ export class FoodService {
                 fiber: data.fiber,
                 sodium: data.sodium,
                 classificationId: data.classificationId,
+                ingredients: {
+                    create: ingredients.map((ingredient) => ({
+                        ingredientId: ingredient.id,
+                    })),
+                },
             },
         });
         return food;
@@ -70,7 +84,7 @@ export class FoodService {
 
     async findOne(id: string) {
 
-        const food = await this.prisma.food.findFirst({
+        const food = await this.prisma.food.findUnique({
             where: {
                 id: id,
             },
@@ -156,6 +170,32 @@ export class FoodService {
             throw new Error('Alimento não encontrado');
         }
 
+        const foodBarcodeExists = await this.prisma.food.findFirst({
+            where: {
+                barcode: data.barcode,
+            },
+        });
+
+        if (foodBarcodeExists && foodBarcodeExists.id !== id) {
+            throw new Error('Este código de barras já está sendo usado');
+        }
+
+        const ingredients = await this.prisma.ingredient.findMany({
+            where: {
+                id: {
+                    in: data.ingredients,
+                },
+            },
+        });
+
+        const additives = await this.prisma.additive.findMany({
+            where: {
+                id: {
+                    in: data.additives,
+                },
+            },
+        });
+
         const food = await this.prisma.food.update({
             where: {
                 id: id,
@@ -178,6 +218,18 @@ export class FoodService {
                 fiber: data.fiber,
                 sodium: data.sodium,
                 classificationId: data.classificationId,
+                ingredients: {
+                    deleteMany: {},
+                    create: ingredients.map((ingredient) => ({
+                        ingredientId: ingredient.id,
+                    })),
+                },
+                additives: {
+                    deleteMany: {},
+                    create: additives.map((additive) => ({
+                        additiveId: additive.id,
+                    })),
+                },
             },
         });
         return food;
