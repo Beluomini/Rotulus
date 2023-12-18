@@ -170,36 +170,38 @@ export default function SearchPage({ navigation, route}) {
                                 <Text style={{paddingTop:"60%"}}>Nenhum produto encontrado</Text>
                             </View>
                         )
-                        : (    
-                        <View style={styles.listProductsView}>
-                            <FlatList
-                                style={styles.listProducts}
-                                contentContainerStyle={{alignItems: 'center'}}
-                                ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                                data={foods}
-                                renderItem={({item}) => {
-                                    return(
-                                        <Pressable
-                                            onPress={() => {navigation.navigate('ProductPage', {
-                                                itemID: item.id,
-                                            })}}
-                                            style={styles.product}>
-                                            <View style={styles.productImageBackground}>
-                                                <Image style={styles.listProductsImage} source={{uri: item.image}} />
-                                            </View>
-                                            <View style={styles.productInfo}>
-                                                <Text style={styles.productName}>{item.name+" "+item.brandName}</Text>
-                                                <View style={styles.productInfoIcons}>
-                                                    <Image style={styles.productInfoIcon} source={GlutenIcon} />
-                                                    <Image style={styles.productInfoIcon} source={LactoseIcon} />
-                                                    <Image style={styles.productInfoIcon} source={EggIcon} />
-                                                </View>
-                                            </View>
-                                        </Pressable>
-                                    );
-                                }}
-                            />
-                        </View>
+                        : (
+                            <View style={styles.page}>    
+                                <View style={styles.listProductsView}>
+                                    <FlatList
+                                        style={styles.listProducts}
+                                        contentContainerStyle={{alignItems: 'center'}}
+                                        ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                                        data={foods}
+                                        renderItem={({item}) => {
+                                            return(
+                                                <Pressable
+                                                    onPress={() => {navigation.navigate('ProductPage', {
+                                                        itemID: item.id,
+                                                    })}}
+                                                    style={styles.product}>
+                                                    <View style={styles.productImageBackground}>
+                                                        <Image style={styles.listProductsImage} source={{uri: item.image}} />
+                                                    </View>
+                                                    <View style={styles.productInfo}>
+                                                        <Text style={styles.productName}>{item.name+" "+item.brandName}</Text>
+                                                        <View style={styles.productInfoIcons}>
+                                                            <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                                            <Image style={styles.productInfoIcon} source={LactoseIcon} />
+                                                            <Image style={styles.productInfoIcon} source={EggIcon} />
+                                                        </View>
+                                                    </View>
+                                                </Pressable>
+                                            );
+                                        }}
+                                    />
+                                </View>
+                            </View>
                         )
                     }
 

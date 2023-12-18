@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         width: "90%",
-        height: "5%",
         marginTop: "15%",
         marginBottom: "5%",
     },
@@ -26,11 +25,11 @@ const styles = StyleSheet.create({
         height: 30,
     },
     page: {
+        flex: 1,
         backgroundColor: '#FAFAFA',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         width: "100%",
-        height: "100%",
         alignItems: 'center',
     },
     title: {
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: "80%",
-        height: "5%",
         marginBottom: "5%",
         borderRadius: 30,
         borderColor: '#D33333',
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
     },
     filterInput: {
         width: "80%",
-        height: "100%",
         borderRadius: 30,
         paddingHorizontal: "5%",
     },
@@ -69,11 +66,10 @@ const styles = StyleSheet.create({
     },
     classificationsInput: {
         width: "90%",
-        height: "100%",
         borderRadius: 30,
     },
     listProductsView: {
-        height: "65%",
+        flex: 1,
         width: "85%",
         marginTop: "10%",
         alignItems: 'center',
