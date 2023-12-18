@@ -24,14 +24,25 @@ export class FoodService {
         data.name = data.name.charAt(0).toUpperCase()+data.name.slice(1).toLowerCase();
         data.brandName = data.brandName.charAt(0).toUpperCase()+data.brandName.slice(1).toLowerCase();
 
-        // busca os ingredientes que estão na lista de IDs no data.ingredients
-        const ingredients = await this.prisma.ingredient.findMany({
-            where: {
-                id: {
-                    in: data.ingredients,
+        const ingredients = (data.ingredients ? 
+            await this.prisma.ingredient.findMany({
+                where: {
+                    id: {
+                        in: data.ingredients,
+                    },
                 },
-            },
-        });
+            })
+        : []);
+
+        const additives = (data.additives ?
+            await this.prisma.additive.findMany({
+                where: {
+                    id: {
+                        in: data.additives,
+                    },
+                },
+            })
+        : []);
 
 
         const food = await this.prisma.food.create({
@@ -56,6 +67,11 @@ export class FoodService {
                 ingredients: {
                     create: ingredients.map((ingredient) => ({
                         ingredientId: ingredient.id,
+                    })),
+                },
+                additives: {
+                    create: additives.map((additive) => ({
+                        additiveId: additive.id,
                     })),
                 },
             },
@@ -180,21 +196,25 @@ export class FoodService {
             throw new Error('Este código de barras já está sendo usado');
         }
 
-        const ingredients = await this.prisma.ingredient.findMany({
-            where: {
-                id: {
-                    in: data.ingredients,
+        const ingredients = (data.ingredients ?
+            await this.prisma.ingredient.findMany({
+                where: {
+                    name: {
+                        in: data.ingredients,
+                    },
                 },
-            },
-        });
+            })
+        : []);
 
-        const additives = await this.prisma.additive.findMany({
-            where: {
-                id: {
-                    in: data.additives,
+        const additives = (data.additives ?
+            await this.prisma.additive.findMany({
+                where: {
+                    name: {
+                        in: data.additives,
+                    },
                 },
-            },
-        });
+            })
+        : []);
 
         const food = await this.prisma.food.update({
             where: {
