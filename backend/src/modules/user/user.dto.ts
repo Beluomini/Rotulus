@@ -5,6 +5,7 @@ export type UserDTO = {
   password: string;
   passwordRec: string;
   status: string;
+  foodsHist?: string[];
+  ingredientAlergies?: string[];
+  additiveAlergies?: string[];
 };
-
-// Usado para definir a estrutuda de dados que será usada para criar um novo usuário

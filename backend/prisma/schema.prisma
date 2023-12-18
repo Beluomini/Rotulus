@@ -17,13 +17,25 @@ model User {
   password    String
   passwordRec String?  // ? significa que é opcional
   status      String   @default("active") // @default significa que o valor padrão é active
-  ingredentAlergies    UserIngredientAlergy[]
+  ingredientAlergies    UserIngredientAlergy[]
   additiveAlergies     UserAdditiveAlergy[]
-  foodsHist        Food[]
+  foods       FoodToUser[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt // @updatedAt significa que vai atualizar a data toda vez que for atualizado
 
   @@map("users") // esse vai ser o nome da tabela no banco de dados
+}
+
+model FoodToUser{
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  food        Food     @relation(fields: [foodId], references: [id])
+  foodId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("FoodToUser")
 }
 
 model Classification{
@@ -60,7 +72,7 @@ model Food{
   classificationId String
   ingredients     IngredientsOnFoods[]
   additives       AdditivesOnFoods[]
-  usersHist       User[]
+  users           FoodToUser[]
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 

@@ -23,7 +23,7 @@ export class UserService {
       data: {
         name: data.name,
         email: data.email,
-        password: await bcrypt.hash(data.password, 10),
+        password: (data.password ? await bcrypt.hash(data.password, 10) : data.password),
         passwordRec: data.passwordRec,
         status: data.status,
       },
@@ -54,6 +54,23 @@ export class UserService {
       where: {
         email: email,
       },
+      include: {
+        ingredientAlergies: {
+          include: {
+            ingredient: true,
+          },
+        },
+        additiveAlergies: {
+          include: {
+            additive: true,
+          },
+        },
+        foods: {
+          include: {
+            food: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -74,6 +91,50 @@ export class UserService {
       throw new Error('Usuário não encontrado');
     }
 
+    if(data.email){
+      const userExistsEmail = await this.prisma.user.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
+  
+      if (userExistsEmail && userExistsEmail.id !== id) {
+        throw new Error('Este email já está sendo usado');
+      }
+    }
+
+
+    const foods = (data.foodsHist ? 
+      await this.prisma.food.findMany({
+        where: {
+          id: {
+            in: data.foodsHist,
+          },
+        },
+      }) 
+      : []);
+
+
+    const ingredientAlergies = (data.ingredientAlergies ?
+      await this.prisma.ingredient.findMany({
+        where: {
+          id: {
+            in: data.ingredientAlergies,
+          },
+        },
+      })
+      : []);
+
+    const additiveAlergies = (data.additiveAlergies ?
+      await this.prisma.additive.findMany({
+        where: {
+          id: {
+            in: data.additiveAlergies,
+          },
+        },
+      })
+      : []);
+
     const user = await this.prisma.user.update({
       where: {
         id: id,
@@ -81,9 +142,28 @@ export class UserService {
       data: {
         name: data.name,
         email: data.email,
-        password: await bcrypt.hash(data.password, 10),
+        password: (data.password ? await bcrypt.hash(data.password, 10) : data.password),
         passwordRec: data.passwordRec,
         status: data.status,
+        ingredientAlergies: {
+          deleteMany: {},
+          create: 
+          ingredientAlergies.map((ingredient) => ({
+            ingredientId: ingredient.id,
+          })),
+        },
+        additiveAlergies: {
+          deleteMany: {},
+          create: additiveAlergies.map((additive) => ({
+            additiveId: additive.id,
+          })),
+        },
+        foods: {
+          deleteMany: {},
+          create: foods.map((food) => ({
+            foodId: food.id,
+          })),
+        },
       },
     });
     return user;
