@@ -20,6 +20,7 @@ export default function ProductPage({ navigation, route}) {
     const [userName, setUserName] = useState('');
     const [item, setItem] = useState({});
     const [recommendedProducts, setRecommendedProducts] = useState([]);
+    const [histProducts, setHistProducts] = useState([]);
 
     const [arrowGlutenStyle, setArrowGlutenStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowLactoseStyle, setArrowLactoseStyle] = useState(styles.itemAdicionalDetImageDown);
@@ -73,9 +74,35 @@ export default function ProductPage({ navigation, route}) {
         setLoading(false);
     }
 
+    async function handleGetHistList(itemId) {
+        const userEmail = await AsyncStorage.getItem('userEmail');
+        const userToken = await AsyncStorage.getItem('userToken');
+
+        const user = await api.getUserByEmail(userEmail, userToken);
+        // add todas os ids das comidas da lista de comidar user.foods e adiciona na variavel histProducts
+        const histProducts = user.foods ? 
+            await Promise.all(user.foods.map(async (food) => {
+                const foodData = await api.getFoodById(food.foodId);
+                return foodData.id;
+            }))
+            : [];
+        setHistProducts(histProducts);
+        
+        const userUpdate = {...user, foodsHist: [...histProducts, itemId]};
+
+        const response = await api.editUserById(user.id, userUpdate, userToken);
+
+        console.log(response);
+    }
+
     useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            handleGetHistList(route.params.itemID);
+        });
         handleGetPageData(route.params.itemID);
-    }, []);
+    
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <View style={styles.container}>

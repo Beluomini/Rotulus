@@ -31,9 +31,14 @@ function getUserById(id) {
         .then(res => res.json())
 }
 
-function getUserByEmail(email) {
-    return fetch(`http://${ip}:3000/user/email/${email}`)
-        .then(res => res.json())
+function getUserByEmail(email, token) {
+    return fetch(`http://${ip}:3000/user/email/${email}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token
+        }
+    }).then(res => res.json())
 }
 
 function editUserById(id, user, token) {
