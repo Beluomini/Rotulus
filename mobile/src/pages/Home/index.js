@@ -112,7 +112,7 @@ export default function HomePage({ navigation, route}) {
                         <FlatList
                             style={styles.listProducts}
                             columnWrapperStyle={{justifyContent: 'space-around', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: "5%"}}
-                            contentContainerStyle={{alignItems: 'center', paddingBottom: "12%"}}
+                            contentContainerStyle={{alignItems: 'center'}}
                             data={foods}
                             numColumns={3}
                             renderItem={({item}) => {
@@ -128,7 +128,7 @@ export default function HomePage({ navigation, route}) {
                                             <Image style={styles.productInfoIcon} source={GlutenIcon} />
                                         </View>
                                         <View style={styles.productNameInfo}>
-                                            <Text style={styles.productName}>{item.classification+" "+item.brandName}</Text>
+                                            <Text style={styles.productName}>{item.description}</Text>
                                         </View>
                                     </Pressable>
                                 );
