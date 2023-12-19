@@ -79,20 +79,21 @@ export default function ProductPage({ navigation, route}) {
         const userToken = await AsyncStorage.getItem('userToken');
 
         const user = await api.getUserByEmail(userEmail, userToken);
-        // add todas os ids das comidas da lista de comidar user.foods e adiciona na variavel histProducts
-        const histProducts = user.foods ? 
-            await Promise.all(user.foods.map(async (food) => {
-                const foodData = await api.getFoodById(food.foodId);
-                return foodData.id;
-            }))
-            : [];
-        setHistProducts(histProducts);
-        
-        const userUpdate = {...user, foodsHist: [...histProducts, itemId]};
 
-        const response = await api.editUserById(user.id, userUpdate, userToken);
+        if(user.statusCode !== 401){
+            // add todas os ids das comidas da lista de comidar user.foods e adiciona na variavel histProducts
+            const histProducts = user.foods ? 
+                await Promise.all(user.foods.map(async (food) => {
+                    const foodData = await api.getFoodById(food.foodId);
+                    return foodData.id;
+                }))
+                : [];
+            setHistProducts(histProducts);
+            
+            const userUpdate = {...user, foodsHist: [...histProducts, itemId]};
 
-        console.log(response);
+            const response = await api.editUserById(user.id, userUpdate, userToken);
+        }
     }
 
     useEffect(() => {

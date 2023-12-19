@@ -43,12 +43,15 @@ export default function HistoryPage({ navigation, route}) {
         const userEmail = await AsyncStorage.getItem('userEmail');
         const userToken = await AsyncStorage.getItem('userToken');
         const user = await api.getUserByEmail(userEmail, userToken);
-        // add todas as comidas da lista de comidar user.foods na variavel histList
-        const histList = await Promise.all(user.foods.map(async (food) => {
-            const foodData = await api.getFoodById(food.foodId);
-            return {...foodData, date: food.date};
-        }));
-        setHistList(histList);
+        console.log(user);
+        if(user.statusCode !== 401){
+            // add todas as comidas da lista de comidar user.foods na variavel histList
+            const histList = await Promise.all(user.foods.map(async (food) => {
+                const foodData = await api.getFoodById(food.foodId);
+                return {...foodData, date: food.date};
+            }));
+            setHistList(histList);
+        }
     }
 
 
