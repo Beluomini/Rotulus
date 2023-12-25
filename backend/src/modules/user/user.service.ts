@@ -169,6 +169,95 @@ export class UserService {
     return user;
   }
 
+  async updateHist(id: string, data: UserDTO) {
+    const userExists = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!userExists) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    if(data.email){
+      const userExistsEmail = await this.prisma.user.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
+  
+      if (userExistsEmail && userExistsEmail.id !== id) {
+        throw new Error('Este email já está sendo usado');
+      }
+    }
+
+
+    const foods = (data.foodsHist ? 
+      await this.prisma.food.findMany({
+        where: {
+          id: {
+            in: data.foodsHist,
+          },
+        },
+      }) 
+      : []);
+
+
+    const ingredientAlergies = (data.ingredientAlergies ?
+      await this.prisma.ingredient.findMany({
+        where: {
+          id: {
+            in: data.ingredientAlergies,
+          },
+        },
+      })
+      : []);
+
+    const additiveAlergies = (data.additiveAlergies ?
+      await this.prisma.additive.findMany({
+        where: {
+          id: {
+            in: data.additiveAlergies,
+          },
+        },
+      })
+      : []);
+
+    const user = await this.prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        passwordRec: data.passwordRec,
+        status: data.status,
+        ingredientAlergies: {
+          deleteMany: {},
+          create: 
+          ingredientAlergies.map((ingredient) => ({
+            ingredientId: ingredient.id,
+          })),
+        },
+        additiveAlergies: {
+          deleteMany: {},
+          create: additiveAlergies.map((additive) => ({
+            additiveId: additive.id,
+          })),
+        },
+        foods: {
+          deleteMany: {},
+          create: foods.map((food) => ({
+            foodId: food.id,
+          })),
+        },
+      },
+    });
+    return user;
+  }
+
   async delete(id: string) {
     const userExists = await this.prisma.user.findUnique({
       where: {

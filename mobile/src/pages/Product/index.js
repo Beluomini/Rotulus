@@ -92,7 +92,7 @@ export default function ProductPage({ navigation, route}) {
             
             const userUpdate = {...user, foodsHist: [...histProducts, itemId]};
 
-            const response = await api.editUserById(user.id, userUpdate, userToken);
+            const response = await api.editUserHistById(user.id, userUpdate, userToken);
         }
     }
 

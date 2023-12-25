@@ -1,4 +1,4 @@
-const ip = '192.168.0.136';
+const ip = '192.168.0.116';
 
 function signIn(user) {
     return fetch(`http://${ip}:3000/login`, {
@@ -52,6 +52,17 @@ function editUserById(id, user, token) {
     }).then(res => res.json())
 }
 
+function editUserHistById(id, user, token) {
+    return fetch(`http://${ip}:3000/user/hist/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token
+        },
+        body: JSON.stringify(user)
+    }).then(res => res.json())
+}
+
 function getAllFoods() {
     return fetch(`http://${ip}:3000/food`)
         .then(res => res.json())
@@ -87,4 +98,5 @@ export default {
     getAllUsers, getUserById, getUserByEmail, 
     createUser, signIn, editUserById, getFoodById, 
     getAllFoods, getClassificationById, getFoodByName,
-    getAllClassifications, getFoodByBarcode };
+    getAllClassifications, getFoodByBarcode, 
+    editUserHistById };
