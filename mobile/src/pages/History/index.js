@@ -36,10 +36,7 @@ export default function HistoryPage({ navigation, route}) {
     async function handleGetPageData() {
         const userName = await AsyncStorage.getItem('userName');
         setUserName(userName);
-        setLoading(false);
-    }
 
-    async function handleGetHistList() {
         const userEmail = await AsyncStorage.getItem('userEmail');
         const userToken = await AsyncStorage.getItem('userToken');
         const user = await api.getUserByEmail(userEmail, userToken);
@@ -51,14 +48,14 @@ export default function HistoryPage({ navigation, route}) {
             }));
             setHistList(histList);
         }
+        setLoading(false);
     }
 
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            handleGetHistList();    
+            handleGetPageData();    
         });
-        handleGetPageData();
     
         return unsubscribe;
     }, [navigation]);

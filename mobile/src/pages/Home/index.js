@@ -44,6 +44,7 @@ export default function HomePage({ navigation, route}) {
 
     handleGetPageData = async () => {
         const userName = await AsyncStorage.getItem('userName');
+        setUserName(userName);
 
         const foods = await api.getAllFoods();
         const usedFoods = foods.slice(0, -3);
@@ -57,9 +58,19 @@ export default function HomePage({ navigation, route}) {
         setLoading(false);
     }
 
+    handleGetUserName = async () => {
+        const userName = await AsyncStorage.getItem('userName');
+        setUserName(userName);
+    }
+    
     useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            handleGetUserName();    
+        });
         handleGetPageData();
-    }, []);
+    
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <View style={styles.container}>

@@ -24,7 +24,10 @@ export default function LoginPage({ navigation, route}) {
     const [wrongPassword, setWrongPassword] = useState(false);
 
     async function handleLogin() {
+        console.log(email, password);
+
         const response = await api.signIn({email, password});
+
         if (response.error) {
             console.log(response.message);
             setUserNotFound(true);

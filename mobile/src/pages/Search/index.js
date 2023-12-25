@@ -116,14 +116,21 @@ export default function SearchPage({ navigation, route}) {
         setFoods(foodsWhithClassification);
 
         setLoading(false);
-
     }
 
-    
-    useEffect(() => {
-        handleGetPageData();
-    }, []);
+    async function handleGetUserName() {
+        const userName = await AsyncStorage.getItem('userName');
+        setUserName(userName);
+    }
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            handleGetUserName();    
+        });
+        handleGetPageData();
+    
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
