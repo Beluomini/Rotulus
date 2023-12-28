@@ -1,17 +1,22 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    all: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
     container: {
+        flex: 1,
         backgroundColor: '#D33333',
         alignItems: 'center',
         justifyContent: 'center',
     },
     page: {
+        flex: 1,
         backgroundColor: '#FFFFFF',
-        marginTop: "60%",
+        marginTop: "25%",
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        height: "100%",
         width: "100%",
         alignItems: 'center',
     },
@@ -28,7 +33,6 @@ const styles = StyleSheet.create({
     inputData: {
         width: "100%",
         alignItems: 'center',
-        height: "50%",
     },
     inputDataText: {
         fontFamily: 'Roboto',
@@ -41,7 +45,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: "85%",
-        height: "12%",
+        height: 60,
         justifyContent: 'center',
         marginTop: "10%",
         alignItems: 'left',
@@ -58,7 +62,6 @@ const styles = StyleSheet.create({
     },
     inputButton: {
         width: "15%",
-        height: "100%",
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: "65%",
+        marginTop: "10%"
     },
     buttonText: {
         fontFamily: 'Roboto',

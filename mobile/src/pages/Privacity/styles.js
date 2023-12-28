@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
     optionAccount: {
         width: "90%",
-        height: "16%",
+        height: 60,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: "5%",
