@@ -26,9 +26,13 @@ function getAllUsers() {
         .then(res => res.json())
 }
 
-function getUserById(id) {
-    return fetch(`http://${ip}:3000/user/${id}`)
-        .then(res => res.json())
+function getUserById(id, token) {
+    return fetch(`http://${ip}:3000/user/${id}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + token
+        }
+    }).then(res => res.json())
 }
 
 function getUserByEmail(email, token) {
@@ -93,10 +97,15 @@ function getClassificationById(id) {
         .then(res => res.json())
 }
 
+function getAllIngredients() {
+    return fetch(`http://${ip}:3000/ingredient`)
+        .then(res => res.json())
+}
+
 
 export default { 
     getAllUsers, getUserById, getUserByEmail, 
     createUser, signIn, editUserById, getFoodById, 
     getAllFoods, getClassificationById, getFoodByName,
     getAllClassifications, getFoodByBarcode, 
-    editUserHistById };
+    editUserHistById, getAllIngredients };
