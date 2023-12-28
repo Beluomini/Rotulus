@@ -40,6 +40,23 @@ export class UserService {
       where: {
         id: id,
       },
+      include: {
+        ingredientAlergies: {
+          include: {
+            ingredient: true,
+          },
+        },
+        additiveAlergies: {
+          include: {
+            additive: true,
+          },
+        },
+        foods: {
+          include: {
+            food: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -207,7 +224,7 @@ export class UserService {
     const ingredientAlergies = (data.ingredientAlergies ?
       await this.prisma.ingredient.findMany({
         where: {
-          id: {
+          name: {
             in: data.ingredientAlergies,
           },
         },
@@ -217,7 +234,7 @@ export class UserService {
     const additiveAlergies = (data.additiveAlergies ?
       await this.prisma.additive.findMany({
         where: {
-          id: {
+          name: {
             in: data.additiveAlergies,
           },
         },

@@ -27,7 +27,7 @@ export class FoodService {
         const ingredients = (data.ingredients ? 
             await this.prisma.ingredient.findMany({
                 where: {
-                    id: {
+                    name: {
                         in: data.ingredients,
                     },
                 },
@@ -37,7 +37,7 @@ export class FoodService {
         const additives = (data.additives ?
             await this.prisma.additive.findMany({
                 where: {
-                    id: {
+                    name: {
                         in: data.additives,
                     },
                 },
