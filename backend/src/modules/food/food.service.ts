@@ -186,14 +186,16 @@ export class FoodService {
             throw new Error('Alimento não encontrado');
         }
 
-        const foodBarcodeExists = await this.prisma.food.findFirst({
-            where: {
-                barcode: data.barcode,
-            },
-        });
-
-        if (foodBarcodeExists && foodBarcodeExists.id !== id) {
-            throw new Error('Este código de barras já está sendo usado');
+        if (data.barcode) {
+            const foodBarcodeExists = await this.prisma.food.findFirst({
+                where: {
+                    barcode: data.barcode,
+                },
+            });
+    
+            if (foodBarcodeExists && foodBarcodeExists.id !== id) {
+                throw new Error('Este código de barras já está sendo usado');
+            }
         }
 
         const ingredients = (data.ingredients ?
