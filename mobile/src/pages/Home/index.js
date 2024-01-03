@@ -9,6 +9,9 @@ import PagerView from 'react-native-pager-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlutenIcon from '../../assets/glutenIcon.png';
+import EggIcon from '../../assets/eggIcon.png';
+import MilkIcon from '../../assets/milk-icon.png';
+
 import UserIcon from '../../assets/user-icon.png';
 import RotulusSplash from '../../assets/start-splash.png';
 
@@ -126,6 +129,7 @@ export default function HomePage({ navigation, route}) {
                             contentContainerStyle={{alignItems: 'center'}}
                             data={foods}
                             numColumns={3}
+                            keyExtractor={item => item.id}
                             renderItem={({item}) => {
                                 return(
                                     <Pressable style={styles.product} 
@@ -136,7 +140,19 @@ export default function HomePage({ navigation, route}) {
                                             <Image style={styles.listProductsImage} source={{uri: item.image}} />
                                         </View>
                                         <View style={styles.productIconsInfo}>
-                                            <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                        {
+                                        mapIngredients = item.ingredients.map((ingredient) => {
+                                            if (ingredient.ingredient.name === 'Trigo') {
+                                                return <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                            }
+                                            if (ingredient.ingredient.name === 'Ovo') {
+                                                return <Image style={styles.productInfoIcon} source={EggIcon} />
+                                            }
+                                            if (ingredient.ingredient.name === 'Leite') {
+                                                return <Image style={styles.productInfoIcon} source={MilkIcon} />
+                                            }
+                                        })
+                                        }
                                         </View>
                                         <View style={styles.productNameInfo}>
                                             <Text style={styles.productName}>{item.description}</Text>

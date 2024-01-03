@@ -108,9 +108,19 @@ export default function HistoryPage({ navigation, route}) {
                                             <View style={styles.productInfo}>
                                                 <Text style={styles.productName}>{item.name+" "+item.brandName}</Text>
                                                 <View style={styles.productInfoIcons}>
-                                                    <Image style={styles.productInfoIcon} source={GlutenIcon} />
-                                                    <Image style={styles.productInfoIcon} source={LactoseIcon} />
-                                                    <Image style={styles.productInfoIcon} source={EggIcon} />
+                                                    {
+                                                        mapIngredients = item.ingredients.map((ingredient) => {
+                                                            if (ingredient.ingredient.name === 'Trigo') {
+                                                                return <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                                            }
+                                                            if (ingredient.ingredient.name === 'Leite') {
+                                                                return <Image style={styles.productInfoIcon} source={LactoseIcon} />
+                                                            }
+                                                            if (ingredient.ingredient.name === 'Ovo') {
+                                                                return <Image style={styles.productInfoIcon} source={EggIcon} />
+                                                            }
+                                                        })
+                                                    }
                                                 </View>
                                             </View>
                                         </Pressable>

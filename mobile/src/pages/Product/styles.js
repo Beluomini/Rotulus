@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     itemDetailsText: {
         fontFamily: 'Roboto',
-        fontSize: 16,
+        fontSize: 15,
         color: '#79747E',
         textAlign: 'center',
     },

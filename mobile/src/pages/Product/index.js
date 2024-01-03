@@ -26,6 +26,10 @@ export default function ProductPage({ navigation, route}) {
     const [arrowLactoseStyle, setArrowLactoseStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowEggStyle, setArrowEggStyle] = useState(styles.itemAdicionalDetImageDown);
 
+    const [containGluten, setContainGluten] = useState(false);
+    const [containLactose, setContainLactose] = useState(false);
+    const [containEgg, setContainEgg] = useState(false);
+
     const [glutenDetails, setGlutenDetails] = useState(false);
     const [lactoseDetails, setLactoseDetails] = useState(false);
     const [eggDetails, setEggDetails] = useState(false);
@@ -59,6 +63,17 @@ export default function ProductPage({ navigation, route}) {
 
         const item = await api.getFoodById(itemID);
         setItem(item);
+
+        const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
+        if(ingredientsName.includes("Trigo")){
+            setContainGluten(true);
+        }
+        if(ingredientsName.includes("Leite")){
+            setContainLactose(true);
+        }
+        if(ingredientsName.includes("Ovo")){
+            setContainEgg(true);
+        }
 
         const allFoods = await api.getAllFoods();
         // remove o item atual da lista de produtos recomendados
@@ -142,68 +157,75 @@ export default function ProductPage({ navigation, route}) {
                     </View>
                     <ScrollView style={styles.itemDetailsScroll}>
                         <View style={styles.itemDetails}>
-                            <Text style={styles.itemDetailsText}> Este produto possui ingredientes alergênicos </Text>
 
-                            <View style={styles.itemAdicionalInfo}>
-                                <Image style={styles.itemAdicionalImage} source={WarningIcon} />
-                                <View style={styles.itemAdicionalDetailsText}>
-                                    <View style={styles.itemAdicionalDetailsTitle}>
-                                        <Text style={styles.itemAdicionalTitle}> Contém glutén. </Text>
-                                        <Image style={styles.itemAdicionalIcon} source={GlutenIcon} />
-                                    </View>
-                                    <View style={styles.itemAdicionalDetails}>
-                                        <Pressable onPress={handleGlutenDetails}>
-                                            <Image style={arrowGlutenStyle} source={ArrowIcon} />
-                                        </Pressable>
-                                        <Text style={styles.itemAdicionalText}>Saiba o que o glutén em excesso pode causar ao organismo.</Text>
+                            {containGluten || containLactose || containEgg ?
+                                <Text style={styles.itemDetailsText}> Este produto possui ingredientes alergênicos </Text>
+                                :
+                                <Text style={styles.itemDetailsText}> Este produto não possui ingredientes alergênicos </Text>
+                            }
+                            {containGluten &&
+                                <View style={styles.itemAdicionalInfo}>
+                                    <Image style={styles.itemAdicionalImage} source={WarningIcon} />
+                                    <View style={styles.itemAdicionalDetailsText}>
+                                        <View style={styles.itemAdicionalDetailsTitle}>
+                                            <Text style={styles.itemAdicionalTitle}> Contém trigo. </Text>
+                                            <Image style={styles.itemAdicionalIcon} source={GlutenIcon} />
+                                        </View>
+                                        <View style={styles.itemAdicionalDetails}>
+                                            <Pressable onPress={handleGlutenDetails}>
+                                                <Image style={arrowGlutenStyle} source={ArrowIcon} />
+                                            </Pressable>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que o glutén em excesso pode causar ao organismo.</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-
+                            }
                             {glutenDetails &&
-                            <View style={styles.itemShowDetails}>
-                                <Text style={styles.itemShowDetailsText}> O glutén é uma proteína presente no trigo, centeio, cevada e aveia. O glutén é uma proteína presente no trigo, centeio, cevada e aveia. O glutén é uma proteína presente no trigo, centeio, cevada e aveia. O glutén é uma proteína presente no trigo, centeio, cevada e aveia. O glutén é uma proteína presente no trigo, centeio, cevada e aveia. O glutén é uma proteína presente no trigo, centeio, cevada e aveia. </Text>
-                            </View>
+                                <View style={styles.itemShowDetails}>
+                                    <Text style={styles.itemShowDetailsText}></Text>
+                                </View>
                             }
 
-                            <View style={styles.itemAdicionalInfo}>
-                                <Image style={styles.itemAdicionalImage} source={WarningIcon} />
-                                <View style={styles.itemAdicionalDetailsText}>
-                                    <View style={styles.itemAdicionalDetailsTitle}>
-                                        <Text style={styles.itemAdicionalTitle}> Contém lactose. </Text>
-                                        <Image style={styles.itemAdicionalIcon} source={MilkIcon} />
-                                    </View>
-                                    <View style={styles.itemAdicionalDetails}>
-                                        <Pressable onPress={handleLactoseDetails}>
-                                            <Image style={arrowLactoseStyle} source={ArrowIcon} />
-                                        </Pressable>
-                                        <Text style={styles.itemAdicionalText}>Saiba o que a lactose em excesso pode causar ao organismo.</Text>
+                            {containLactose &&
+                                <View style={styles.itemAdicionalInfo}>
+                                    <Image style={styles.itemAdicionalImage} source={WarningIcon} />
+                                    <View style={styles.itemAdicionalDetailsText}>
+                                        <View style={styles.itemAdicionalDetailsTitle}>
+                                            <Text style={styles.itemAdicionalTitle}> Contém lactose. </Text>
+                                            <Image style={styles.itemAdicionalIcon} source={MilkIcon} />
+                                        </View>
+                                        <View style={styles.itemAdicionalDetails}>
+                                            <Pressable onPress={handleLactoseDetails}>
+                                                <Image style={arrowLactoseStyle} source={ArrowIcon} />
+                                            </Pressable>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que a lactose em excesso pode causar ao organismo.</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-
+                            }
                             {lactoseDetails &&
                             <View style={styles.itemShowDetails}>
                                 <Text style={styles.itemShowDetailsText}> A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. </Text>
                             </View>
                             }
 
-                            <View style={styles.itemAdicionalInfo}>
-                                <Image style={styles.itemAdicionalImage} source={WarningIcon} />
-                                <View style={styles.itemAdicionalDetailsText}>
-                                    <View style={styles.itemAdicionalDetailsTitle}>
-                                        <Text style={styles.itemAdicionalTitle}> Contém ovos. </Text>
-                                        <Image style={styles.itemAdicionalIcon} source={EggIcon} />
-                                    </View>
-                                    <View style={styles.itemAdicionalDetails}>
-                                        <Pressable onPress={handleEggDetails}>
-                                            <Image style={arrowEggStyle} source={ArrowIcon} />
-                                        </Pressable>
-                                        <Text style={styles.itemAdicionalText}>Saiba o que ovos em excesso pode causar ao organismo.</Text>
+                            {containEgg &&
+                                <View style={styles.itemAdicionalInfo}>
+                                    <Image style={styles.itemAdicionalImage} source={WarningIcon} />
+                                    <View style={styles.itemAdicionalDetailsText}>
+                                        <View style={styles.itemAdicionalDetailsTitle}>
+                                            <Text style={styles.itemAdicionalTitle}> Contém ovos. </Text>
+                                            <Image style={styles.itemAdicionalIcon} source={EggIcon} />
+                                        </View>
+                                        <View style={styles.itemAdicionalDetails}>
+                                            <Pressable onPress={handleEggDetails}>
+                                                <Image style={arrowEggStyle} source={ArrowIcon} />
+                                            </Pressable>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que ovos em excesso pode causar ao organismo.</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-
+                            }
                             {eggDetails &&
                             <View style={styles.itemShowDetails}>
                                 <Text style={styles.itemShowDetailsText}> Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. </Text>
@@ -226,11 +248,11 @@ export default function ProductPage({ navigation, route}) {
                                         <Text style={styles.itemNutricionalFactsDataText}> {item.carbohydrate} g </Text>
                                     </View>
                                     <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Açucares totais </Text>
+                                        <Text style={styles.itemNutricionalFactsDataText}> Açúcares totais </Text>
                                         <Text style={styles.itemNutricionalFactsDataText}> {item.totalSugar} g </Text>
                                     </View>
                                     <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Açucares adicionados </Text>
+                                        <Text style={styles.itemNutricionalFactsDataText}> Açúcares adicionados </Text>
                                         <Text style={styles.itemNutricionalFactsDataText}> {item.addedSugar} g </Text>
                                     </View>
                                     <View style={styles.itemNutricionalFactsDataView}>

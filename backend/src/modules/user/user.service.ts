@@ -209,7 +209,6 @@ export class UserService {
       }
     }
 
-
     const foods = (data.foodsHist ? 
       await this.prisma.food.findMany({
         where: {
@@ -218,27 +217,6 @@ export class UserService {
           },
         },
       }) 
-      : []);
-
-
-    const ingredientAlergies = (data.ingredientAlergies ?
-      await this.prisma.ingredient.findMany({
-        where: {
-          name: {
-            in: data.ingredientAlergies,
-          },
-        },
-      })
-      : []);
-
-    const additiveAlergies = (data.additiveAlergies ?
-      await this.prisma.additive.findMany({
-        where: {
-          name: {
-            in: data.additiveAlergies,
-          },
-        },
-      })
       : []);
 
     const user = await this.prisma.user.update({
@@ -251,19 +229,6 @@ export class UserService {
         password: data.password,
         passwordRec: data.passwordRec,
         status: data.status,
-        ingredientAlergies: {
-          deleteMany: {},
-          create: 
-          ingredientAlergies.map((ingredient) => ({
-            ingredientId: ingredient.id,
-          })),
-        },
-        additiveAlergies: {
-          deleteMany: {},
-          create: additiveAlergies.map((additive) => ({
-            additiveId: additive.id,
-          })),
-        },
         foods: {
           deleteMany: {},
           create: foods.map((food) => ({
