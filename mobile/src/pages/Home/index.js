@@ -133,6 +133,7 @@ export default function HomePage({ navigation, route}) {
                             renderItem={({item}) => {
                                 return(
                                     <Pressable style={styles.product} 
+                                    key={item.id}
                                     onPress={() => {navigation.navigate('ProductPage', {
                                         itemID: item.id,
                                     })}}>
