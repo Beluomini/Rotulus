@@ -56,6 +56,7 @@ export class IngredientService {
             where: {
                 name: {
                     contains: name,
+                    mode: 'insensitive',
                 },
             },
         });
