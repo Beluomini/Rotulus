@@ -185,6 +185,7 @@ export default function SearchPage({ navigation, route}) {
                                         contentContainerStyle={{alignItems: 'center'}}
                                         ItemSeparatorComponent={() => <View style={{height: 10}} />}
                                         data={foods}
+                                        keyExtractor={item => item.id}
                                         renderItem={({item}) => {
                                             return(
                                                 <Pressable

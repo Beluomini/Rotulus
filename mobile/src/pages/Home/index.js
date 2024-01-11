@@ -132,8 +132,7 @@ export default function HomePage({ navigation, route}) {
                             keyExtractor={item => item.id}
                             renderItem={({item}) => {
                                 return(
-                                    <Pressable style={styles.product} 
-                                    key={item.id}
+                                    <Pressable style={styles.product}
                                     onPress={() => {navigation.navigate('ProductPage', {
                                         itemID: item.id,
                                     })}}>

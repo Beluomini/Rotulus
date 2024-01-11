@@ -95,6 +95,7 @@ export default function HistoryPage({ navigation, route}) {
                                 contentContainerStyle={{alignItems: 'center'}}
                                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                                 data={histList}
+                                keyExtractor={item => item.id}
                                 renderItem={({item}) => {
                                     return(
                                         <Pressable
