@@ -316,6 +316,14 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         width: "80%",
     },
+    recommendedItemDetails: {
+        width: "100%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginTop: "5%",
+    },
     recommendedProductsIcon: {
         flexDirection: 'row',
         justifyContent: 'space-between',

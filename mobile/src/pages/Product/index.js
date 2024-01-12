@@ -13,6 +13,7 @@ import WarningIcon from '../../assets/warning-icon.png';
 import GlutenIcon from '../../assets/glutenIcon.png';
 import MilkIcon from '../../assets/milk-icon.png';
 import EggIcon from '../../assets/eggIcon.png';
+import PeanutIcon from '../../assets/peanutIcon.png';
 
 export default function ProductPage({ navigation, route}) {
 
@@ -28,17 +29,17 @@ export default function ProductPage({ navigation, route}) {
     const [arrowGlutenStyle, setArrowGlutenStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowLactoseStyle, setArrowLactoseStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowEggStyle, setArrowEggStyle] = useState(styles.itemAdicionalDetImageDown);
-    const [arrowNutsStyle, setArrowNutsStyle] = useState(styles.itemAdicionalDetImageDown);
+    const [arrowPeanutStyle, setArrowPeanutStyle] = useState(styles.itemAdicionalDetImageDown);
 
     const [containGluten, setContainGluten] = useState(false);
     const [containLactose, setContainLactose] = useState(false);
     const [containEgg, setContainEgg] = useState(false);
-    const [containNuts, setContainNuts] = useState(false);
+    const [containPeanut, setContainPeanut] = useState(false);
 
     const [glutenDetails, setGlutenDetails] = useState(false);
     const [lactoseDetails, setLactoseDetails] = useState(false);
     const [eggDetails, setEggDetails] = useState(false);
-    const [nutsDetails, setNutsDetails] = useState(false);
+    const [peanutDetails, setPeanutDetails] = useState(false);
 
     const [nutricionalfactsModal, setNutricionalfactsModal] = useState(false);
 
@@ -54,9 +55,9 @@ export default function ProductPage({ navigation, route}) {
         setArrowEggStyle(arrowEggStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
         setEggDetails(!eggDetails);
     }
-    function handleNutsDetails() {
-        setArrowNutsStyle(arrowNutsStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
-        setNutsDetails(!nutsDetails);
+    function handlepeanutDetails() {
+        setArrowPeanutStyle(arrowPeanutStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
+        setPeanutDetails(!peanutDetails);
     }
 
     handleSelectRecommendedProduct = async (id) => {
@@ -86,7 +87,6 @@ export default function ProductPage({ navigation, route}) {
 
         const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
         if(ingredientsName.includes("Trigo") && userAlergiesNames.includes("Trigo")){
-            console.log("entrou");
             setContainGluten(true);
         }
         if(ingredientsName.includes("Leite") && userAlergiesNames.includes("Leite")){
@@ -95,26 +95,35 @@ export default function ProductPage({ navigation, route}) {
         if(ingredientsName.includes("Ovo") && userAlergiesNames.includes("Ovo")){
             setContainEgg(true);
         }
-        if(ingredientsName.includes("Nozes") && userAlergiesNames.includes("Nozes")){
-            setContainNuts(true);
+        if(ingredientsName.includes("Amendoim") && userAlergiesNames.includes("Amendoim")){
+            setContainPeanut(true);
         }
 
-        const allFoods = await api.getAllFoods();
-        // remove o item atual da lista de produtos recomendados
-        const filteredFoods = allFoods.filter(food => food.id !== itemID);
-        // seleciona dois alimentos com a mesma classificação do item atual
-        const recommendedProducts = filteredFoods.filter(food => food.classificationId === item.classificationId);
-        // seleciona alimentos que não possuem ingredientes alergênicos do usuário
-        const recommendedProductsFiltered = recommendedProducts.filter(food => {
-            const ingredientsName = food.ingredients.map(ingredient => ingredient.ingredient.name);
-            return !ingredientsName.some(ingredient => userAlergiesNames.includes(ingredient));
+        const recommendedProducts = await api.getAllFoods();
+        // remove o produto atual da lista de produtos recomendados
+        recommendedProducts.splice(recommendedProducts.findIndex(product => product.id === item.id), 1);
+        // coloca em primeiro os produtos que são da mesma classificação
+        recommendedProducts.sort((a, b) => {
+            if(a.classification === item.classification){
+                return -1;
+            }
+            if(b.classification === item.classification){
+                return 1;
+            }
+            return 0;
         });
-        // busca a classificação dos alimentos recomendados
-        const recommendedProductsWithClassification = await Promise.all(recommendedProductsFiltered.map(async (food) => {
-            const classification = await api.getClassificationById(food.classificationId);
-            return {...food, classification: classification.name};
-        }));
-        setRecommendedProducts(recommendedProductsWithClassification);
+        // coloca em primeiro os produtos que não possuem alergênicos que o usuário possui
+        recommendedProducts.sort((a, b) => {
+            if(a.ingredients.some(ingredient => userAlergiesNames.includes(ingredient.ingredient.name))){
+                return 1;
+            }
+            if(b.ingredients.some(ingredient => userAlergiesNames.includes(ingredient.ingredient.name))){
+                return -1;
+            }
+            return 0;
+        });
+        // seleciona os 2 primeiros produtos da lista
+        setRecommendedProducts(recommendedProducts.slice(0, 2));
 
         setLoading(false);
     }
@@ -146,6 +155,8 @@ export default function ProductPage({ navigation, route}) {
             handleGetHistList(route.params.itemID);
             handleGetPageData(route.params.itemID);
         });
+        handleGetHistList(route.params.itemID);
+        handleGetPageData(route.params.itemID);
     
         return unsubscribe;
     }, [navigation]);
@@ -198,7 +209,7 @@ export default function ProductPage({ navigation, route}) {
                                     <Image style={styles.itemAdicionalImage} source={WarningIcon} />
                                     <View style={styles.itemAdicionalDetailsText}>
                                         <View style={styles.itemAdicionalDetailsTitle}>
-                                            <Text style={styles.itemAdicionalTitle}> Contém trigo. </Text>
+                                            <Text style={styles.itemAdicionalTitle}> Contém glútem. </Text>
                                             <Image style={styles.itemAdicionalIcon} source={GlutenIcon} />
                                         </View>
                                         <View style={styles.itemAdicionalDetails}>
@@ -221,7 +232,7 @@ export default function ProductPage({ navigation, route}) {
                                     <Image style={styles.itemAdicionalImage} source={WarningIcon} />
                                     <View style={styles.itemAdicionalDetailsText}>
                                         <View style={styles.itemAdicionalDetailsTitle}>
-                                            <Text style={styles.itemAdicionalTitle}> Contém lactose. </Text>
+                                            <Text style={styles.itemAdicionalTitle}> Pode conter leite. </Text>
                                             <Image style={styles.itemAdicionalIcon} source={MilkIcon} />
                                         </View>
                                         <View style={styles.itemAdicionalDetails}>
@@ -244,7 +255,7 @@ export default function ProductPage({ navigation, route}) {
                                     <Image style={styles.itemAdicionalImage} source={WarningIcon} />
                                     <View style={styles.itemAdicionalDetailsText}>
                                         <View style={styles.itemAdicionalDetailsTitle}>
-                                            <Text style={styles.itemAdicionalTitle}> Contém ovos. </Text>
+                                            <Text style={styles.itemAdicionalTitle}> Pode conter ovos. </Text>
                                             <Image style={styles.itemAdicionalIcon} source={EggIcon} />
                                         </View>
                                         <View style={styles.itemAdicionalDetails}>
@@ -262,24 +273,24 @@ export default function ProductPage({ navigation, route}) {
                             </View>
                             }
 
-                            {containNuts &&
+                            {containPeanut &&
                                 <View style={styles.itemAdicionalInfo}>
                                     <Image style={styles.itemAdicionalImage} source={WarningIcon} />
                                     <View style={styles.itemAdicionalDetailsText}>
                                         <View style={styles.itemAdicionalDetailsTitle}>
-                                            <Text style={styles.itemAdicionalTitle}> Contém nozes. </Text>
-                                            <Image style={styles.itemAdicionalIcon} source={EggIcon} />
+                                            <Text style={styles.itemAdicionalTitle}> Pode conter amendoim. </Text>
+                                            <Image style={styles.itemAdicionalIcon} source={PeanutIcon} />
                                         </View>
                                         <View style={styles.itemAdicionalDetails}>
-                                            <Pressable onPress={handleNutsDetails}>
-                                                <Image style={arrowNutsStyle} source={ArrowIcon} />
+                                            <Pressable onPress={handlepeanutDetails}>
+                                                <Image style={arrowPeanutStyle} source={ArrowIcon} />
                                             </Pressable>
                                             <Text style={styles.itemAdicionalText}>Saiba o que nozes em excesso pode causar ao organismo.</Text>
                                         </View>
                                     </View>
                                 </View>
                             }
-                            {nutsDetails &&
+                            {peanutDetails &&
                             <View style={styles.itemShowDetails}>
                                 <Text style={styles.itemShowDetailsText}> As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. </Text>
                             </View>
@@ -353,41 +364,39 @@ export default function ProductPage({ navigation, route}) {
                             </Modal>
 
                             {recommendedProducts[0] && 
-                            
                                 (<View style={styles.recommendedView}>
                                     <Text style={styles.recommendedText}> Recomendados para você </Text>
                                     <View style={styles.recommendedProducts}>
-                                        {recommendedProducts[0] && recommendedProducts[0].image &&
-                                            (<Pressable 
-                                            style={styles.recommendedProductsData}
-                                            onPress={() => {handleSelectRecommendedProduct(recommendedProducts[0].id)}}>
-                                                <View style={styles.recommendedProductsImageBack}>
-                                                    <Image style={styles.recommendedProductsImage} source={{uri: recommendedProducts[0].image}} />
-                                                </View>
-                                                <View style={styles.recommendedProductsIcon}>
-                                                    <Image style={styles.recommendedProductsIconData} source={GlutenIcon} />
-                                                </View>
-                                                <View style={styles.recommendedProductsText}>
-                                                    <Text style={styles.recommendedProductsName}>{recommendedProducts[0].classification+" "+ recommendedProducts[0].brandName}</Text>
-                                                </View>
-                                            </Pressable>)
-                                        }
-                                        {recommendedProducts[1] && recommendedProducts[1].image &&
-
-                                            (<Pressable 
-                                            style={styles.recommendedProductsData}
-                                            onPress={() => {handleSelectRecommendedProduct(recommendedProducts[1].id)}}>
-                                                <View style={styles.recommendedProductsImageBack}>
-                                                    <Image style={styles.recommendedProductsImage} source={{uri: recommendedProducts[1].image}} />
-                                                </View>
-                                                <View style={styles.recommendedProductsIcon}>
-                                                    <Image style={styles.recommendedProductsIconData} source={GlutenIcon} />
-                                                </View>
-                                                <View style={styles.recommendedProductsText}>
-                                                    <Text style={styles.recommendedProductsName}>{recommendedProducts[1].classification+" "+ recommendedProducts[1].brandName}</Text>
-                                                </View>
-                                            </Pressable>)
-                                        }
+                                        {recommendedProducts.map((recommendedProduct, index) => {
+                                            if(recommendedProduct.image){
+                                                return (
+                                                    <Pressable 
+                                                    style={styles.recommendedProductsData}
+                                                    onPress={() => {handleSelectRecommendedProduct(recommendedProduct.id)}} key={index}>
+                                                        <View style={styles.recommendedProductsImageBack}>
+                                                            <Image style={styles.recommendedProductsImage} source={{uri: recommendedProduct.image}} />
+                                                        </View>
+                                                        <View style={styles.recommendedProductsIcon}>
+                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Trigo") &&
+                                                                <Image style={styles.recommendedProductsIconData} source={GlutenIcon} />
+                                                            }
+                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Leite") &&
+                                                                <Image style={styles.recommendedProductsIconData} source={MilkIcon} />
+                                                            }
+                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Ovo") &&
+                                                                <Image style={styles.recommendedProductsIconData} source={EggIcon} />
+                                                            }
+                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Nozes") &&
+                                                                <Image style={styles.recommendedProductsIconData} source={PeanutIcon} />
+                                                            }
+                                                        </View>
+                                                        <View style={styles.recommendedProductsText}>
+                                                            <Text style={styles.recommendedProductsName}>{recommendedProduct.description+" "+ recommendedProduct.brandName}</Text>
+                                                        </View>
+                                                    </Pressable>
+                                                )
+                                            }
+                                        })}
                                     </View>
                                 </View>)
                             }
