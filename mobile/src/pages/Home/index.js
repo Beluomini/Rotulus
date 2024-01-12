@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import GlutenIcon from '../../assets/glutenIcon.png';
 import EggIcon from '../../assets/eggIcon.png';
 import MilkIcon from '../../assets/milk-icon.png';
+import PeanutIcon from '../../assets/peanutIcon.png';
 
 import UserIcon from '../../assets/user-icon.png';
 import RotulusSplash from '../../assets/start-splash.png';
@@ -151,6 +152,10 @@ export default function HomePage({ navigation, route}) {
                                             if (ingredient.ingredient.name === 'Leite') {
                                                 return <Image style={styles.productInfoIcon} source={MilkIcon} />
                                             }
+                                            if (ingredient.ingredient.name === 'Amendoim') {
+                                                return <Image style={styles.productInfoIcon} source={PeanutIcon} />
+                                            }
+
                                         })
                                         }
                                         </View>

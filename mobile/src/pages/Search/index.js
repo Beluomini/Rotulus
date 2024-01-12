@@ -11,6 +11,7 @@ import api from '../../services/Api';
 import GlutenIcon from '../../assets/glutenIcon.png';
 import LactoseIcon from '../../assets/milk-icon.png';
 import EggIcon from '../../assets/eggIcon.png';
+import PeanutIcon from '../../assets/peanutIcon.png';
 import FilterIcon from '../../assets/filter-icon.png';
 import UserIcon from '../../assets/user-icon.png';
 import SearchIcon from '../../assets/search-icon.png';
@@ -209,6 +210,9 @@ export default function SearchPage({ navigation, route}) {
                                                                 }
                                                                 if (ingredient.ingredient.name === 'Leite') {
                                                                     return <Image style={styles.productInfoIcon} source={LactoseIcon} />
+                                                                }
+                                                                if (ingredient.ingredient.name === 'Amendoim') {
+                                                                    return <Image style={styles.productInfoIcon} source={PeanutIcon} />
                                                                 }
                                                             })
                                                             }

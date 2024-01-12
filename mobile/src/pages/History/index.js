@@ -12,6 +12,7 @@ import UserIcon from '../../assets/user-icon.png';
 import SearchIcon from '../../assets/search-icon.png';
 import LactoseIcon from '../../assets/milk-icon.png';
 import EggIcon from '../../assets/eggIcon.png';
+import PeanutIcon from '../../assets/peanutIcon.png';
 
 export default function HistoryPage({ navigation, route}) {
 
@@ -119,6 +120,9 @@ export default function HistoryPage({ navigation, route}) {
                                                             }
                                                             if (ingredient.ingredient.name === 'Ovo') {
                                                                 return <Image style={styles.productInfoIcon} source={EggIcon} />
+                                                            }
+                                                            if (ingredient.ingredient.name === 'Amendoim') {
+                                                                return <Image style={styles.productInfoIcon} source={PeanutIcon} />
                                                             }
                                                         })
                                                     }
