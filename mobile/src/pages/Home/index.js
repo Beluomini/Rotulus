@@ -142,21 +142,20 @@ export default function HomePage({ navigation, route}) {
                                         </View>
                                         <View style={styles.productIconsInfo}>
                                         {
-                                        mapIngredients = item.ingredients.map((ingredient) => {
-                                            if (ingredient.ingredient.name === 'Trigo') {
-                                                return <Image style={styles.productInfoIcon} source={GlutenIcon} />
-                                            }
-                                            if (ingredient.ingredient.name === 'Ovo') {
-                                                return <Image style={styles.productInfoIcon} source={EggIcon} />
-                                            }
-                                            if (ingredient.ingredient.name === 'Leite') {
-                                                return <Image style={styles.productInfoIcon} source={MilkIcon} />
-                                            }
-                                            if (ingredient.ingredient.name === 'Amendoim') {
-                                                return <Image style={styles.productInfoIcon} source={PeanutIcon} />
-                                            }
-
-                                        })
+                                            mapIngredients = item.ingredients.map((ingredient, index) => {
+                                                if (ingredient.ingredient.name === 'Trigo') {
+                                                    return <Image key={index} style={styles.productInfoIcon} source={GlutenIcon} />
+                                                }
+                                                if (ingredient.ingredient.name === 'Ovo') {
+                                                    return <Image key={index} style={styles.productInfoIcon} source={EggIcon} />
+                                                }
+                                                if (ingredient.ingredient.name === 'Leite') {
+                                                    return <Image key={index} style={styles.productInfoIcon} source={MilkIcon} />
+                                                }
+                                                if (ingredient.ingredient.name === 'Amendoim') {
+                                                    return <Image key={index} style={styles.productInfoIcon} source={PeanutIcon} />
+                                                }
+                                            })
                                         }
                                         </View>
                                         <View style={styles.productNameInfo}>

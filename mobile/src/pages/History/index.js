@@ -111,18 +111,18 @@ export default function HistoryPage({ navigation, route}) {
                                                 <Text style={styles.productName}>{item.name+" "+item.brandName}</Text>
                                                 <View style={styles.productInfoIcons}>
                                                     {
-                                                        mapIngredients = item.ingredients.map((ingredient) => {
+                                                        mapIngredients = item.ingredients.map((ingredient, index) => {
                                                             if (ingredient.ingredient.name === 'Trigo') {
-                                                                return <Image style={styles.productInfoIcon} source={GlutenIcon} />
+                                                                return <Image key={index} style={styles.productInfoIcon} source={GlutenIcon} />
                                                             }
                                                             if (ingredient.ingredient.name === 'Leite') {
-                                                                return <Image style={styles.productInfoIcon} source={LactoseIcon} />
+                                                                return <Image key={index} style={styles.productInfoIcon} source={LactoseIcon} />
                                                             }
                                                             if (ingredient.ingredient.name === 'Ovo') {
-                                                                return <Image style={styles.productInfoIcon} source={EggIcon} />
+                                                                return <Image key={index} style={styles.productInfoIcon} source={EggIcon} />
                                                             }
                                                             if (ingredient.ingredient.name === 'Amendoim') {
-                                                                return <Image style={styles.productInfoIcon} source={PeanutIcon} />
+                                                                return <Image key={index} style={styles.productInfoIcon} source={PeanutIcon} />
                                                             }
                                                         })
                                                     }
