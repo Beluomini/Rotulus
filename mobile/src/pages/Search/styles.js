@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         borderColor: '#D33333',
         borderWidth: 1,
         paddingHorizontal: "5%",
+        marginBottom: "2%",
     },
     filterInput: {
         width: "80%",
