@@ -40,13 +40,6 @@ export class IngredientService {
             where: {
                 id: id,
             },
-            include: {
-                foods: {
-                    include: {
-                        food: true,
-                    },
-                },
-            },
         });
         return ingredient;
     }

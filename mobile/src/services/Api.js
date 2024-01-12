@@ -113,10 +113,21 @@ function getAllIngredients() {
         .then(res => res.json())
 }
 
+function getIngredientByName(name) {
+    return fetch(`http://${ip}:3000/ingredient/name/${name}`)
+        .then(res => res.json())
+}
+
+function getIngredientById(id) {
+    return fetch(`http://${ip}:3000/ingredient/${id}`)
+        .then(res => res.json())
+}
+
 
 export default { 
     getAllUsers, getUserById, getUserByEmail, 
     createUser, signIn, editUserById, getFoodById, 
     getAllFoods, getClassificationById, getFoodByName,
     getAllClassifications, getFoodByBarcode, 
-    editUserHistById, getAllIngredients, editUserAlergById };
+    editUserHistById, getAllIngredients, editUserAlergById,
+    getIngredientByName, getIngredientById };

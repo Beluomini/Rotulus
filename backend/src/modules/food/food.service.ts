@@ -85,7 +85,11 @@ export class FoodService {
                 include: {
                     ingredients: {
                         include: {
-                            ingredient: true,
+                            ingredient: {
+                                select: {
+                                    name: true,
+                                },
+                            },
                         },
                     },
                     additives: {

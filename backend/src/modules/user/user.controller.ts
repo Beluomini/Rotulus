@@ -47,6 +47,11 @@ export class UserController {
     return this.userService.updateHist(id, data);
   }
 
+  @Put('alergies/:id')
+  async updateAlergies(@Param('id') id: string, @Body() data: UserDTO) {
+    return this.userService.updateAlergies(id, data);
+  }
+
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return this.userService.delete(id);
