@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, Pressable, ScrollView } from 'react-native';
+import { Text, View, Image, Pressable, ScrollView, Modal } from 'react-native';
 import styles from './styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/Api';
@@ -18,6 +19,8 @@ export default function ProductPage({ navigation, route}) {
     const [isLoading, setLoading] = useState(true);
 
     const [userName, setUserName] = useState('');
+    const [userAlergies, setUserAlergies] = useState([]);
+
     const [item, setItem] = useState({});
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [histProducts, setHistProducts] = useState([]);
@@ -25,14 +28,19 @@ export default function ProductPage({ navigation, route}) {
     const [arrowGlutenStyle, setArrowGlutenStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowLactoseStyle, setArrowLactoseStyle] = useState(styles.itemAdicionalDetImageDown);
     const [arrowEggStyle, setArrowEggStyle] = useState(styles.itemAdicionalDetImageDown);
+    const [arrowNutsStyle, setArrowNutsStyle] = useState(styles.itemAdicionalDetImageDown);
 
     const [containGluten, setContainGluten] = useState(false);
     const [containLactose, setContainLactose] = useState(false);
     const [containEgg, setContainEgg] = useState(false);
+    const [containNuts, setContainNuts] = useState(false);
 
     const [glutenDetails, setGlutenDetails] = useState(false);
     const [lactoseDetails, setLactoseDetails] = useState(false);
     const [eggDetails, setEggDetails] = useState(false);
+    const [nutsDetails, setNutsDetails] = useState(false);
+
+    const [nutricionalfactsModal, setNutricionalfactsModal] = useState(false);
 
     function handleGlutenDetails() {
         setArrowGlutenStyle(arrowGlutenStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
@@ -45,6 +53,10 @@ export default function ProductPage({ navigation, route}) {
     function handleEggDetails() {
         setArrowEggStyle(arrowEggStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
         setEggDetails(!eggDetails);
+    }
+    function handleNutsDetails() {
+        setArrowNutsStyle(arrowNutsStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
+        setNutsDetails(!nutsDetails);
     }
 
     handleSelectRecommendedProduct = async (id) => {
@@ -61,31 +73,49 @@ export default function ProductPage({ navigation, route}) {
         const userName = await AsyncStorage.getItem('userName');
         setUserName(userName);
 
+        const userId = await AsyncStorage.getItem('userId');
+        const userToken = await AsyncStorage.getItem('userToken');
+
+        const user = await api.getUserById(userId, userToken);
+        const userAlergies = user.ingredientAlergies.map(ingredient => ingredient.ingredient);
+        setUserAlergies(userAlergies);
+        const userAlergiesNames = userAlergies.map(ingredient => ingredient.name);
+
         const item = await api.getFoodById(itemID);
         setItem(item);
 
         const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
-        if(ingredientsName.includes("Trigo")){
+        if(ingredientsName.includes("Trigo") && userAlergiesNames.includes("Trigo")){
+            console.log("entrou");
             setContainGluten(true);
         }
-        if(ingredientsName.includes("Leite")){
+        if(ingredientsName.includes("Leite") && userAlergiesNames.includes("Leite")){
             setContainLactose(true);
         }
-        if(ingredientsName.includes("Ovo")){
+        if(ingredientsName.includes("Ovo") && userAlergiesNames.includes("Ovo")){
             setContainEgg(true);
+        }
+        if(ingredientsName.includes("Nozes") && userAlergiesNames.includes("Nozes")){
+            setContainNuts(true);
         }
 
         const allFoods = await api.getAllFoods();
         // remove o item atual da lista de produtos recomendados
         const filteredFoods = allFoods.filter(food => food.id !== itemID);
         // seleciona dois alimentos com a mesma classificação do item atual
-        const recommendedProducts = filteredFoods.filter(food => food.classificationId === item.classificationId).slice(0, 2);
+        const recommendedProducts = filteredFoods.filter(food => food.classificationId === item.classificationId);
+        // seleciona alimentos que não possuem ingredientes alergênicos do usuário
+        const recommendedProductsFiltered = recommendedProducts.filter(food => {
+            const ingredientsName = food.ingredients.map(ingredient => ingredient.ingredient.name);
+            return !ingredientsName.some(ingredient => userAlergiesNames.includes(ingredient));
+        });
         // busca a classificação dos alimentos recomendados
-        const recommendedProductsWithClassification = await Promise.all(recommendedProducts.map(async (food) => {
+        const recommendedProductsWithClassification = await Promise.all(recommendedProductsFiltered.map(async (food) => {
             const classification = await api.getClassificationById(food.classificationId);
             return {...food, classification: classification.name};
         }));
         setRecommendedProducts(recommendedProductsWithClassification);
+
         setLoading(false);
     }
 
@@ -114,8 +144,8 @@ export default function ProductPage({ navigation, route}) {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             handleGetHistList(route.params.itemID);
+            handleGetPageData(route.params.itemID);
         });
-        handleGetPageData(route.params.itemID);
     
         return unsubscribe;
     }, [navigation]);
@@ -232,55 +262,95 @@ export default function ProductPage({ navigation, route}) {
                             </View>
                             }
 
-                            <View style={styles.itemNutricionalFacts}>
-                                <Text style={styles.itemNutricionalFactsTitle}> Informações nutricionais </Text>
-                                <View style={styles.itemNutricionalFactsData}>
-                                    <View style={styles.itemNutricionalFactsDataViewServing}>
-                                        <Text style={styles.itemNutricionalFactsDataServing}> Porção </Text>
-                                        <Text style={styles.itemNutricionalFactsDataServing}> {item.servingSize} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Valor energético </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.energyValue} kcal </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Carboidratos </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.carbohydrate} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Açúcares totais </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.totalSugar} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Açúcares adicionados </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.addedSugar} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Proteínas </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.protein} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Gorduras totais </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.totalFat} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Gorduras saturadas </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.saturatedFat} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Gorduras trans </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.transFat} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Fibras alimentares </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.fiber} g </Text>
-                                    </View>
-                                    <View style={styles.itemNutricionalFactsDataView}>
-                                        <Text style={styles.itemNutricionalFactsDataText}> Sódio </Text>
-                                        <Text style={styles.itemNutricionalFactsDataText}> {item.sodium} g </Text>
+                            {containNuts &&
+                                <View style={styles.itemAdicionalInfo}>
+                                    <Image style={styles.itemAdicionalImage} source={WarningIcon} />
+                                    <View style={styles.itemAdicionalDetailsText}>
+                                        <View style={styles.itemAdicionalDetailsTitle}>
+                                            <Text style={styles.itemAdicionalTitle}> Contém nozes. </Text>
+                                            <Image style={styles.itemAdicionalIcon} source={EggIcon} />
+                                        </View>
+                                        <View style={styles.itemAdicionalDetails}>
+                                            <Pressable onPress={handleNutsDetails}>
+                                                <Image style={arrowNutsStyle} source={ArrowIcon} />
+                                            </Pressable>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que nozes em excesso pode causar ao organismo.</Text>
+                                        </View>
                                     </View>
                                 </View>
+                            }
+                            {nutsDetails &&
+                            <View style={styles.itemShowDetails}>
+                                <Text style={styles.itemShowDetailsText}> As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. </Text>
                             </View>
+                            }
+
+                            <Pressable style={styles.itemNutricionalFactsButton} onPress={() => {setNutricionalfactsModal(!nutricionalfactsModal)}} >
+                                <Text style={styles.itemNutricionalFactsButtonText}>Ver tabela nutricional</Text>
+                            </Pressable>
+
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={nutricionalfactsModal}
+                                onRequestClose={() => { setNutricionalfactsModal(!nutricionalfactsModal) }}>
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <View style={styles.itemNutricionalFacts}>
+                                            <Text style={styles.itemNutricionalFactsTitle}>Informações nutricionais</Text>
+                                            <Pressable style={styles.itemNutricionalFactsCloseButton} onPress={() => {setNutricionalfactsModal(!nutricionalfactsModal)}} >
+                                                <Icon name="close" size={30} color="#79747E" />
+                                            </Pressable>
+                                            <View style={styles.itemNutricionalFactsData}>
+                                                <View style={styles.itemNutricionalFactsDataViewServing}>
+                                                    <Text style={styles.itemNutricionalFactsDataServing}> Porção </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataServing}> {item.servingSize} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Valor energético </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.energyValue} kcal </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Carboidratos </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.carbohydrate} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Açúcares totais </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.totalSugar} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Açúcares adicionados </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.addedSugar} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Proteínas </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.protein} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Gorduras totais </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.totalFat} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Gorduras saturadas </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.saturatedFat} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Gorduras trans </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.transFat} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Fibras alimentares </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.fiber} g </Text>
+                                                </View>
+                                                <View style={styles.itemNutricionalFactsDataView}>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> Sódio </Text>
+                                                    <Text style={styles.itemNutricionalFactsDataText}> {item.sodium} g </Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            </Modal>
 
                             {recommendedProducts[0] && 
                             
