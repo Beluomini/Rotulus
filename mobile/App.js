@@ -93,7 +93,6 @@ function AppStack() {
 
   useEffect(() => {
     handleRecoverUserData();
-    console.log(userToken);
   }, []);
 
   if (isLoading) {

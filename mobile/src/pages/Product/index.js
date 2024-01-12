@@ -20,8 +20,6 @@ export default function ProductPage({ navigation, route}) {
     const [isLoading, setLoading] = useState(true);
 
     const [userName, setUserName] = useState('');
-    const [userAlergies, setUserAlergies] = useState([]);
-    const [userAlergiesNames, setUserAlergiesNames] = useState([]);
 
     const [item, setItem] = useState({});
     const [recommendedProducts, setRecommendedProducts] = useState([]);
@@ -60,17 +58,7 @@ export default function ProductPage({ navigation, route}) {
         setArrowPeanutStyle(arrowPeanutStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
         setPeanutDetails(!peanutDetails);
     }
-
-    handleSelectRecommendedProduct = async (id) => {
-        setLoading(true);
-        // espera 1 segundo com a tela de carregamento
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000);
-
-        handleGetPageData(id);
-    }
-
+    
     handleGetPageData = async (itemID) => {
         const userName = await AsyncStorage.getItem('userName');
         setUserName(userName);
@@ -79,16 +67,17 @@ export default function ProductPage({ navigation, route}) {
         const userToken = await AsyncStorage.getItem('userToken');
 
         const user = await api.getUserById(userId, userToken);
-        if(user.statusCode !== 401){
-            const userAlergies = user.ingredientAlergies.map(ingredient => ingredient.ingredient);
-            setUserAlergies(userAlergies);
-            setUserAlergiesNames(userAlergies.map(ingredient => ingredient.name));
-        }
+
+        const userAlergiesNames = user.statusCode !== 401 
+                                    ? user.ingredientAlergies.map(ingredient => ingredient.ingredient.name)
+                                    : [];
 
         const item = await api.getFoodById(itemID);
         setItem(item);
 
+
         const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
+        
         if(ingredientsName.includes("Trigo") && userAlergiesNames.includes("Trigo")){
             setContainGluten(true);
         }
@@ -105,28 +94,30 @@ export default function ProductPage({ navigation, route}) {
         const recommendedProducts = await api.getAllFoods();
         // remove o produto atual da lista de produtos recomendados
         recommendedProducts.splice(recommendedProducts.findIndex(product => product.id === item.id), 1);
-        // coloca em primeiro os produtos que são da mesma classificação
-        recommendedProducts.sort((a, b) => {
-            if(a.classification === item.classification){
-                return -1;
-            }
-            if(b.classification === item.classification){
-                return 1;
-            }
-            return 0;
+        const sameClassificationProducts = recommendedProducts.filter(product => product.classificationId === item.classificationId);
+        const otherClassificationProducts = recommendedProducts.filter(product => product.classificationId !== item.classificationId);
+
+        // ordena os produtos da lista sameClassificationProducts por ordem de menor correspondencia de ingredientes alergênicos com o usuário
+        sameClassificationProducts.sort((a, b) => {
+            const aIngredients = a.ingredients.map(ingredient => ingredient.ingredient.name);
+            const bIngredients = b.ingredients.map(ingredient => ingredient.ingredient.name);
+            const aIntersection = aIngredients.filter(ingredient => userAlergiesNames.includes(ingredient));
+            const bIntersection = bIngredients.filter(ingredient => userAlergiesNames.includes(ingredient));
+            return aIntersection.length - bIntersection.length;
         });
-        // coloca em primeiro os produtos que não possuem alergênicos que o usuário possui
-        recommendedProducts.sort((a, b) => {
-            if(a.ingredients.some(ingredient => userAlergiesNames.includes(ingredient.ingredient.name))){
-                return 1;
-            }
-            if(b.ingredients.some(ingredient => userAlergiesNames.includes(ingredient.ingredient.name))){
-                return -1;
-            }
-            return 0;
+        // ordena os produtos da lista otherClassificationProducts por ordem de menor correspondencia de ingredientes alergênicos com o usuário
+        otherClassificationProducts.sort((a, b) => {
+            const aIngredients = a.ingredients.map(ingredient => ingredient.ingredient.name);
+            const bIngredients = b.ingredients.map(ingredient => ingredient.ingredient.name);
+            const aIntersection = aIngredients.filter(ingredient => userAlergiesNames.includes(ingredient));
+            const bIntersection = bIngredients.filter(ingredient => userAlergiesNames.includes(ingredient));
+            return aIntersection.length - bIntersection.length;
         });
-        // seleciona os 2 primeiros produtos da lista
-        setRecommendedProducts(recommendedProducts.slice(0, 2));
+
+        // junta as duas listas de produtos recomendados
+        const newRecommendedProducts = [...sameClassificationProducts, ...otherClassificationProducts];
+
+        setRecommendedProducts(newRecommendedProducts.slice(0, 2));
 
         setLoading(false);
     }
@@ -154,13 +145,10 @@ export default function ProductPage({ navigation, route}) {
     }
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            handleGetHistList(route.params.itemID);
-            handleGetPageData(route.params.itemID);
+        const unsubscribe = navigation.addListener('focus', () => { 
+            const teste = handleGetHistList(route.params.itemID);
+            const teste2 = handleGetPageData(route.params.itemID);
         });
-        handleGetHistList(route.params.itemID);
-        handleGetPageData(route.params.itemID);
-    
         return unsubscribe;
     }, [navigation]);
 
@@ -205,10 +193,10 @@ export default function ProductPage({ navigation, route}) {
                             {!userName ?
                                 <Text style={styles.itemDetailsText}> Faça login para ver alegênicos para você </Text>
                                 :
-                                containGluten || containLactose || containEgg || containPeanut ?
+                                (containGluten || containLactose || containEgg || containPeanut ?
                                     <Text style={styles.itemDetailsText}> Este produto possui ingredientes alergênicos </Text>
                                     :
-                                    <Text style={styles.itemDetailsText}> Este produto não possui ingredientes alergênicos </Text>
+                                    <Text style={styles.itemDetailsText}> Este produto não possui ingredientes alergênicos </Text>)
                             }
                             {containGluten &&
                                 <View style={styles.itemAdicionalInfo}>
@@ -392,7 +380,7 @@ export default function ProductPage({ navigation, route}) {
                                                             {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Ovo") &&
                                                                 <Image style={styles.recommendedProductsIconData} source={EggIcon} />
                                                             }
-                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Nozes") &&
+                                                            {recommendedProduct.ingredients.some(ingredient => ingredient.ingredient.name === "Amendoim") &&
                                                                 <Image style={styles.recommendedProductsIconData} source={PeanutIcon} />
                                                             }
                                                         </View>
@@ -411,7 +399,8 @@ export default function ProductPage({ navigation, route}) {
                         </View>
                     </ScrollView>
                 </View>
-                )}
+                )
+            }
             <StatusBar style="auto" />
         </View>
     );
