@@ -21,6 +21,7 @@ export default function ProductPage({ navigation, route}) {
 
     const [userName, setUserName] = useState('');
     const [userAlergies, setUserAlergies] = useState([]);
+    const [userAlergiesNames, setUserAlergiesNames] = useState([]);
 
     const [item, setItem] = useState({});
     const [recommendedProducts, setRecommendedProducts] = useState([]);
@@ -78,9 +79,11 @@ export default function ProductPage({ navigation, route}) {
         const userToken = await AsyncStorage.getItem('userToken');
 
         const user = await api.getUserById(userId, userToken);
-        const userAlergies = user.ingredientAlergies.map(ingredient => ingredient.ingredient);
-        setUserAlergies(userAlergies);
-        const userAlergiesNames = userAlergies.map(ingredient => ingredient.name);
+        if(user.statusCode !== 401){
+            const userAlergies = user.ingredientAlergies.map(ingredient => ingredient.ingredient);
+            setUserAlergies(userAlergies);
+            setUserAlergiesNames(userAlergies.map(ingredient => ingredient.name));
+        }
 
         const item = await api.getFoodById(itemID);
         setItem(item);
@@ -199,10 +202,13 @@ export default function ProductPage({ navigation, route}) {
                     <ScrollView style={styles.itemDetailsScroll}>
                         <View style={styles.itemDetails}>
 
-                            {containGluten || containLactose || containEgg ?
-                                <Text style={styles.itemDetailsText}> Este produto possui ingredientes alergênicos </Text>
+                            {!userName ?
+                                <Text style={styles.itemDetailsText}> Faça login para ver alegênicos para você </Text>
                                 :
-                                <Text style={styles.itemDetailsText}> Este produto não possui ingredientes alergênicos </Text>
+                                containGluten || containLactose || containEgg || containPeanut ?
+                                    <Text style={styles.itemDetailsText}> Este produto possui ingredientes alergênicos </Text>
+                                    :
+                                    <Text style={styles.itemDetailsText}> Este produto não possui ingredientes alergênicos </Text>
                             }
                             {containGluten &&
                                 <View style={styles.itemAdicionalInfo}>
