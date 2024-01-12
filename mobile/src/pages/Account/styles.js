@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     alergiesBoxSelected: {
         flexDirection: 'row',
         height: 30,
-        width: "28%",
         backgroundColor: '#D33333',
         borderRadius: 10,
         alignItems: 'center',
@@ -120,6 +119,7 @@ const styles = StyleSheet.create({
     alergiesBoxSelectedText: {
         fontFamily: 'Roboto',
         fontSize: 16,
+        marginRight: "3%",
         color: '#fff',
     },
     alergiesSearchLabel: {
