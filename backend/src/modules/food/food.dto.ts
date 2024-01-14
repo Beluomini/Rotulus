@@ -14,6 +14,7 @@ export type FoodDTO = {
     transFat: number;
     fiber: number;
     sodium: number;
+    listIngredients?: string;
     description?: string;
     image?: string;
     classificationId: string;

@@ -63,6 +63,7 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
+                listIngredients: data.listIngredients,
                 classificationId: data.classificationId,
                 ingredients: {
                     create: ingredients.map((ingredient) => ({
@@ -186,6 +187,36 @@ export class FoodService {
             },
         });
 
+        const atualIngredients = await this.prisma.food.findUnique({
+            where: {
+                id: id,
+            },
+            select: {
+                ingredients: {
+                    select: {
+                        ingredientId: true,
+                    },
+                },
+            },
+        });
+
+        const atualIngredientsIds = atualIngredients.ingredients.map((ingredient) => ingredient.ingredientId);
+
+        const atualAdditives = await this.prisma.food.findUnique({
+            where: {
+                id: id,
+            },
+            select: {
+                additives: {
+                    select: {
+                        additiveId: true,
+                    },
+                },
+            },
+        });
+
+        const atualAdditivesIds = atualAdditives.additives.map((additive) => additive.additiveId);
+
         if (!foodExists) {
             throw new Error('Alimento não encontrado');
         }
@@ -210,7 +241,7 @@ export class FoodService {
                     },
                 },
             })
-        : []);
+        :   atualIngredientsIds);
 
         const additives = (data.additives ?
             await this.prisma.additive.findMany({
@@ -220,7 +251,7 @@ export class FoodService {
                     },
                 },
             })
-        : []);
+        :   atualAdditivesIds);
 
         const food = await this.prisma.food.update({
             where: {
@@ -243,17 +274,18 @@ export class FoodService {
                 transFat: data.transFat,
                 fiber: data.fiber,
                 sodium: data.sodium,
+                listIngredients: data.listIngredients,
                 classificationId: data.classificationId,
                 ingredients: {
                     deleteMany: {},
                     create: ingredients.map((ingredient) => ({
-                        ingredientId: ingredient.id,
+                        ingredientId: ingredient,
                     })),
                 },
                 additives: {
                     deleteMany: {},
                     create: additives.map((additive) => ({
-                        additiveId: additive.id,
+                        additiveId: additive,
                     })),
                 },
             },

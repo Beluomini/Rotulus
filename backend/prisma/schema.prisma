@@ -67,6 +67,7 @@ model Food{
   transFat        Float     @default(0)
   fiber           Float     @default(0)
   sodium          Float     @default(0)
+  listIngredients String    @default("")
   description     String?
   classification  Classification @relation(fields: [classificationId], references: [id])
   classificationId String
