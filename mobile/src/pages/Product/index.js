@@ -41,6 +41,7 @@ export default function ProductPage({ navigation, route}) {
     const [peanutDetails, setPeanutDetails] = useState(false);
 
     const [nutricionalfactsModal, setNutricionalfactsModal] = useState(false);
+    const [listIgredientsModal, setListIgredientsModal] = useState(false);
 
     function handleGlutenDetails() {
         setArrowGlutenStyle(arrowGlutenStyle === styles.itemAdicionalDetImageDown ? styles.itemAdicionalDetImageUp : styles.itemAdicionalDetImageDown);
@@ -60,6 +61,10 @@ export default function ProductPage({ navigation, route}) {
     }
     
     handleGetPageData = async (itemID) => {
+
+        // espera um tempo para carregar a pagina setando o loading para true
+        setLoading(true);
+
         const userName = await AsyncStorage.getItem('userName');
         setUserName(userName);
 
@@ -68,13 +73,12 @@ export default function ProductPage({ navigation, route}) {
 
         const user = await api.getUserById(userId, userToken);
 
-        const userAlergiesNames = user.statusCode !== 401 
+        const userAlergiesNames = user.statusCode !== 401 && user.statusCode !== 500
                                     ? user.ingredientAlergies.map(ingredient => ingredient.ingredient.name)
                                     : [];
 
         const item = await api.getFoodById(itemID);
         setItem(item);
-
 
         const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
         
@@ -119,16 +123,7 @@ export default function ProductPage({ navigation, route}) {
 
         setRecommendedProducts(newRecommendedProducts.slice(0, 2));
 
-        setLoading(false);
-    }
-
-    async function handleGetHistList(itemId) {
-        const userEmail = await AsyncStorage.getItem('userEmail');
-        const userToken = await AsyncStorage.getItem('userToken');
-
-        const user = await api.getUserByEmail(userEmail, userToken);
-
-        if(user.statusCode !== 401){
+        if(user.statusCode !== 401 && user.statusCode !== 500){
             // add todas os ids das comidas da lista de comidar user.foods e adiciona na variavel histProducts
             const histProducts = user.foods ? 
                 await Promise.all(user.foods.map(async (food) => {
@@ -138,17 +133,20 @@ export default function ProductPage({ navigation, route}) {
                 : [];
             setHistProducts(histProducts);
             
-            const userUpdate = {...user, foodsHist: [...histProducts, itemId]};
+            const userUpdate = {...user, foodsHist: [...histProducts, itemID]};
 
             const response = await api.editUserHistById(user.id, userUpdate, userToken);
         }
+
+        setLoading(false);
     }
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => { 
-            const teste = handleGetHistList(route.params.itemID);
             const teste2 = handleGetPageData(route.params.itemID);
         });
+        const teste2 = handleGetPageData(route.params.itemID);
+
         return unsubscribe;
     }, [navigation]);
 
@@ -294,6 +292,10 @@ export default function ProductPage({ navigation, route}) {
                                 <Text style={styles.itemNutricionalFactsButtonText}>Ver tabela nutricional</Text>
                             </Pressable>
 
+                            <Pressable style={styles.itemNutricionalFactsButton} onPress={() => {setListIgredientsModal(!listIgredientsModal)}} >
+                                <Text style={styles.itemNutricionalFactsButtonText}>Ver lista de ingredientes</Text>
+                            </Pressable>
+
                             <Modal
                                 animationType="slide"
                                 transparent={true}
@@ -357,6 +359,29 @@ export default function ProductPage({ navigation, route}) {
                                 </View>
                             </Modal>
 
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={listIgredientsModal}
+                                onRequestClose={() => { setListIgredientsModal(!listIgredientsModal) }}>
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <View style={styles.itemListIngredients}>
+                                            <Text style={styles.itemListIngredientsTitle}>Ingredientes</Text>
+                                            <Pressable style={styles.itemListIngredientsCloseButton} onPress={() => {setListIgredientsModal(!listIgredientsModal)}} >
+                                                <Icon name="close" size={30} color="#79747E" />
+                                            </Pressable>
+                                        </View>
+                                        <View style={styles.itemListIngredientsData}>
+                                            <View style={styles.itemListIngredientsDataView}>
+                                                <Text style={styles.itemListIngredientsDataText}>{item.listIngredients}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </Modal>
+
                             {recommendedProducts[0] && 
                                 (<View style={styles.recommendedView}>
                                     <Text style={styles.recommendedText}> Recomendados para você </Text>
@@ -366,7 +391,7 @@ export default function ProductPage({ navigation, route}) {
                                                 return (
                                                     <Pressable 
                                                     style={styles.recommendedProductsData}
-                                                    onPress={() => {handleSelectRecommendedProduct(recommendedProduct.id)}} key={index}>
+                                                    onPress={() => {handleGetPageData(recommendedProduct.id)}} key={index}>
                                                         <View style={styles.recommendedProductsImageBack}>
                                                             <Image style={styles.recommendedProductsImage} source={{uri: recommendedProduct.image}} />
                                                         </View>
