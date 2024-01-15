@@ -1,8 +1,8 @@
 {
   "name": "backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "REST API for the application 'Rotulus'",
+  "author": "Lucas Beluomini",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
