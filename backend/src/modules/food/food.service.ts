@@ -194,13 +194,13 @@ export class FoodService {
             select: {
                 ingredients: {
                     select: {
-                        ingredientId: true,
+                        ingredient: true,
                     },
                 },
             },
         });
 
-        const atualIngredientsIds = atualIngredients.ingredients.map((ingredient) => ingredient.ingredientId);
+        const atualIngredientsIds = atualIngredients.ingredients.map((ingredient) => ingredient.ingredient.id);
 
         const atualAdditives = await this.prisma.food.findUnique({
             where: {
@@ -209,13 +209,13 @@ export class FoodService {
             select: {
                 additives: {
                     select: {
-                        additiveId: true,
+                        additive: true,
                     },
                 },
             },
         });
 
-        const atualAdditivesIds = atualAdditives.additives.map((additive) => additive.additiveId);
+        const atualAdditivesIds = atualAdditives.additives.map((additive) => additive.additive.id);
 
         if (!foodExists) {
             throw new Error('Alimento não encontrado');
@@ -279,13 +279,13 @@ export class FoodService {
                 ingredients: {
                     deleteMany: {},
                     create: ingredients.map((ingredient) => ({
-                        ingredientId: ingredient,
+                        ingredientId: ingredient.id,
                     })),
                 },
                 additives: {
                     deleteMany: {},
                     create: additives.map((additive) => ({
-                        additiveId: additive,
+                        additiveId: additive.id,
                     })),
                 },
             },
