@@ -40,6 +40,11 @@ export default function ProductPage({ navigation, route}) {
     const [eggDetails, setEggDetails] = useState(false);
     const [peanutDetails, setPeanutDetails] = useState(false);
 
+    const [glutenDetailsText, setGlutenDetailsText] = useState('');
+    const [lactoseDetailsText, setLactoseDetailsText] = useState('');
+    const [eggDetailsText, setEggDetailsText] = useState('');
+    const [peanutDetailsText, setPeanutDetailsText] = useState('');
+
     const [nutricionalfactsModal, setNutricionalfactsModal] = useState(false);
     const [listIgredientsModal, setListIgredientsModal] = useState(false);
 
@@ -79,6 +84,22 @@ export default function ProductPage({ navigation, route}) {
 
         const item = await api.getFoodById(itemID);
         setItem(item);
+
+        // seta os detalhes de texto de cada alergênico do produto
+        item.ingredients.forEach(ingredient => {
+            if(ingredient.ingredient.name === "Trigo"){
+                setGlutenDetailsText(ingredient.ingredient.description);
+            }
+            if(ingredient.ingredient.name === "Leite"){
+                setLactoseDetailsText(ingredient.ingredient.description);
+            }
+            if(ingredient.ingredient.name === "Ovo"){
+                setEggDetailsText(ingredient.ingredient.description);
+            }
+            if(ingredient.ingredient.name === "Amendoim"){
+                setPeanutDetailsText(ingredient.ingredient.description);
+            }
+        });
 
         const ingredientsName = item.ingredients.map(ingredient => ingredient.ingredient.name);
         
@@ -208,14 +229,14 @@ export default function ProductPage({ navigation, route}) {
                                             <Pressable onPress={handleGlutenDetails}>
                                                 <Image style={arrowGlutenStyle} source={ArrowIcon} />
                                             </Pressable>
-                                            <Text style={styles.itemAdicionalText}>Saiba o que o glutén em excesso pode causar ao organismo.</Text>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que o trigo pode causar ao organismo.</Text>
                                         </View>
                                     </View>
                                 </View>
                             }
                             {glutenDetails &&
                                 <View style={styles.itemShowDetails}>
-                                    <Text style={styles.itemShowDetailsText}></Text>
+                                    <Text style={styles.itemShowDetailsText}>{glutenDetailsText}</Text>
                                 </View>
                             }
 
@@ -231,14 +252,14 @@ export default function ProductPage({ navigation, route}) {
                                             <Pressable onPress={handleLactoseDetails}>
                                                 <Image style={arrowLactoseStyle} source={ArrowIcon} />
                                             </Pressable>
-                                            <Text style={styles.itemAdicionalText}>Saiba o que a lactose em excesso pode causar ao organismo.</Text>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que a leite pode causar ao organismo.</Text>
                                         </View>
                                     </View>
                                 </View>
                             }
                             {lactoseDetails &&
                             <View style={styles.itemShowDetails}>
-                                <Text style={styles.itemShowDetailsText}> A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. A lactose é um carboidrato presente no leite e seus derivados. </Text>
+                                <Text style={styles.itemShowDetailsText}>{lactoseDetailsText}</Text>
                             </View>
                             }
 
@@ -254,14 +275,14 @@ export default function ProductPage({ navigation, route}) {
                                             <Pressable onPress={handleEggDetails}>
                                                 <Image style={arrowEggStyle} source={ArrowIcon} />
                                             </Pressable>
-                                            <Text style={styles.itemAdicionalText}>Saiba o que ovos em excesso pode causar ao organismo.</Text>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que ovos podem causar ao organismo.</Text>
                                         </View>
                                     </View>
                                 </View>
                             }
                             {eggDetails &&
                             <View style={styles.itemShowDetails}>
-                                <Text style={styles.itemShowDetailsText}> Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. Os ovos são um alimento rico em proteínas, vitaminas e minerais. </Text>
+                                <Text style={styles.itemShowDetailsText}>{eggDetailsText}</Text>
                             </View>
                             }
 
@@ -277,14 +298,14 @@ export default function ProductPage({ navigation, route}) {
                                             <Pressable onPress={handlepeanutDetails}>
                                                 <Image style={arrowPeanutStyle} source={ArrowIcon} />
                                             </Pressable>
-                                            <Text style={styles.itemAdicionalText}>Saiba o que nozes em excesso pode causar ao organismo.</Text>
+                                            <Text style={styles.itemAdicionalText}>Saiba o que amendoim pode causar ao organismo.</Text>
                                         </View>
                                     </View>
                                 </View>
                             }
                             {peanutDetails &&
                             <View style={styles.itemShowDetails}>
-                                <Text style={styles.itemShowDetailsText}> As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. As nozes são um alimento rico em proteínas, vitaminas e minerais. </Text>
+                                <Text style={styles.itemShowDetailsText}>{peanutDetailsText}</Text>
                             </View>
                             }
 
