@@ -162,25 +162,6 @@ export class UserService {
         password: (data.password ? await bcrypt.hash(data.password, 10) : data.password),
         passwordRec: data.passwordRec,
         status: data.status,
-        ingredientAlergies: {
-          deleteMany: {},
-          create: 
-          ingredientAlergies.map((ingredient) => ({
-            ingredientId: ingredient.id,
-          })),
-        },
-        additiveAlergies: {
-          deleteMany: {},
-          create: additiveAlergies.map((additive) => ({
-            additiveId: additive.id,
-          })),
-        },
-        foods: {
-          deleteMany: {},
-          create: foods.map((food) => ({
-            foodId: food.id,
-          })),
-        },
       },
     });
     return user;
