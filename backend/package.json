@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start:dev": "nest start --watch",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "nest build",
     "start": "node dist/main",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
