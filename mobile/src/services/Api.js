@@ -1,7 +1,7 @@
-const ip = '192.168.0.136';
+const deployHost = 'https://rotulus-backend.onrender.com';
 
 function signIn(user) {
-    return fetch(`http://${ip}:3000/login`, {
+    return fetch(`${deployHost}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -12,7 +12,7 @@ function signIn(user) {
 
 function createUser(user) {
     console.log(user);
-    return fetch(`http://${ip}:3000/user`, {
+    return fetch(`${deployHost}/user`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -22,12 +22,12 @@ function createUser(user) {
 }
 
 function getAllUsers() {
-    return fetch(`http://${ip}:3000/user`)
+    return fetch(`${deployHost}/user`)
         .then(res => res.json())
 }
 
 function getUserById(id, token) {
-    return fetch(`http://${ip}:3000/user/${id}`, {
+    return fetch(`${deployHost}/user/${id}`, {
         method: 'GET',
         headers: {
             'Authorization': "Bearer " + token
@@ -36,7 +36,7 @@ function getUserById(id, token) {
 }
 
 function getUserByEmail(email, token) {
-    return fetch(`http://${ip}:3000/user/email/${email}`, {
+    return fetch(`${deployHost}/user/email/${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function getUserByEmail(email, token) {
 }
 
 function editUserById(id, user, token) {
-    return fetch(`http://${ip}:3000/user/${id}`, {
+    return fetch(`${deployHost}/user/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function editUserById(id, user, token) {
 }
 
 function editUserHistById(id, user, token) {
-    return fetch(`http://${ip}:3000/user/hist/${id}`, {
+    return fetch(`${deployHost}/user/hist/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function editUserHistById(id, user, token) {
 }
 
 function editUserAlergById(id, user, token) {
-    return fetch(`http://${ip}:3000/user/alergies/${id}`, {
+    return fetch(`${deployHost}/user/alergies/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -79,47 +79,47 @@ function editUserAlergById(id, user, token) {
 }
 
 function getAllFoods() {
-    return fetch(`http://${ip}:3000/food`)
+    return fetch(`${deployHost}/food`)
         .then(res => res.json())
 }
 
 function getFoodById(id) {
-    return fetch(`http://${ip}:3000/food/${id}`)
+    return fetch(`${deployHost}/food/${id}`)
         .then(res => res.json())
 }
 
 function getFoodByName(name) {
-    return fetch(`http://${ip}:3000/food/name/${name}`)
+    return fetch(`${deployHost}/food/name/${name}`)
         .then(res => res.json())
 }
 
 function getFoodByBarcode(barcode) {
-    return fetch(`http://${ip}:3000/food/barcode/${barcode}`)
+    return fetch(`${deployHost}/food/barcode/${barcode}`)
         .then(res => res.json())
 }
 
 function getAllClassifications() {
-    return fetch(`http://${ip}:3000/classification`)
+    return fetch(`${deployHost}/classification`)
         .then(res => res.json())
 }
 
 function getClassificationById(id) {
-    return fetch(`http://${ip}:3000/classification/${id}`)
+    return fetch(`${deployHost}/classification/${id}`)
         .then(res => res.json())
 }
 
 function getAllIngredients() {
-    return fetch(`http://${ip}:3000/ingredient`)
+    return fetch(`${deployHost}/ingredient`)
         .then(res => res.json())
 }
 
 function getIngredientByName(name) {
-    return fetch(`http://${ip}:3000/ingredient/name/${name}`)
+    return fetch(`${deployHost}/ingredient/name/${name}`)
         .then(res => res.json())
 }
 
 function getIngredientById(id) {
-    return fetch(`http://${ip}:3000/ingredient/${id}`)
+    return fetch(`${deployHost}/ingredient/${id}`)
         .then(res => res.json())
 }
 
