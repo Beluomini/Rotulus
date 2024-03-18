@@ -29,7 +29,7 @@ The frontend screens were built using the JavaScript language together with the 
 - ❌ V1.0 
 
 ## Tecnologies
-<div style="display: flex; flex-direction: row; justify-content: space-around;">
+<div style="display: flex; flex-direction: column; justify-content: space-around;">
   <div style="text-align: center;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="100">
     PostgreSQL
