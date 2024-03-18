@@ -29,22 +29,30 @@ The frontend screens were built using the JavaScript language together with the 
 - ❌ V1.0 
 
 ## Tecnologies
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="100">
-PostgreSQL
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="TypeScript" width="100">
-TypeScript
-<img src="https://media.licdn.com/dms/image/C4D0BAQGsw5k8xdaO_g/company-logo_200_200/0/1673531963909/prisma_io_logo?e=2147483647&v=beta&t=xtoYhrffwsiW4HZuPt6GkTIQvH0bfOs-X-k7HBUT_AQ" alt="Prisma" width="100">
-Prisma
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="Node" width="100">
-Node
-
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="100">
-PostgreSQL
-![Node](https://miro.medium.com/v2/resize:fit:800/1*v2vdfKqD4MtmTSgNP0o5cg.png)
-![JavaScript](https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png)
-![React Native](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png)
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="100">
+  PostgreSQL
+</p>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="TypeScript" width="100">
+  TypeScript
+</p>
+<p align="center">
+  <img src="https://media.licdn.com/dms/image/C4D0BAQGsw5k8xdaO_g/company-logo_200_200/0/1673531963909/prisma_io_logo?e=2147483647&v=beta&t=xtoYhrffwsiW4HZuPt6GkTIQvH0bfOs-X-k7HBUT_AQ" alt="Prisma" width="100">
+  Prisma
+</p>
+<p align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:800/1*v2vdfKqD4MtmTSgNP0o5cg.png" alt="Node" width="100">
+  Node
+</p>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png" alt="JavaScript" width="100">
+  JavaScript
+</p>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt="React Native" width="100">
+  React Native
+</p>
 
 ## Bibliography 📖
 
