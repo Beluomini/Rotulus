@@ -30,14 +30,14 @@ The frontend screens were built using the JavaScript language together with the 
 
 ## Tecnologies
 <div style="display: flex; flex-direction: row; justify-content: space-around;">
-  <div style="text-align: center; flex-direction: column;">
+  <p align="center">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="100">
     PostgreSQL
-  </div>
-  <div style="text-align: center;">
+  </p>
+  <p align="center">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="TypeScript" width="100">
     TypeScript
-  </div>
+  </p>
   <p align="center">
     <img src="https://media.licdn.com/dms/image/C4D0BAQGsw5k8xdaO_g/company-logo_200_200/0/1673531963909/prisma_io_logo?e=2147483647&v=beta&t=xtoYhrffwsiW4HZuPt6GkTIQvH0bfOs-X-k7HBUT_AQ" alt="Prisma" width="100">
     Prisma
