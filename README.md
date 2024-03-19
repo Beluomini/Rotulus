@@ -29,26 +29,26 @@ The frontend screens were built using the JavaScript language together with the 
 - ❌ V1.0 
 
 ## Tecnologies
-<div style="display: flex; justify-content: space-between; align-items: center; ">]
-  <div>
+<div style="display: flex; justify-content: space-between; align-items: center; ">
+  <div style="display: flex;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL" width="60" title="Ferramenta 1">
   </div>
-  <div>
+  <div style="display: flex;">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" alt="TypeScript" width="60" title="Ferramenta 1">
-    </div>
-  <div>
+  </div>
+  <div style="display: flex;">
   <img src="https://media.licdn.com/dms/image/C4D0BAQGsw5k8xdaO_g/company-logo_200_200/0/1673531963909/prisma_io_logo?e=2147483647&v=beta&t=xtoYhrffwsiW4HZuPt6GkTIQvH0bfOs-X-k7HBUT_AQ" alt="Prisma" width="60" title="Ferramenta 1">
   </div>
-  <div>
+  <div style="display: flex;">
     <img src="https://miro.medium.com/v2/resize:fit:800/1*v2vdfKqD4MtmTSgNP0o5cg.png" alt="Node" width="60" title="Ferramenta 1">
   </div>
-  <div>
+  <div style="display: flex;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png" alt="JavaScript" width="60" title="Ferramenta 1">
-    </div>
-  <div>
+  </div>
+  <div style="display: flex;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt="React Native" width="60" title="Ferramenta 1">
   </div>
-  </div>
+</div>
 
 ## Bibliography 📖
 
