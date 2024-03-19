@@ -16,9 +16,25 @@ The backend has the database's structure and a API Rest hat communicates with th
 
 To the database was used a SQL structure with PostgreSQL. For the rest api of the backend, the TypeScript language was used with the Node framework and the Prisma tool.
 
+To start de backend in development environment you need install Node and run:
+```bash
+npm install
+
+npm start
+```
+
 ### Frontend
 
 The frontend screens were built using the JavaScript language together with the react native framework.
+
+To start de backend in development environment you need install Node and run:
+```bash
+npm install
+
+npm start
+```
+
+
 
 ## Project Status ✅
 - ✅ Requirements Engineering 
