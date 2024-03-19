@@ -1,6 +1,8 @@
 # Rotulus APP
 
-![](./mobile/src/assets/rotulus-icon.png)
+<p align="center">
+  ![](./mobile/src/assets/rotulus-icon.png) 
+</p>
 
 The Rotulus application aims to help Brazilian consumers better understand the nutritional information of the products they are purchasing, presenting nutritional table data, nutritional information and ingredients and additives that may cause intolerances or allergies to certain users.
 
