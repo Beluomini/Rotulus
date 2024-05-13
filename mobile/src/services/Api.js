@@ -1,4 +1,4 @@
-const deployHost = 'https://rotulus-backend.onrender.com';
+const deployHost = 'http://localhost:3000';
 
 function signIn(user) {
     return fetch(`${deployHost}/login`, {
