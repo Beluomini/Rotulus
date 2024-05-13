@@ -1,7 +1,14 @@
-export type ClassificationDTO = {
+import { ApiProperty } from "@nestjs/swagger";
+
+export class ClassificationDTO {
+  
+  @ApiProperty()
   id?: string;
+  
+  @ApiProperty()
   name: string;
+  
+  @ApiProperty()
   description?: string;
 };
 
-// Usado para definir a estrutuda de dados que será usada para criar uma nova classificação

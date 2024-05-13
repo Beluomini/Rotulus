@@ -2,7 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { IngredientService } from './ingredient.service';
 import { IngredientDTO } from './ingredient.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Ingredient')
 @Controller('ingredient')
 export class IngredientController {
   constructor(private readonly ingredientService: IngredientService) {}

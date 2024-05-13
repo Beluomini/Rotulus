@@ -2,7 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { AdditiveService } from './additive.service';
 import { IngredientDTO } from '../ingredient/ingredient.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Additive')
 @Controller('additive')
 export class AdditiveController {
   constructor(private readonly additiveService: AdditiveService) {}

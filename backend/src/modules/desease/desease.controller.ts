@@ -2,7 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { DeseaseService } from './desease.service';
 import { DeseaseDTO } from './desease.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Desease')
 @Controller('desease')
 export class DeseaseController {
   constructor(private readonly DeseaseService: DeseaseService) {}

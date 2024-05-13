@@ -2,7 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ClassificationService } from './classification.service';
 import { ClassificationDTO } from './classification.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Classification')
 @Controller('classification')
 export class ClassificationController {
   constructor(private readonly classificationService: ClassificationService) {}
