@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty } from "class-validator";
 
 export class ClassificationDTO {
   
@@ -6,6 +7,7 @@ export class ClassificationDTO {
   id?: string;
   
   @ApiProperty()
+  @IsNotEmpty()
   name: string;
   
   @ApiProperty()
