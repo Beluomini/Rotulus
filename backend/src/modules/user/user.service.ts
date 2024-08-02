@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserDTO } from './user.dto';
 import { PrismaService } from 'src/database/PrismaService';
 
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -23,7 +23,7 @@ export class UserService {
       data: {
         name: data.name,
         email: data.email,
-        password: (data.password ? await bcrypt.hash(data.password, 10) : data.password),
+        password: (data.password ? await argon2.hash(data.password) : data.password),
         passwordRec: data.passwordRec,
         status: data.status,
       },
@@ -159,7 +159,7 @@ export class UserService {
       data: {
         name: data.name,
         email: data.email,
-        password: (data.password ? await bcrypt.hash(data.password, 10) : data.password),
+        password: (data.password ? await argon2.hash(data.password) : data.password),
         passwordRec: data.passwordRec,
         status: data.status,
       },

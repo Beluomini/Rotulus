@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/modules/user/user.service';
-import * as bcrypt from 'bcrypt';
 import { UserDTO } from 'src/modules/user/user.dto';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
+
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
 
       if (user){
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await argon2.verify(user.password, password);
 
         if (isPasswordValid){
 
