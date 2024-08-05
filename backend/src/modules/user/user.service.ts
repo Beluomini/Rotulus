@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserDTO } from './user.dto';
 import { PrismaService } from 'src/database/PrismaService';
 
@@ -16,19 +21,25 @@ export class UserService {
     });
 
     if (userExists) {
-      throw new Error('Este email já está sendo usado');
+      throw new ConflictException('Este email já está sendo usado');
     }
 
-    const user = await this.prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        password: (data.password ? await argon2.hash(data.password) : data.password),
-        passwordRec: data.passwordRec,
-        status: data.status,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          password: data.password
+            ? await argon2.hash(data.password)
+            : data.password,
+          passwordRec: data.passwordRec,
+          status: data.status,
+        },
+      });
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException('Erro ao criar usuário');
+    }
   }
 
   async findAll() {
@@ -60,7 +71,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     return user;
@@ -91,7 +102,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     return user;
@@ -105,66 +116,70 @@ export class UserService {
     });
 
     if (!userExists) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
-    if(data.email){
+    if (data.email) {
       const userExistsEmail = await this.prisma.user.findUnique({
         where: {
           email: data.email,
         },
       });
-  
+
       if (userExistsEmail && userExistsEmail.id !== id) {
-        throw new Error('Este email já está sendo usado');
+        throw new ConflictException('Este email já está sendo usado');
       }
     }
 
-
-    const foods = (data.foodsHist ? 
-      await this.prisma.food.findMany({
-        where: {
-          id: {
-            in: data.foodsHist,
+    const foods = data.foodsHist
+      ? await this.prisma.food.findMany({
+          where: {
+            id: {
+              in: data.foodsHist,
+            },
           },
-        },
-      }) 
-      : []);
+        })
+      : [];
 
-
-    const ingredientAlergies = (data.ingredientAlergies ?
-      await this.prisma.ingredient.findMany({
-        where: {
-          id: {
-            in: data.ingredientAlergies,
+    const ingredientAlergies = data.ingredientAlergies
+      ? await this.prisma.ingredient.findMany({
+          where: {
+            id: {
+              in: data.ingredientAlergies,
+            },
           },
-        },
-      })
-      : []);
+        })
+      : [];
 
-    const additiveAlergies = (data.additiveAlergies ?
-      await this.prisma.additive.findMany({
-        where: {
-          id: {
-            in: data.additiveAlergies,
+    const additiveAlergies = data.additiveAlergies
+      ? await this.prisma.additive.findMany({
+          where: {
+            id: {
+              in: data.additiveAlergies,
+            },
           },
-        },
-      })
-      : []);
+        })
+      : [];
 
-    const user = await this.prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        name: data.name,
-        email: data.email,
-        password: (data.password ? await argon2.hash(data.password) : data.password),
-        passwordRec: data.passwordRec,
-        status: data.status,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          name: data.name,
+          email: data.email,
+          password: data.password
+            ? await argon2.hash(data.password)
+            : data.password,
+          passwordRec: data.passwordRec,
+          status: data.status,
+        },
+      });
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException('Erro ao atualizar usuário');
+    }
   }
 
   async updateHist(id: string, data: UserDTO) {
@@ -175,50 +190,54 @@ export class UserService {
     });
 
     if (!userExists) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
-    if(data.email){
+    if (data.email) {
       const userExistsEmail = await this.prisma.user.findUnique({
         where: {
           email: data.email,
         },
       });
-  
+
       if (userExistsEmail && userExistsEmail.id !== id) {
-        throw new Error('Este email já está sendo usado');
+        throw new ConflictException('Este email já está sendo usado');
       }
     }
 
-    const foods = (data.foodsHist ? 
-      await this.prisma.food.findMany({
+    const foods = data.foodsHist
+      ? await this.prisma.food.findMany({
+          where: {
+            id: {
+              in: data.foodsHist,
+            },
+          },
+        })
+      : [];
+
+    try {
+      const user = await this.prisma.user.update({
         where: {
-          id: {
-            in: data.foodsHist,
+          id: id,
+        },
+        data: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          passwordRec: data.passwordRec,
+          status: data.status,
+          foods: {
+            deleteMany: {},
+            create: foods.map((food) => ({
+              foodId: food.id,
+            })),
           },
         },
-      }) 
-      : []);
-
-    const user = await this.prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        passwordRec: data.passwordRec,
-        status: data.status,
-        foods: {
-          deleteMany: {},
-          create: foods.map((food) => ({
-            foodId: food.id,
-          })),
-        },
-      },
-    });
-    return user;
+      });
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException('Erro ao atualizar histórico');
+    }
   }
 
   async updateAlergies(id: string, data: UserDTO) {
@@ -229,67 +248,70 @@ export class UserService {
     });
 
     if (!userExists) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
-    if(data.email){
+    if (data.email) {
       const userExistsEmail = await this.prisma.user.findUnique({
         where: {
           email: data.email,
         },
       });
-  
+
       if (userExistsEmail && userExistsEmail.id !== id) {
-        throw new Error('Este email já está sendo usado');
+        throw new ConflictException('Este email já está sendo usado');
       }
     }
 
-    const ingredientAlergies = (data.ingredientAlergies ?
-      await this.prisma.ingredient.findMany({
+    const ingredientAlergies = data.ingredientAlergies
+      ? await this.prisma.ingredient.findMany({
+          where: {
+            id: {
+              in: data.ingredientAlergies,
+            },
+          },
+        })
+      : [];
+
+    const additiveAlergies = data.additiveAlergies
+      ? await this.prisma.additive.findMany({
+          where: {
+            id: {
+              in: data.additiveAlergies,
+            },
+          },
+        })
+      : [];
+
+    try {
+      const user = await this.prisma.user.update({
         where: {
-          id: {
-            in: data.ingredientAlergies,
+          id: id,
+        },
+        data: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          passwordRec: data.passwordRec,
+          status: data.status,
+          ingredientAlergies: {
+            deleteMany: {},
+            create: ingredientAlergies.map((ingredient) => ({
+              ingredientId: ingredient.id,
+            })),
+          },
+          additiveAlergies: {
+            deleteMany: {},
+            create: additiveAlergies.map((additive) => ({
+              additiveId: additive.id,
+            })),
           },
         },
-      })
-      : []);
-
-    const additiveAlergies = (data.additiveAlergies ?
-      await this.prisma.additive.findMany({
-        where: {
-          id: {
-            in: data.additiveAlergies,
-          },
-        },
-      })
-      : []);
-
-    const user = await this.prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        passwordRec: data.passwordRec,
-        status: data.status,
-        ingredientAlergies: {
-          deleteMany: {},
-          create: 
-          ingredientAlergies.map((ingredient) => ({
-            ingredientId: ingredient.id,
-          })),
-        },
-        additiveAlergies: {
-          deleteMany: {},
-          create: additiveAlergies.map((additive) => ({
-            additiveId: additive.id,
-          })),
-        },
-      },
-    });
-    return user;
+      });
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException('Erro ao atualizar alergias');
+    }
   }
 
   async delete(id: string) {
@@ -300,14 +322,18 @@ export class UserService {
     });
 
     if (!userExists) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
-    const user = await this.prisma.user.delete({
-      where: {
-        id: id,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.delete({
+        where: {
+          id: id,
+        },
+      });
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException('Erro ao deletar usuário');
+    }
   }
 }
