@@ -9,14 +9,14 @@ async function bootstrap() {
 
   // Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle('Your API')
-    .setDescription('API description')
+    .setTitle('Rotulus Documentation')
+    .setDescription('The Rotulus API description')
     .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  
+
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
