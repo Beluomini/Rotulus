@@ -6,6 +6,20 @@
 
 The Rotulus application aims to help Brazilian consumers better understand the nutritional information of the products they are purchasing, presenting nutritional table data, nutritional information and ingredients and additives that may cause intolerances or allergies to certain users.
 
+## ▶️ Run (using Docker)
+
+With Docker installed you can just build using docker-compose:
+
+```bash
+docker-compose --env-file ./backend/.env.development.local build
+```
+
+And then up the containers:
+
+```bash
+docker-compose --env-file ./backend/.env.development.local up
+```
+
 ## 🔨 Structure
 
 The app is divided into backend and frontend
