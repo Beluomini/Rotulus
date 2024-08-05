@@ -20,6 +20,8 @@ services:
     depends_on:
       rotulusdb:
         condition: service_healthy
+    env_file:
+      - ./backend/.env.development.local
     ports:
       - '${PORT}:${PORT}'
     environment:
