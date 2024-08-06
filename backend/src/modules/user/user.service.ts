@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserDTO } from './user.dto';
 import { PrismaService } from 'src/database/PrismaService';
@@ -108,7 +109,13 @@ export class UserService {
     return user;
   }
 
-  async update(id: string, data: UserDTO) {
+  async update(id: string, data: UserDTO, user: UserDTO) {
+    if (user.id !== id) {
+      throw new UnauthorizedException(
+        'Você não tem permissão para atualizar este usuário'
+      );
+    }
+
     const userExists = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -182,7 +189,13 @@ export class UserService {
     }
   }
 
-  async updateHist(id: string, data: UserDTO) {
+  async updateHist(id: string, data: UserDTO, user: UserDTO) {
+    if (user.id !== id) {
+      throw new UnauthorizedException(
+        'Você não tem permissão para atualizar este usuário'
+      );
+    }
+
     const userExists = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -240,7 +253,13 @@ export class UserService {
     }
   }
 
-  async updateAlergies(id: string, data: UserDTO) {
+  async updateAlergies(id: string, data: UserDTO, user: UserDTO) {
+    if (user.id !== id) {
+      throw new UnauthorizedException(
+        'Você não tem permissão para atualizar este usuário'
+      );
+    }
+
     const userExists = await this.prisma.user.findUnique({
       where: {
         id: id,

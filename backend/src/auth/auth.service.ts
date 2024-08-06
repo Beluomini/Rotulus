@@ -8,53 +8,59 @@ import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly userService: UserService,
-        private readonly jwtService: JwtService
-        ) {}
-    
-    login(user: UserDTO) {
-        
-        const payload : UserPayload = {
-            sub: user.id,
-            email: user.email,
-            name: user.name,
-        };
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService
+  ) {}
 
-        const jwtToken = this.jwtService.sign(payload);
+  login(user: UserDTO) {
+    const payload: UserPayload = {
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+    };
 
-        return {
-            access_token: jwtToken,
-        };
+    const jwtToken = this.jwtService.sign(payload);
 
-    }
+    return {
+      access_token: jwtToken,
+    };
+  }
 
-    async validateUser(email: string, password: string) {
-      const user = await this.userService.findOneByEmail(email);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findOneByEmail(email);
 
-      if (user){
+    const currentUser: UserDTO = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      passwordRec: user.passwordRec,
+      status: user.status,
+    };
 
-        const isPasswordValid = await argon2.verify(user.password, password);
+    if (user) {
+      const isPasswordValid = await argon2.verify(user.password, password);
 
-        if (isPasswordValid){
-
-          if (user.status === 'inactive'){
-            this.userService.update(user.id, {
+      if (isPasswordValid) {
+        if (user.status === 'inactive') {
+          this.userService.update(
+            user.id,
+            {
               name: user.name,
               email: user.email,
               password: user.password,
               passwordRec: user.passwordRec,
               status: 'active',
-            });
-          }
-
-          return user;
+            },
+            currentUser
+          );
         }
 
+        return user;
       }
-
-      throw new Error('Usuário ou senha inválidos');
-
     }
 
+    throw new Error('Usuário ou senha inválidos');
+  }
 }
